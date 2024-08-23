@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 22:06:52 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 23:57:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ enum Issue
 {
     INV_SEP,
     INV_CHAR,
+    YEAR_RNG,
     MON_RNG,
     DAY_RNG,
     REQ_RNG,
@@ -32,27 +33,36 @@ enum Issue
 #define DATABASE 0
 #define INPUT 1
 
-class ParseException : public std::exception
+class BitcoinExchange
 {
     public:
 
-        ParseException(int loc, unsigned int ln, int type);
-        ~ParseException() throw();
-        ParseException(const ParseException& other);
+        
     
-        void displayIssue();
-
     private:
+    
+        void ValidateLine(std::string& line);
+        void StoreLine(std::string& line);
+        void CreateDB();
+        
+        class ParseException : public std::exception
+        {
+            public:
 
-        ParseException(void);
-        ParseException& operator=(const ParseException& other);
-        unsigned int line;
-        int location;
-        int issue;
+                ParseException(int loc, unsigned int ln, int type);
+                ~ParseException() throw();
+                ParseException(const ParseException& other);
+            
+                void displayIssue();
+
+            private:
+
+                ParseException(void);
+                ParseException& operator=(const ParseException& other);
+                unsigned int line;
+                int location;
+                int issue;
+        };
 };
-
-void ValidateLine(std::string& line);
-void StoreLine(std::string& line);
-void CreateDB();
 
 #endif

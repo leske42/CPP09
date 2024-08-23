@@ -6,13 +6,14 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 22:29:26 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 23:55:38 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <fstream>
 #include <cstdlib>
+#include <stdint.h>
 
 void ParseException::displayIssue()
 {
@@ -36,6 +37,8 @@ void ParseException::displayIssue()
         case INV_CHAR:
             std::cerr << "invalid character detected";
             break;
+        case YEAR_RNG:
+            std::cerr << "year should be between 2009 and 2024";
         case MON_RNG:
             std::cerr << "month out of range";
             break;
@@ -76,41 +79,100 @@ ParseException::ParseException(int loc, unsigned int ln, int type)
 
 ParseException::~ParseException() throw() {}
 
-void ValidateLine(std::string& line)
+void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
 {
-    (void)line;
+    //TIP: use strtod() or ft_atoi() here
+    const char *str = line.c_str();
+
+    year = atoi(str);
+    while (*str != '-')
+        str++;
+    str++;
+    month = atoi(str); //cannot jump with += 3 cause they can give OF atp
+    while (*str != '-')
+        str++;
+    str++;
+    day = atoi(str);
+    while (*str != ',')
+        str++;
+    str++;
+    val = atof(str);
 }
 
-void CheckRawFormat(std::string& line, int idx)
+void ValidateLine(std::string& line, int idx)
 {
-    // uint32_t year;
-    // uint32_t month;
-    // uint32_t day;
-    // uint32_t res;
-    // std::string elem;
+    uint32_t year;
+    uint32_t month;
+    uint32_t day;
+    float val;
 
+    uint32_t res;
+    
+    SeparateValues(line, year, month, day, val);
+    if (year < 2009 || year > 2024)
+        throw ParseException(DATABASE, idx, YEAR_RNG);
+    if (month < 1 || month > 12)
+        throw ParseException(DATABASE, idx, MON_RNG);
+    if (day < 1 || day > 31)
+        throw ParseException(DATABASE, idx, DAY_RNG);
+    if (mon == 2 && (year == 2012 || year == 2016 || year == 2020
+        || year == 2024) && day > 29)
+        throw ParseException(DATABASE, idx, DAY_RNG);
+    else if (mon == 2 && day > 28)
+        throw ParseException(DATABASE, idx, DAY_RNG);
+    if ((mon == 4 || mon == 6 || mon == 9 || mon == 11) && day > 30)
+        throw ParseException(DATABASE, idx, DAY_RNG);
+    res = year << 16 | month << 8 | day;
+    StoreValue(res);
+}
+
+void CheckRawFormat(std::string& line, int idx, int mode)
+{
     std::string::iterator iter = line.begin();
-    for (int i = 0; i < 5; i++)
+    if (mode == DATABASE)
     {
-        while (iter != line.end() && isdigit(*iter))
+        for (int i = 0; i < 5; i++)
+        {
+            while (iter != line.end() && isdigit(*iter))
+                iter++;
+            if (i >= 3 && iter == line.end())
+                break ;
+            else if ((i == 3 && *iter != '.') || i == 4)
+                throw ParseException(DATABASE, idx, *iter);
+            else if (i == 2 && (iter == line.end() || *iter != ','))
+                throw ParseException(DATABASE, idx, *iter);
+            else if (i < 2 && (iter == line.end() || *iter != '-'))
+                throw ParseException(DATABASE, idx, *iter);
             iter++;
-        if (i >= 3 && iter == line.end())
-            break ;
-        else if ((i == 3 && *iter != '.') || i == 4)
-            throw ParseException(DATABASE, idx, *iter);
-        else if (i == 2 && (iter == line.end() || *iter != ','))
-            throw ParseException(DATABASE, idx, *iter);
-        else if (i < 2 && (iter == line.end() || *iter != '-'))
-            throw ParseException(DATABASE, idx, *iter);
-        iter++;
-        if (i == 3 && iter == line.end())
-            throw ParseException(DATABASE, idx, *iter);
+            if (i == 3 && iter == line.end())
+                throw ParseException(DATABASE, idx, *iter);
+        }
     }
+    // else if (mode == INPUT)
+    // {
+    //     for (int i = 0; i < 5; i++)
+    //     {
+    //         // while (iter != line.end() && isdigit(*iter))
+    //         //     iter++;
+    //         // if (i >= 3 && iter == line.end())
+    //         //     break ;
+    //         // else if ((i == 3 && *iter != '.') || i == 4)
+    //         //     throw ParseException(DATABASE, idx, *iter);
+    //         // else if (i == 2 && (iter == line.end() || *iter != ','))
+    //         //     throw ParseException(DATABASE, idx, *iter);
+    //         // else if (i < 2 && (iter == line.end() || *iter != '-'))
+    //         //     throw ParseException(DATABASE, idx, *iter);
+    //         // iter++;
+    //         // if (i == 3 && iter == line.end())
+    //         //     throw ParseException(DATABASE, idx, *iter);
+    //     }
+    // }
+    
 }
 
-void StoreLine(std::string& line) //actually can be a ref cause i will store an int anyway
+void StoreValue(uint32_t& val)
 {
-    (void)line;
+    
 }
 
 void CreateDB()
@@ -131,8 +193,8 @@ void CreateDB()
         //std::cout << line << std::endl;
         if (line.empty())
             break ;
-        CheckRawFormat(line, idx);
-        //ValidateLine(line);
+        CheckRawFormat(line, idx, DATABASE);
+        ValidateLine(line, idx);
         //StoreLine(line);
         line.clear();
         if (data.eof())
