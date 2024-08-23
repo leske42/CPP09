@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:12 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 22:03:45 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/24 00:12:08 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int main(void)
 {
+    BitcoinExchange DBHolder;
+    
     try
     {
-        CreateDB();
+        DBHolder.CreateDB();
         //throw ParseException(DATABASE, 0, OTHER);
     }
-    catch (ParseException& e)
+    catch (BitcoinExchange::ParseException& e)
     {
         e.displayIssue();
     }

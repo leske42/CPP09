@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 23:57:03 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/24 00:15:24 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include <exception>
+#include <stdint.h>
+#include <map>
 
 enum Issue
 {
@@ -37,13 +39,8 @@ class BitcoinExchange
 {
     public:
 
-        
-    
-    private:
-    
-        void ValidateLine(std::string& line);
-        void StoreLine(std::string& line);
-        void CreateDB();
+        BitcoinExchange(void);
+        ~BitcoinExchange(void);
         
         class ParseException : public std::exception
         {
@@ -63,6 +60,22 @@ class BitcoinExchange
                 int location;
                 int issue;
         };
+
+        void CreateDB();
+    
+    private:
+    
+        BitcoinExchange(const BitcoinExchange& other);
+        BitcoinExchange& operator=(const BitcoinExchange& other);
+        
+        void ValidateLine(std::string& line, int idx);
+        void StoreLine(std::string& line);
+        void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+        void CheckRawFormat(std::string& line, int idx, int mode);
+        void StoreValue(uint32_t& val);
+
+        std::map<uint32_t, float> BitcoinDB;
+        
 };
 
 #endif

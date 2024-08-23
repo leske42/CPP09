@@ -6,16 +6,15 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 23:55:38 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/24 00:17:20 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <fstream>
 #include <cstdlib>
-#include <stdint.h>
 
-void ParseException::displayIssue()
+void BitcoinExchange::ParseException::displayIssue()
 {
     if (location == DATABASE)
         std::cerr << "[corrupted database] ";
@@ -57,12 +56,12 @@ void ParseException::displayIssue()
     std::cerr << std::endl;
 }
 
-ParseException::ParseException(const ParseException& other)
+BitcoinExchange::ParseException::ParseException(const ParseException& other)
 {
     (void)other;
 }
 
-ParseException::ParseException(int loc, unsigned int ln, int type)
+BitcoinExchange::ParseException::ParseException(int loc, unsigned int ln, int type)
 {
     if (isprint(type))
     {
@@ -77,9 +76,9 @@ ParseException::ParseException(int loc, unsigned int ln, int type)
     line = ln;
 }
 
-ParseException::~ParseException() throw() {}
+BitcoinExchange::ParseException::~ParseException() throw() {}
 
-void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
+void BitcoinExchange::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
 {
     //TIP: use strtod() or ft_atoi() here
     const char *str = line.c_str();
@@ -99,19 +98,19 @@ void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t
     val = atof(str);
 }
 
-void ValidateLine(std::string& line, int idx)
+void BitcoinExchange::ValidateLine(std::string& line, int idx)
 {
     uint32_t year;
-    uint32_t month;
+    uint32_t mon;
     uint32_t day;
     float val;
 
     uint32_t res;
     
-    SeparateValues(line, year, month, day, val);
+    SeparateValues(line, year, mon, day, val);
     if (year < 2009 || year > 2024)
         throw ParseException(DATABASE, idx, YEAR_RNG);
-    if (month < 1 || month > 12)
+    if (mon < 1 || mon > 12)
         throw ParseException(DATABASE, idx, MON_RNG);
     if (day < 1 || day > 31)
         throw ParseException(DATABASE, idx, DAY_RNG);
@@ -122,11 +121,11 @@ void ValidateLine(std::string& line, int idx)
         throw ParseException(DATABASE, idx, DAY_RNG);
     if ((mon == 4 || mon == 6 || mon == 9 || mon == 11) && day > 30)
         throw ParseException(DATABASE, idx, DAY_RNG);
-    res = year << 16 | month << 8 | day;
+    res = year << 16 | mon << 8 | day;
     StoreValue(res);
 }
 
-void CheckRawFormat(std::string& line, int idx, int mode)
+void BitcoinExchange::CheckRawFormat(std::string& line, int idx, int mode)
 {
     std::string::iterator iter = line.begin();
     if (mode == DATABASE)
@@ -170,12 +169,12 @@ void CheckRawFormat(std::string& line, int idx, int mode)
     
 }
 
-void StoreValue(uint32_t& val)
+void BitcoinExchange::StoreValue(uint32_t& val)
 {
-    
+    (void)val;
 }
 
-void CreateDB()
+void BitcoinExchange::CreateDB()
 {
     // std::cout << "CDB called" << std::endl;
     std::ifstream data;
@@ -203,4 +202,14 @@ void CreateDB()
     }
     std::cout << "DataBase created & values stored" << std::endl;
     data.close();
+}
+
+BitcoinExchange::BitcoinExchange()
+{
+    
+}
+
+BitcoinExchange::~BitcoinExchange()
+{
+    
 }
