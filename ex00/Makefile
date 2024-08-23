@@ -2,7 +2,7 @@ NAME = btc
 CXX1 = clang++
 CXX2 = g++
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 #-g
+CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 #-g
 #HEADER =
 
 #Colors

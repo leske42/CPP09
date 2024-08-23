@@ -6,12 +6,15 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/22 22:50:33 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 20:32:24 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOIN_EX_HPP
 # define BITCOIN_EX_HPP
+
+#include <iostream>
+#include <exception>
 
 enum Issue
 {
@@ -21,7 +24,7 @@ enum Issue
     DAY_RNG,
     REQ_RNG,
     NEG_NUM,
-    
+    FILE_NOP,
     OTHER
 };
 
@@ -33,18 +36,22 @@ class ParseException : public std::exception
     public:
 
         ParseException(int loc, unsigned int ln, int type);
-        ~ParseException();
+        ~ParseException() throw();
+        ParseException(const ParseException& other);
     
         void displayIssue();
 
     private:
 
         ParseException(void);
-        ParseException(const ParseException& other);
         ParseException& operator=(const ParseException& other);
         unsigned int line;
         int location;
         int issue;
 };
+
+void ValidateLine(std::string& line);
+void StoreLine(std::string& line);
+void CreateDB();
 
 #endif
