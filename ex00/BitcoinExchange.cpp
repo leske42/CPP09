@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 22:12:29 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 22:23:45 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,24 @@ void ParseException::displayIssue()
     std::cerr << std::endl;
 }
 
-ParseException::ParseException(const ParseException& other) {
+ParseException::ParseException(const ParseException& other)
+{
     (void)other;
 }
 
-ParseException::ParseException(int loc, unsigned int ln, int type) {
+ParseException::ParseException(int loc, unsigned int ln, int type)
+{
+    if (isprint(type))
+    {
+        if (type == '-' || type == '.' || type == ',')
+            issue = INV_SEP;
+        else
+            issue = INV_CHAR;
+    }
+    else
+        issue = type;
     location = loc;
     line = ln;
-    issue = type;
 }
 
 ParseException::~ParseException() throw() {}
@@ -87,11 +97,11 @@ void CheckRawFormat(std::string& line, int idx)
         if (i >= 3 && iter == line.end())
             break ;
         else if ((i == 3 && *iter != '.') || i == 4)
-            throw ParseException(DATABASE, idx, INV_SEP);
+            throw ParseException(DATABASE, idx, *iter);
         else if (i == 2 && (iter == line.end() || *iter != ','))
-            throw ParseException(DATABASE, idx, INV_SEP);
+            throw ParseException(DATABASE, idx, *iter);
         else if (i < 2 && (iter == line.end() || *iter != '-'))
-            throw ParseException(DATABASE, idx, INV_SEP);
+            throw ParseException(DATABASE, idx, *iter);
         iter++;
     }
 }
@@ -112,11 +122,11 @@ void CreateDB()
     std::getline(data, line);
     if (line.empty())
         throw ParseException(DATABASE, 0, EMPTY);
-    int idx = 1;
+    int idx = 2;
     while (1)
     {
         std::getline(data, line);
-        std::cout << line << std::endl;
+        //std::cout << line << std::endl;
         if (line.empty())
             break ;
         CheckRawFormat(line, idx);
