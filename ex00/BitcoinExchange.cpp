@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/24 00:17:20 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/24 00:23:19 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx)
     if ((mon == 4 || mon == 6 || mon == 9 || mon == 11) && day > 30)
         throw ParseException(DATABASE, idx, DAY_RNG);
     res = year << 16 | mon << 8 | day;
-    StoreValue(res);
+    BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
 }
 
 void BitcoinExchange::CheckRawFormat(std::string& line, int idx, int mode)
@@ -169,10 +169,10 @@ void BitcoinExchange::CheckRawFormat(std::string& line, int idx, int mode)
     
 }
 
-void BitcoinExchange::StoreValue(uint32_t& val)
-{
-    (void)val;
-}
+// void BitcoinExchange::StoreValue(uint32_t res, float val)
+// {
+//     BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
+// }
 
 void BitcoinExchange::CreateDB()
 {

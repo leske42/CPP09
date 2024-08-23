@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/24 00:15:24 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/24 00:23:32 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ class BitcoinExchange
         void StoreLine(std::string& line);
         void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
         void CheckRawFormat(std::string& line, int idx, int mode);
-        void StoreValue(uint32_t& val);
+        // void StoreValue(uint32_t& val);
 
         std::map<uint32_t, float> BitcoinDB;
         
