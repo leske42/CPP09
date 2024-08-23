@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 22:23:45 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 22:29:26 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void CheckRawFormat(std::string& line, int idx)
         else if (i < 2 && (iter == line.end() || *iter != '-'))
             throw ParseException(DATABASE, idx, *iter);
         iter++;
+        if (i == 3 && iter == line.end())
+            throw ParseException(DATABASE, idx, *iter);
     }
 }
 
