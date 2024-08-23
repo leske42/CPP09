@@ -6,12 +6,13 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 21:09:16 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 22:12:29 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <fstream>
+#include <cstdlib>
 
 void ParseException::displayIssue()
 {
@@ -19,18 +20,21 @@ void ParseException::displayIssue()
         std::cerr << "[corrupted database] ";
     else
         std::cerr << "[invalid input] ";
-    if (issue != FILE_NOP)
+    if (issue != FILE_NOP && issue != EMPTY)
         std::cerr << "On line " << line << ": ";
     switch (issue)
     {
         case FILE_NOP:
             std::cerr << "File could not be opened";
             break;
+        case EMPTY:
+            std::cerr << "File is empty";
+            break;
         case INV_SEP:
             std::cerr << "invalid separation format";
             break;
         case INV_CHAR:
-            std::cerr << "non-numeric character detected";
+            std::cerr << "invalid character detected";
             break;
         case MON_RNG:
             std::cerr << "month out of range";
@@ -67,6 +71,31 @@ void ValidateLine(std::string& line)
     (void)line;
 }
 
+void CheckRawFormat(std::string& line, int idx)
+{
+    // uint32_t year;
+    // uint32_t month;
+    // uint32_t day;
+    // uint32_t res;
+    // std::string elem;
+
+    std::string::iterator iter = line.begin();
+    for (int i = 0; i < 5; i++)
+    {
+        while (iter != line.end() && isdigit(*iter))
+            iter++;
+        if (i >= 3 && iter == line.end())
+            break ;
+        else if ((i == 3 && *iter != '.') || i == 4)
+            throw ParseException(DATABASE, idx, INV_SEP);
+        else if (i == 2 && (iter == line.end() || *iter != ','))
+            throw ParseException(DATABASE, idx, INV_SEP);
+        else if (i < 2 && (iter == line.end() || *iter != '-'))
+            throw ParseException(DATABASE, idx, INV_SEP);
+        iter++;
+    }
+}
+
 void StoreLine(std::string& line) //actually can be a ref cause i will store an int anyway
 {
     (void)line;
@@ -74,21 +103,30 @@ void StoreLine(std::string& line) //actually can be a ref cause i will store an 
 
 void CreateDB()
 {
+    // std::cout << "CDB called" << std::endl;
     std::ifstream data;
     std::string line;
     data.open("data.csv");
     if (!data.is_open())
         throw ParseException(DATABASE, 0, FILE_NOP);
+    std::getline(data, line);
+    if (line.empty())
+        throw ParseException(DATABASE, 0, EMPTY);
+    int idx = 1;
     while (1)
     {
         std::getline(data, line);
+        std::cout << line << std::endl;
         if (line.empty())
             break ;
-        ValidateLine(line);
-        StoreLine(line);
+        CheckRawFormat(line, idx);
+        //ValidateLine(line);
+        //StoreLine(line);
         line.clear();
         if (data.eof())
             break ;
+        idx++;
     }
     std::cout << "DataBase created & values stored" << std::endl;
+    data.close();
 }

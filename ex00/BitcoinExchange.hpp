@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/23 20:32:24 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/23 22:06:52 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ enum Issue
     REQ_RNG,
     NEG_NUM,
     FILE_NOP,
+    EMPTY,
     OTHER
 };
 
