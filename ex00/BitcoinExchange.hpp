@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/24 00:23:32 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/25 20:11:49 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 enum Issue
 {
+    INC_ENT,
     INV_SEP,
     INV_CHAR,
     YEAR_RNG,
@@ -71,7 +72,8 @@ class BitcoinExchange
         void ValidateLine(std::string& line, int idx);
         void StoreLine(std::string& line);
         void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
-        void CheckRawFormat(std::string& line, int idx, int mode);
+        void CheckRawFormatDB(std::string& line, int idx);
+        void CheckRawFormatIN(std::string& line, int idx);
         // void StoreValue(uint32_t& val);
 
         std::map<uint32_t, float> BitcoinDB;

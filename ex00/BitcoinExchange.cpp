@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/24 00:23:19 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/25 20:12:07 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void BitcoinExchange::ParseException::displayIssue()
         std::cerr << "On line " << line << ": ";
     switch (issue)
     {
+        case INC_ENT:
+            std::cerr << "Incomplete entry";
+            break;
         case FILE_NOP:
             std::cerr << "File could not be opened";
             break;
@@ -65,7 +68,7 @@ BitcoinExchange::ParseException::ParseException(int loc, unsigned int ln, int ty
 {
     if (isprint(type))
     {
-        if (type == '-' || type == '.' || type == ',')
+        if (type == '-' || type == '.' || type == ',' || type == ' ' || type == '|')
             issue = INV_SEP;
         else
             issue = INV_CHAR;
@@ -125,49 +128,57 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx)
     BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
 }
 
-void BitcoinExchange::CheckRawFormat(std::string& line, int idx, int mode)
+void BitcoinExchange::CheckRawFormatDB(std::string& line, int idx)
 {
     std::string::iterator iter = line.begin();
-    if (mode == DATABASE)
+    for (int i = 0; i < 5; i++)
     {
-        for (int i = 0; i < 5; i++)
-        {
-            while (iter != line.end() && isdigit(*iter))
-                iter++;
-            if (i >= 3 && iter == line.end())
-                break ;
-            else if ((i == 3 && *iter != '.') || i == 4)
-                throw ParseException(DATABASE, idx, *iter);
-            else if (i == 2 && (iter == line.end() || *iter != ','))
-                throw ParseException(DATABASE, idx, *iter);
-            else if (i < 2 && (iter == line.end() || *iter != '-'))
-                throw ParseException(DATABASE, idx, *iter);
+        while (iter != line.end() && isdigit(*iter))
             iter++;
-            if (i == 3 && iter == line.end())
-                throw ParseException(DATABASE, idx, *iter);
-        }
+        if (i >= 3 && iter == line.end())
+            break ;
+        else if ((i == 3 && *iter != '.') || i == 4)
+            throw ParseException(DATABASE, idx, *iter);
+        else if (i == 2 && (iter == line.end() || *iter != ','))
+            throw ParseException(DATABASE, idx, *iter);
+        else if (i < 2 && (iter == line.end() || *iter != '-'))
+            throw ParseException(DATABASE, idx, *iter);
+        iter++;
+        if (i == 3 && iter == line.end())
+            throw ParseException(DATABASE, idx, *iter);
     }
-    // else if (mode == INPUT)
-    // {
-    //     for (int i = 0; i < 5; i++)
-    //     {
-    //         // while (iter != line.end() && isdigit(*iter))
-    //         //     iter++;
-    //         // if (i >= 3 && iter == line.end())
-    //         //     break ;
-    //         // else if ((i == 3 && *iter != '.') || i == 4)
-    //         //     throw ParseException(DATABASE, idx, *iter);
-    //         // else if (i == 2 && (iter == line.end() || *iter != ','))
-    //         //     throw ParseException(DATABASE, idx, *iter);
-    //         // else if (i < 2 && (iter == line.end() || *iter != '-'))
-    //         //     throw ParseException(DATABASE, idx, *iter);
-    //         // iter++;
-    //         // if (i == 3 && iter == line.end())
-    //         //     throw ParseException(DATABASE, idx, *iter);
-    //     }
-    // }
-    
 }
+
+void BitcoinExchange::CheckRawFormatIN(std::string& line, int idx)
+{
+    std::string::iterator iter = line.begin();
+    for (int i = 0; i < 3; i++)
+    {
+        while (iter != line.end() && isdigit(*iter))
+            iter++;
+        if (i == 2 && (iter == line.end() || *iter != ' '))
+            throw ParseException(DATABASE, idx, *iter);
+        else if (i < 2 && (iter == line.end() || *iter != '-'))
+            throw ParseException(DATABASE, idx, *iter);
+        iter++;
+    }
+    if (iter == line.end() || *iter != '|')
+        throw ParseException(DATABASE, idx, *iter);
+    iter++;
+    if (iter == line.end() || *iter != ' ')
+        throw ParseException(DATABASE, idx, *iter);
+    iter++;
+    if (iter != line.end() && *iter == '-')
+        iter++;
+    if (iter == line.end())
+        throw ParseException(DATABASE, idx, INV_SEP);
+    while (iter != line.end() && isdigit(*iter))
+        iter++;
+    if (iter != line.end())
+        throw ParseException(DATABASE, idx, *iter);
+}
+//if line end then all of the stars will cry cause of deref....
+//actually not cause of the NULL but still standard dont like it
 
 // void BitcoinExchange::StoreValue(uint32_t res, float val)
 // {
@@ -192,7 +203,7 @@ void BitcoinExchange::CreateDB()
         //std::cout << line << std::endl;
         if (line.empty())
             break ;
-        CheckRawFormat(line, idx, DATABASE);
+        CheckRawFormatDB(line, idx);
         ValidateLine(line, idx);
         //StoreLine(line);
         line.clear();
