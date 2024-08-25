@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/25 20:11:49 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/25 20:36:53 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,16 @@ class BitcoinExchange
         BitcoinExchange(const BitcoinExchange& other);
         BitcoinExchange& operator=(const BitcoinExchange& other);
         
-        void ValidateLine(std::string& line, int idx);
-        void StoreLine(std::string& line);
-        void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+        void ValidateLine(std::string& line, int idx, int mode);
+        //void StoreLine(std::string& line);
+        void SeparateValuesDB(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+        void SeparateValuesIN(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
         void CheckRawFormatDB(std::string& line, int idx);
         void CheckRawFormatIN(std::string& line, int idx);
         // void StoreValue(uint32_t& val);
 
         std::map<uint32_t, float> BitcoinDB;
+        std::map<uint32_t, float> RequestDB;
         
 };
 

@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/25 20:12:07 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/25 20:56:04 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ BitcoinExchange::ParseException::ParseException(int loc, unsigned int ln, int ty
 
 BitcoinExchange::ParseException::~ParseException() throw() {}
 
-void BitcoinExchange::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
+void BitcoinExchange::SeparateValuesDB(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
 {
     //TIP: use strtod() or ft_atoi() here
     const char *str = line.c_str();
@@ -101,7 +101,27 @@ void BitcoinExchange::SeparateValues(std::string& line, uint32_t& year, uint32_t
     val = atof(str);
 }
 
-void BitcoinExchange::ValidateLine(std::string& line, int idx)
+void BitcoinExchange::SeparateValuesIN(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
+{
+    //TIP: use strtod() or ft_atoi() here
+    const char *str = line.c_str();
+
+    year = atoi(str);
+    while (*str != '-')
+        str++;
+    str++;
+    month = atoi(str); //cannot jump with += 3 cause they can give OF atp
+    while (*str != '-')
+        str++;
+    str++;
+    day = atoi(str);
+    while (*str != '|')
+        str++;
+    str += 2;
+    val = atof(str);
+}
+
+void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
 {
     uint32_t year;
     uint32_t mon;
@@ -110,22 +130,31 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx)
 
     uint32_t res;
     
-    SeparateValues(line, year, mon, day, val);
+    if (mode == DATABASE)
+        SeparateValuesDB(line, year, mon, day, val);
+    else
+        SeparateValuesIN(line, year, mon, day, val);
+
     if (year < 2009 || year > 2024)
-        throw ParseException(DATABASE, idx, YEAR_RNG);
+        throw ParseException(mode, idx, YEAR_RNG);
     if (mon < 1 || mon > 12)
-        throw ParseException(DATABASE, idx, MON_RNG);
+        throw ParseException(mode, idx, MON_RNG);
     if (day < 1 || day > 31)
-        throw ParseException(DATABASE, idx, DAY_RNG);
+        throw ParseException(mode, idx, DAY_RNG);
     if (mon == 2 && (year == 2012 || year == 2016 || year == 2020
         || year == 2024) && day > 29)
-        throw ParseException(DATABASE, idx, DAY_RNG);
+        throw ParseException(mode, idx, DAY_RNG);
     else if (mon == 2 && day > 28)
-        throw ParseException(DATABASE, idx, DAY_RNG);
+        throw ParseException(mode, idx, DAY_RNG);
     if ((mon == 4 || mon == 6 || mon == 9 || mon == 11) && day > 30)
-        throw ParseException(DATABASE, idx, DAY_RNG);
+        throw ParseException(mode, idx, DAY_RNG);
+
     res = year << 16 | mon << 8 | day;
-    BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
+
+    if (mode == DATABASE)
+        BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
+    else if (mode == INPUT)
+        RequestDB.insert(std::pair<uint32_t, float>(res, val));
 }
 
 void BitcoinExchange::CheckRawFormatDB(std::string& line, int idx)
@@ -180,14 +209,8 @@ void BitcoinExchange::CheckRawFormatIN(std::string& line, int idx)
 //if line end then all of the stars will cry cause of deref....
 //actually not cause of the NULL but still standard dont like it
 
-// void BitcoinExchange::StoreValue(uint32_t res, float val)
-// {
-//     BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
-// }
-
 void BitcoinExchange::CreateDB()
 {
-    // std::cout << "CDB called" << std::endl;
     std::ifstream data;
     std::string line;
     data.open("data.csv");
@@ -204,8 +227,7 @@ void BitcoinExchange::CreateDB()
         if (line.empty())
             break ;
         CheckRawFormatDB(line, idx);
-        ValidateLine(line, idx);
-        //StoreLine(line);
+        ValidateLine(line, idx, DATABASE);
         line.clear();
         if (data.eof())
             break ;
