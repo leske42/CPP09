@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:01 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:12:52 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:17:37 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "BitcoinExchange.hpp"
 #include "ParseException.hpp"
+#include "OperationInterrupt.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>

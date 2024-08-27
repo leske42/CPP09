@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:12 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 15:00:16 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:16:42 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,18 @@ int main(int argc, char **argv)
         return (0);
     }
     
-    DataBase DBHolder;
-    InputFile InputHolder;
+    InputFile   InputHolder;
+    DataBase    DBHolder;
     
     try
     {
-        InputHolder.ParseInput(argv[1]);
+        InputHolder.ParseInput(argv[1]); //could turn these into constructors?
         DBHolder.CreateDB();
-        //throw ParseException(DATABASE, 0, OTHER);
+
+        while (1)
+        {
+            std::cout << DBHolder.LookupVal(InputHolder.get_next_val().first) << std::endl;
+        }
     }
     catch (ParseException& e)
     {
