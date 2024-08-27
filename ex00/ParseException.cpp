@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:32:49 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:12:22 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:05:29 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void ParseException::displayIssue()
             break;
         case YEAR_RNG:
             std::cerr << "year should be between 2009 and 2024";
+            break;
         case MON_RNG:
             std::cerr << "month out of range";
             break;

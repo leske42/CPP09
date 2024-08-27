@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:57:36 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:04:36 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,29 @@ void InputFile::CheckRawFormat(std::string& line, int idx)
         while (iter != line.end() && isdigit(*iter))
             iter++;
         if (i == 2 && (iter == line.end() || *iter != ' '))
-            throw ParseException(DATABASE, idx, *iter);
+            throw ParseException(INPUT, idx, *iter);
         else if (i < 2 && (iter == line.end() || *iter != '-'))
-            throw ParseException(DATABASE, idx, *iter);
+            throw ParseException(INPUT, idx, *iter);
         iter++;
     }
     if (iter == line.end() || *iter != '|')
-        throw ParseException(DATABASE, idx, *iter);
+        throw ParseException(INPUT, idx, *iter);
     iter++;
     if (iter == line.end() || *iter != ' ')
-        throw ParseException(DATABASE, idx, *iter);
+        throw ParseException(INPUT, idx, *iter);
     iter++;
     if (iter != line.end() && *iter == '-')
         iter++;
     if (iter == line.end())
-        throw ParseException(DATABASE, idx, INV_SEP);
+        throw ParseException(INPUT, idx, INV_SEP);
+    while (iter != line.end() && isdigit(*iter))
+        iter++;
+    if (iter != line.end() && *iter == '.')
+        iter++;
     while (iter != line.end() && isdigit(*iter))
         iter++;
     if (iter != line.end())
-        throw ParseException(DATABASE, idx, *iter);
+        throw ParseException(INPUT, idx, *iter);
 }
 
 InputFile::InputFile(void)
