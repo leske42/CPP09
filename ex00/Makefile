@@ -2,7 +2,7 @@ NAME = btc
 CXX1 = clang++
 CXX2 = g++
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 #-g
+CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 -O3 #-g
 #HEADER =
 
 #Colors
@@ -16,7 +16,7 @@ MAGENTA = \033[0;95m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-SRC_FILES = main BitcoinExchange
+SRC_FILES = main BitcoinExchange InputFile DataBase ParseException
 
 SRC = $(addsuffix .cpp, $(SRC_FILES))
 

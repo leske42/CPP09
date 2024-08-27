@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/25 20:36:53 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:12:10 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@
 #include <stdint.h>
 #include <map>
 
-enum Issue
-{
-    INC_ENT,
-    INV_SEP,
-    INV_CHAR,
-    YEAR_RNG,
-    MON_RNG,
-    DAY_RNG,
-    REQ_RNG,
-    NEG_NUM,
-    FILE_NOP,
-    EMPTY,
-    OTHER
-};
-
 #define DATABASE 0
 #define INPUT 1
 
@@ -42,44 +27,26 @@ class BitcoinExchange
 
         BitcoinExchange(void);
         ~BitcoinExchange(void);
-        
-        class ParseException : public std::exception
-        {
-            public:
 
-                ParseException(int loc, unsigned int ln, int type);
-                ~ParseException() throw();
-                ParseException(const ParseException& other);
-            
-                void displayIssue();
-
-            private:
-
-                ParseException(void);
-                ParseException& operator=(const ParseException& other);
-                unsigned int line;
-                int location;
-                int issue;
-        };
-
-        void CreateDB();
-    
     private:
-    
+
         BitcoinExchange(const BitcoinExchange& other);
         BitcoinExchange& operator=(const BitcoinExchange& other);
+    
+    protected:
         
+        virtual void CheckRawFormat(std::string& line, int idx) = 0;
         void ValidateLine(std::string& line, int idx, int mode);
-        //void StoreLine(std::string& line);
-        void SeparateValuesDB(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
-        void SeparateValuesIN(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
-        void CheckRawFormatDB(std::string& line, int idx);
-        void CheckRawFormatIN(std::string& line, int idx);
-        // void StoreValue(uint32_t& val);
+        virtual void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
 
         std::map<uint32_t, float> BitcoinDB;
-        std::map<uint32_t, float> RequestDB;
-        
 };
+
+//void StoreLine(std::string& line);
+// void SeparateValuesDB(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+// void SeparateValuesIN(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+// void CheckRawFormatDB(std::string& line, int idx);
+// void CheckRawFormatIN(std::string& line, int idx);
+// void StoreValue(uint32_t& val);
 
 #endif

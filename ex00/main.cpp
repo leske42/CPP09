@@ -6,22 +6,26 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:12 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/24 00:12:08 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:05:56 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
+#include "DataBase.hpp"
+#include "InputFile.hpp"
+#include "ParseException.hpp"
 
 int main(void)
 {
-    BitcoinExchange DBHolder;
+    DataBase DBHolder;
+    InputFile InputHolder;
     
     try
     {
         DBHolder.CreateDB();
         //throw ParseException(DATABASE, 0, OTHER);
     }
-    catch (BitcoinExchange::ParseException& e)
+    catch (ParseException& e)
     {
         e.displayIssue();
     }
