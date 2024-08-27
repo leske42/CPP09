@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:56:58 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:30:16 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class InputFile : public BitcoinExchange
 
         void CheckRawFormat(std::string& line, int idx);
         void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+        void DisplayLog(std::pair<uint32_t, float> log);
 };
 
 #endif

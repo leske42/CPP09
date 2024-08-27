@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 15:04:36 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:56:01 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,24 @@ std::pair<uint32_t, float> InputFile::get_next_val(void)
     std::map<uint32_t, float>::iterator iter = BitcoinDB.begin();
     ret = *iter;
     BitcoinDB.erase(iter);
+    DisplayLog(ret);
     return (ret);
     //return (std::pair<uint32_t, float>(10, 10.0));
+}
+
+void InputFile::DisplayLog(std::pair<uint32_t, float> log)
+{
+    uint32_t rawBits = log.first;
+    uint32_t year = rawBits >> 16;
+    uint32_t mon = (rawBits >> 8) & 255;
+    uint32_t day = rawBits & 255;
+    
+    std::cout << year << "-";
+    if (mon < 10)
+        std::cout << 0;
+    std::cout << mon << "-";
+    if (day < 10)
+        std::cout << 0;
+    std::cout << day << " => ";
+    std::cout << log.second << " = ";
 }
