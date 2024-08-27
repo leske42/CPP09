@@ -6,11 +6,12 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:12:39 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:53:01 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "InputFile.hpp"
+#include <map>
 
 void InputFile::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
 {
@@ -78,5 +79,12 @@ void InputFile::ParseInput(void)
 
 std::pair<uint32_t, float> InputFile::get_next_val(void)
 {
-    return (std::pair<uint32_t, float>(10, 10.0));
+    if (BitcoinDB.empty())
+        throw OperationInterrupt();
+    std::pair<uint32_t, float> ret;
+    std::map<uint32_t, float>::iterator iter = BitcoinDB.begin();
+    ret = *iter;
+    BitcoinDB.erase(iter);
+    return (ret);
+    //return (std::pair<uint32_t, float>(10, 10.0));
 }

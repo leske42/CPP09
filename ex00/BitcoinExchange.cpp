@@ -6,14 +6,14 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:09:28 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:26:05 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
+#include "ParseException.hpp"
 #include <fstream>
 #include <cstdlib>
-#include "ParseException.hpp"
 
 void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
 {
