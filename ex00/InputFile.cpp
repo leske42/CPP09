@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:53:01 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:57:36 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,32 @@ InputFile::~InputFile(void)
     
 }
 
-void InputFile::ParseInput(void)
+void InputFile::ParseInput(char *target)
 {
-    
+    std::ifstream data;
+    std::string line;
+    data.open(target);
+    if (!data.is_open())
+        throw ParseException(INPUT, 0, FILE_NOP);
+    std::getline(data, line);
+    if (line.empty())
+        throw ParseException(INPUT, 0, EMPTY);
+    int idx = 2;
+    while (1)
+    {
+        std::getline(data, line);
+        //std::cout << line << std::endl;
+        if (line.empty())
+            break ;
+        CheckRawFormat(line, idx);
+        ValidateLine(line, idx, INPUT);
+        line.clear();
+        if (data.eof())
+            break ;
+        idx++;
+    }
+    std::cout << "InputFile created & values stored" << std::endl;
+    data.close();
 }
 
 std::pair<uint32_t, float> InputFile::get_next_val(void)
