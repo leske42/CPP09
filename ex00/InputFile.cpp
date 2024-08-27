@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 18:56:01 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 19:10:12 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void InputFile::ParseInput(char *target)
             break ;
         idx++;
     }
-    std::cout << "InputFile created & values stored" << std::endl;
+    //std::cout << "InputFile created & values stored" << std::endl;
     data.close();
 }
 

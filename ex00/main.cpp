@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:12 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 17:16:42 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/27 19:12:16 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ int main(int argc, char **argv)
 
         while (1)
         {
-            std::cout << DBHolder.LookupVal(InputHolder.get_next_val().first) << std::endl;
+            std::pair<uint32_t, float> cur_log = InputHolder.get_next_val();
+            float result = DBHolder.LookupVal(cur_log.first) * cur_log.second;
+            std::cout << result << std::endl;
         }
     }
     catch (ParseException& e)
