@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   OperationInterrupt.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/28 18:53:15 by mhuszar          ###   ########.fr       */
+/*   Created: 2024/08/27 14:42:31 by mhuszar           #+#    #+#             */
+/*   Updated: 2024/08/27 14:53:20 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RPN_HPP
-# define RPN_HPP
+#ifndef OP_INTERRUPT_HPP
+# define OP_INTERRUPT_HPP
 
 #include <iostream>
+#include <exception>
 
-// class RPN
-// {
-    
-// }
+class OperationInterrupt : public std::exception
+{
+    public:
 
-void ValidateLine(std::string& line);
+        OperationInterrupt(void);
+        ~OperationInterrupt() throw();
+        OperationInterrupt(const OperationInterrupt& other);
+
+    private:
+
+        OperationInterrupt& operator=(const OperationInterrupt& other);
+};
 
 #endif
