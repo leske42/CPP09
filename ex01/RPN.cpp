@@ -6,14 +6,14 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:22 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/28 18:54:19 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/29 13:27:20 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 #include "OperationInterrupt.hpp"
 
-bool ValidOperand(char& op)
+bool RPN::ValidOperand(char& op)
 {
     if (op == '+' || op == '-' || op == '/' || op == '*')
         return (true);
@@ -21,9 +21,11 @@ bool ValidOperand(char& op)
         return (false);
 }
 
-void ValidateLine(std::string& line)
+void RPN::ValidateLine(std::string& line)
 {
     std::string::iterator iter = line.begin();
+    if (iter == line.end())
+        throw OperationInterrupt();
     while (iter != line.end())
     {
         if (!isdigit(*iter) && !ValidOperand(*iter))
@@ -35,4 +37,39 @@ void ValidateLine(std::string& line)
             throw OperationInterrupt();
         iter++;
     }
+}
+
+RPN::RPN()
+{
+    //nothing
+}
+
+RPN::RPN(std::string input)
+{
+    ValidateLine(input);
+    FillStack(input.c_str());
+    DoCalc();
+}
+
+RPN::~RPN()
+{
+    
+}
+
+void RPN::FillStack(const char *input)
+{
+    char *str = const_cast<char *>(input);
+    while (*str)
+    {
+        if (ValidOperand(*str))
+            stack.push_back(*str + 2147483647);
+        else if (*str != ' ')
+            stack.push_back(atoi(str));
+        str++;
+    }
+}
+
+void RPN::DoCalc()
+{
+    
 }
