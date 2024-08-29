@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:52:20 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 18:41:23 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:42:54 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void handler(int status)
 {
     if (status == SIGFPE)
     {
-        throw OperationInterrupt();
+        throw OperationInterrupt(PRIMED);
     }
 }
 

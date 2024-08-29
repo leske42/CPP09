@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 18:38:54 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:58:52 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <deque>
 #include <cstdlib>
 
+#define INT_MAX 2147483647
 #define MUL 2147483689
 #define ADD 2147483690
 #define SUB 2147483692
@@ -43,10 +44,12 @@ class RPN
         void FillStack(const char *input);
         void DoCalc(void);
         void _do_prologue();
+        void _execute_calc();
 
         std::deque<long int> stack;
         long int first;
         long int second;
+        long int operand;
         
 };
 
