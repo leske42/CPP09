@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:52:20 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 13:25:00 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:41:23 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int main(int argc, char **argv)
     }
     catch (OperationInterrupt& e)
     {
-        std::cerr << "Error" << std::endl;
+        if (e.primed)
+            std::cerr << "Error" << std::endl;
     }
 }

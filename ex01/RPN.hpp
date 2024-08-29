@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 13:27:36 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:38:54 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #define ADD 2147483690
 #define SUB 2147483692
 #define DIV 2147483694
+
+#define PRIMED true
+#define UNPRIMED false
 
 class RPN
 {
@@ -39,8 +42,11 @@ class RPN
         void ValidateLine(std::string& line);
         void FillStack(const char *input);
         void DoCalc(void);
+        void _do_prologue();
 
         std::deque<long int> stack;
+        long int first;
+        long int second;
         
 };
 

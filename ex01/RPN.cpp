@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:22 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 13:27:20 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:40:38 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void RPN::ValidateLine(std::string& line)
 {
     std::string::iterator iter = line.begin();
     if (iter == line.end())
-        throw OperationInterrupt();
+        throw OperationInterrupt(PRIMED);
     while (iter != line.end())
     {
         if (!isdigit(*iter) && !ValidOperand(*iter))
-            throw OperationInterrupt();
+            throw OperationInterrupt(PRIMED);
         iter++;
         if (iter == line.end())
             break ;
         if (*iter != ' ')
-            throw OperationInterrupt();
+            throw OperationInterrupt(PRIMED);
         iter++;
     }
 }
@@ -69,7 +69,20 @@ void RPN::FillStack(const char *input)
     }
 }
 
+void RPN::_do_prologue()
+{
+    if (stack.empty())
+        throw OperationInterrupt(PRIMED);
+    first = stack.back();
+    stack.pop_back();
+    if (stack.empty())
+    {
+        std::cout << first << std::endl;
+        throw OperationInterrupt(UNPRIMED);
+    }
+}
+
 void RPN::DoCalc()
 {
-    
+    _do_prologue();
 }
