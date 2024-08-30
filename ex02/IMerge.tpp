@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmergeMe.cpp                                       :+:      :+:    :+:   */
+/*   IMerge.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 21:06:56 by mhuszar          ###   ########.fr       */
+/*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
+/*   Updated: 2024/08/30 21:09:09 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PmergeMe.hpp"
-
-PmergeMe::PmergeMe(void)
+template <class Container>
+IMerge<Container>::IMerge(void)
 {
     
 }
-
-PmergeMe::~PmergeMe(void)
-{
-    
-}
-
-void PmergeMe::calculate_depth()
+template <class Container>
+IMerge<Container>::~IMerge(void)
 {
     
 }

@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmergeMe.cpp                                       :+:      :+:    :+:   */
+/*   IMerge.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 21:06:56 by mhuszar          ###   ########.fr       */
+/*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
+/*   Updated: 2024/08/30 21:07:26 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PmergeMe.hpp"
+#ifndef IMERGE_HPP
+# define IMERGE_HPP
 
-PmergeMe::PmergeMe(void)
+template <class Container>
+class IMerge
 {
-    
-}
 
-PmergeMe::~PmergeMe(void)
-{
-    
-}
+    public:
 
-void PmergeMe::calculate_depth()
-{
+        IMerge(void);
+        ~IMerge(void);
+        
+    private:
+
+        IMerge(const IMerge& other);
+        IMerge& operator=(const IMerge& other);
+
+    protected:
+
+        //void calculate_depth();
     
-}
+        Container cont;
+};
+
+#include "IMerge.tpp"
+
+#endif
