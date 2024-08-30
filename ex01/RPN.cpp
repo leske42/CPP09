@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:22 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 12:04:35 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/30 12:10:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ RPN::RPN()
 
 RPN::RPN(std::string input)
 {
-    // ValidateLine_old(input);
-    // FillStack(input.c_str());
-    // DoCalc_deprecated();
     ValidateLine(input);
     FillStack(input.c_str());
     DoCalc();
@@ -167,69 +164,5 @@ void RPN::DoCalc()
         _do_prologue();
         _setup_vals_and_calc();
         _do_epilogue();
-        //_execute_calc();
     }
 }
-
-// void RPN::_do_prologue_old()
-// {
-//     if (stack.empty())
-//         throw OperationInterrupt(PRIMED);
-//     first = stack.back();
-//     stack.pop_back();
-//     if (first > INT_MAX)
-//         throw OperationInterrupt(PRIMED);
-//     else if (stack.empty())
-//     {
-//         std::cout << first << std::endl;
-//         throw OperationInterrupt(UNPRIMED);
-//     }
-//     second = stack.back();
-//     stack.pop_back();
-//     if (stack.empty() || second > INT_MAX)
-//         throw OperationInterrupt(PRIMED);
-//     operand = stack.back();
-//     stack.pop_back();
-//     if (operand < INT_MAX)
-//     {
-//         std::cerr << operand << std::endl;
-//         throw OperationInterrupt(PRIMED);
-//     }
-// }
-
-// void RPN::_execute_calc_old()
-// {
-//     long int result;
-    
-//     switch (operand)
-//     {
-//         case ADD:
-//             result = first + second;
-//             break;
-//         case SUB:
-//             result = first - second;
-//             break;
-//         case MUL:
-//             result = first * second;
-//             break;
-//         case DIV:
-//             result = first / second;
-//             break;
-//     }
-//     if (result > INT_MAX)
-//     {
-//         std::cerr << "Overflow ";
-//         throw (OperationInterrupt(PRIMED));
-//     }
-//     stack.push_back(result);
-//     first = second = result = 0;
-// }
-
-// void RPN::DoCalc_deprecated()
-// {
-//     while (1)
-//     {
-//         _do_prologue_old();
-//         _execute_calc_old();
-//     }
-// }
