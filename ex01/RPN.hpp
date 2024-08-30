@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 18:58:52 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/30 12:04:13 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,20 @@ class RPN
         void FillStack(const char *input);
         void DoCalc(void);
         void _do_prologue();
-        void _execute_calc();
+        void _setup_vals_and_calc();
+        void _execute_calc(long int first, long int second, long int operand);
+        void _do_epilogue();
+    
+        // void DoCalc_deprecated(void);
+        // void _do_prologue_old();
+        // void _execute_calc_old();
 
         std::deque<long int> stack;
-        long int first;
-        long int second;
-        long int operand;
+        std::deque<long int> other_stack;
+        
+        long int inspect;
+        // long int second;
+        // long int operand;
         
 };
 

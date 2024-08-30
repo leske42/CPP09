@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:22 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 19:08:03 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/30 12:04:35 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ RPN::RPN()
 
 RPN::RPN(std::string input)
 {
+    // ValidateLine_old(input);
+    // FillStack(input.c_str());
+    // DoCalc_deprecated();
     ValidateLine(input);
     FillStack(input.c_str());
     DoCalc();
@@ -58,44 +61,79 @@ RPN::~RPN()
 
 void RPN::FillStack(const char *input)
 {
+    int digit_ctr = 0;
+    int op_ctr = 0;
     char *str = const_cast<char *>(input);
+
     while (*str)
     {
         if (ValidOperand(*str))
+        {
             stack.push_front((long)*str + 2147483647);
+            op_ctr++;
+        }
         else if (*str != ' ')
+        {
             stack.push_front(atoi(str));
+            digit_ctr++;
+        }
+        if (digit_ctr >= 2 && op_ctr > (digit_ctr - 1))
+            throw OperationInterrupt(PRIMED);
         str++;
     }
+    if (op_ctr != (digit_ctr - 1))
+        throw OperationInterrupt(PRIMED);
 }
 
 void RPN::_do_prologue()
 {
     if (stack.empty())
         throw OperationInterrupt(PRIMED);
-    first = stack.back();
+    inspect = stack.back();
     stack.pop_back();
-    if (first > INT_MAX)
+    if (inspect > INT_MAX)
         throw OperationInterrupt(PRIMED);
     else if (stack.empty())
     {
-        std::cout << first << std::endl;
+        std::cout << inspect << std::endl;
         throw OperationInterrupt(UNPRIMED);
     }
-    second = stack.back();
+    other_stack.push_back(inspect);
+    inspect = stack.back();
     stack.pop_back();
-    if (stack.empty() || second > INT_MAX)
+    if (stack.empty() || inspect > INT_MAX)
         throw OperationInterrupt(PRIMED);
-    operand = stack.back();
-    stack.pop_back();
-    if (operand < INT_MAX)
+    while (inspect < INT_MAX)
     {
-        std::cerr << operand << std::endl;
-        throw OperationInterrupt(PRIMED);
+        other_stack.push_back(inspect);
+        inspect = stack.back();
+        stack.pop_back();
     }
 }
 
-void RPN::_execute_calc()
+void RPN::_setup_vals_and_calc()
+{
+    long int second = other_stack.back();
+    other_stack.pop_back();
+    long int first = other_stack.back();
+    other_stack.pop_back();
+    _execute_calc(first, second, inspect);
+    inspect = 0;
+}
+
+void RPN::_do_epilogue()
+{
+    long int temp;
+
+    while (!other_stack.empty())
+    {
+        temp = other_stack.back();
+        other_stack.pop_back();
+        stack.push_back(temp);
+    }
+}
+
+void RPN::_execute_calc(long int first, long int second, long int operand)
 {
     long int result;
     
@@ -120,7 +158,6 @@ void RPN::_execute_calc()
         throw (OperationInterrupt(PRIMED));
     }
     stack.push_back(result);
-    first = second = result = 0;
 }
 
 void RPN::DoCalc()
@@ -128,6 +165,71 @@ void RPN::DoCalc()
     while (1)
     {
         _do_prologue();
-        _execute_calc();
+        _setup_vals_and_calc();
+        _do_epilogue();
+        //_execute_calc();
     }
 }
+
+// void RPN::_do_prologue_old()
+// {
+//     if (stack.empty())
+//         throw OperationInterrupt(PRIMED);
+//     first = stack.back();
+//     stack.pop_back();
+//     if (first > INT_MAX)
+//         throw OperationInterrupt(PRIMED);
+//     else if (stack.empty())
+//     {
+//         std::cout << first << std::endl;
+//         throw OperationInterrupt(UNPRIMED);
+//     }
+//     second = stack.back();
+//     stack.pop_back();
+//     if (stack.empty() || second > INT_MAX)
+//         throw OperationInterrupt(PRIMED);
+//     operand = stack.back();
+//     stack.pop_back();
+//     if (operand < INT_MAX)
+//     {
+//         std::cerr << operand << std::endl;
+//         throw OperationInterrupt(PRIMED);
+//     }
+// }
+
+// void RPN::_execute_calc_old()
+// {
+//     long int result;
+    
+//     switch (operand)
+//     {
+//         case ADD:
+//             result = first + second;
+//             break;
+//         case SUB:
+//             result = first - second;
+//             break;
+//         case MUL:
+//             result = first * second;
+//             break;
+//         case DIV:
+//             result = first / second;
+//             break;
+//     }
+//     if (result > INT_MAX)
+//     {
+//         std::cerr << "Overflow ";
+//         throw (OperationInterrupt(PRIMED));
+//     }
+//     stack.push_back(result);
+//     first = second = result = 0;
+// }
+
+// void RPN::DoCalc_deprecated()
+// {
+//     while (1)
+//     {
+//         _do_prologue_old();
+//         _execute_calc_old();
+//     }
+// }
