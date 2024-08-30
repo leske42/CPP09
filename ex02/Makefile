@@ -1,8 +1,8 @@
-NAME = btc
+NAME = PmergeMe
 CXX1 = clang++
 CXX2 = g++
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 #-O3 #-g
+CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 #-g
 #HEADER =
 
 #Colors
@@ -16,8 +16,7 @@ MAGENTA = \033[0;95m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-SRC_FILES = main BitcoinExchange InputFile DataBase ParseException \
-			OperationInterrupt
+SRC_FILES = main PmergeMe
 
 SRC = $(addsuffix .cpp, $(SRC_FILES))
 

@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 12:10:35 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/30 20:26:37 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define RPN_HPP
 
 #include <iostream>
-#include <deque>
+#include <list>
 #include <cstdlib>
 
 #define INT_MAX 2147483647
@@ -48,8 +48,8 @@ class RPN
         void _execute_calc(long int first, long int second, long int operand);
         void _do_epilogue();
 
-        std::deque<long int> stack;
-        std::deque<long int> other_stack;
+        std::list<long int> stack;
+        std::list<long int> other_stack;
         
         long int inspect;
 
