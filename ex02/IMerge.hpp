@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 21:07:26 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/31 18:14:55 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ class IMerge
     protected:
 
         //void calculate_depth();
+        void intake_sequence(int argc, char **seq);
+        virtual void execute() = 0;
     
         Container cont;
 };
+
+long int	_atoi(const char *str);
 
 #include "IMerge.tpp"
 

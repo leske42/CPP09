@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmergeMe.hpp                                       :+:      :+:    :+:   */
+/*   OperationInterrupt.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 20:29:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 18:14:50 by mhuszar          ###   ########.fr       */
+/*   Created: 2024/08/27 14:42:31 by mhuszar           #+#    #+#             */
+/*   Updated: 2024/08/31 18:02:14 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PMERGE_HPP
-# define PMERGE_HPP
+#ifndef OP_INTERRUPT_HPP
+# define OP_INTERRUPT_HPP
 
-#include "IMerge.hpp"
 #include <iostream>
-#include <deque>
+#include <exception>
 
-class PmergeMe : public IMerge< std::deque<int> >
+#define PRIMED true
+#define UNPRIMED false
+
+class OperationInterrupt : public std::exception
 {
     public:
 
-        PmergeMe(void);
-        ~PmergeMe(void);
-    
+        OperationInterrupt(void);
+        OperationInterrupt(bool primer);
+        ~OperationInterrupt() throw();
+        OperationInterrupt(const OperationInterrupt& other);
+        
+        bool primed;
+
     private:
 
-        PmergeMe(const PmergeMe& other);
-        PmergeMe& operator=(const PmergeMe& other);
-
-        void calculate_depth();
-        void execute();
-        
-        //std::deque<int> cont;
+        OperationInterrupt& operator=(const OperationInterrupt& other);
 };
 
 #endif
