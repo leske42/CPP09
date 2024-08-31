@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 18:07:53 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/31 19:17:45 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,22 @@ PmergeMe::PmergeMe(void)
     
 }
 
-PmergeMe::~PmergeMe(void)
+PmergeMe::PmergeMe(int argc, char **argv)
 {
-    
+    calculate_depth(argc);
+    cont_chain = new std::deque<int>;
+    intake_sequence(argc, argv);
 }
 
-void PmergeMe::calculate_depth()
+PmergeMe::~PmergeMe(void)
 {
-    
+    delete[] cont_chain;
 }
+
+// void PmergeMe::calculate_depth()
+// {
+    
+// }
 
 void PmergeMe::execute()
 {

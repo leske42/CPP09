@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 18:14:50 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/31 19:20:21 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ class PmergeMe : public IMerge< std::deque<int> >
 
         PmergeMe(void);
         ~PmergeMe(void);
+        PmergeMe(int argc, char **argv);
     
     private:
 
         PmergeMe(const PmergeMe& other);
         PmergeMe& operator=(const PmergeMe& other);
 
-        void calculate_depth();
+        // void calculate_depth();
         void execute();
         
         //std::deque<int> cont;
