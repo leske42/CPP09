@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:42:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 18:41:13 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/31 18:02:14 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <iostream>
 #include <exception>
+
+#define PRIMED true
+#define UNPRIMED false
 
 class OperationInterrupt : public std::exception
 {

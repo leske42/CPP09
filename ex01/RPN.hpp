@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 20:26:37 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/08/31 18:02:09 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@
 #define ADD 2147483690
 #define SUB 2147483692
 #define DIV 2147483694
-
-#define PRIMED true
-#define UNPRIMED false
 
 class RPN
 {
