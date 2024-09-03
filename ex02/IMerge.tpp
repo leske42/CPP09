@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/03 13:25:32 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:45:26 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ IMerge<Container>::~IMerge(void)
 }
 
 template <class Container>
-void IMerge<Container>::intake_sequence(int argc, char **seq)
+void IMerge<Container>::intake_sequence(int argc, char ***seq)
 {
     int cur_pos = 0;
     while (cur_pos <= argc - 2)
     {
-        cont_chain[0][cur_pos] = _atoi(seq[cur_pos - 1]);
+        //std::cout << "Pos: " << cur_pos << std::endl;
+        cont_chain[0][cur_pos] = _atoi((*seq)[cur_pos + 1]);
         cur_pos++;
     }
 }
@@ -44,6 +45,7 @@ void IMerge<Container>::calculate_depth(int argc)
     }
     max_containers = recursion_levels * 2;
     cur_containers = 1;
+    prev_containers = 0;
     cur_level = 0;
 }
 
@@ -60,7 +62,7 @@ void IMerge<Container>::create_sequence()
     typename Container::iterator cur = cont_chain[0].begin();
     typename Container::iterator pair_cur = cont_chain[my_pair(0)].begin();
     int ctr = 0;
-    int old_size = cont_chain[0].size();
+    size_t old_size = cont_chain[0].size();
     
     while (cont_chain[0].size() > old_size / 2)
     {

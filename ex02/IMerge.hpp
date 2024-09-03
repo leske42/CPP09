@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/03 13:26:15 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:27:09 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class IMerge
     protected:
 
         void            calculate_depth(int argc);
-        void            intake_sequence(int argc, char **seq);
+        void            intake_sequence(int argc, char ***seq);
         virtual void    execute() = 0;
         int             my_pair(int my_num);
         void            create_sequence();

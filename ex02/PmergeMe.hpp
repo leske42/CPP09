@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 19:20:21 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:27:51 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class PmergeMe : public IMerge< std::deque<int> >
 
         PmergeMe(void);
         ~PmergeMe(void);
-        PmergeMe(int argc, char **argv);
+        PmergeMe(int argc, char ***argv);
     
     private:
 
