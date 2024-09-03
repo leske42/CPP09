@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/03 15:27:09 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:33:41 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class IMerge
         int             my_pair(int my_num);
         void            create_sequence();
         void            mirror_sequence(int my_num);
+        void            print_content(int my_num);
 
         int             recursion_levels;
         int             cur_level;
