@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 19:19:52 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/03 13:26:15 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,21 @@ class IMerge
 
     protected:
 
-        void calculate_depth(int argc);
-        void intake_sequence(int argc, char **seq);
-        virtual void execute() = 0;
+        void            calculate_depth(int argc);
+        void            intake_sequence(int argc, char **seq);
+        virtual void    execute() = 0;
+        int             my_pair(int my_num);
+        void            create_sequence();
+        void            mirror_sequence(int my_num);
 
-        int recursion_levels;
-        int cur_level;
-        int max_containers;
-        int cur_containers;
-        Container cont;
-        Container *cont_chain;
+        int             recursion_levels;
+        int             cur_level;
+        int             max_containers;
+        int             prev_containers;
+        int             cur_containers;
+
+        Container       *cont_chain;
+        Container       sequence;
 };
 
 long int	_atoi(const char *str);

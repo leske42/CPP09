@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 19:18:55 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/03 13:25:32 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,65 @@ void IMerge<Container>::calculate_depth(int argc)
     max_containers = recursion_levels * 2;
     cur_containers = 1;
     cur_level = 0;
+}
+
+template <class Container>
+int IMerge<Container>::my_pair(int my_num)
+{
+    return (prev_containers + my_num + 1);
+}
+
+//i need to pay attention here never to get out of bounds
+template <class Container>
+void IMerge<Container>::create_sequence()
+{
+    typename Container::iterator cur = cont_chain[0].begin();
+    typename Container::iterator pair_cur = cont_chain[my_pair(0)].begin();
+    int ctr = 0;
+    int old_size = cont_chain[0].size();
+    
+    while (cont_chain[0].size() > old_size / 2)
+    {
+        if (cur >= cur + 1)
+        {
+            *pair_cur = *cur;
+            cur = cont_chain[0].erase(cur);
+            sequence[ctr] = 'F';
+        }
+        else
+        {
+            *pair_cur = *(cur + 1);
+            cont_chain[0].erase(cur + 1);
+            sequence[ctr] = 'S';
+        }
+        cur++;
+        pair_cur++;
+        ctr++;
+    }
+}
+
+template <class Container>
+void IMerge<Container>::mirror_sequence(int my_num)
+{
+    typename Container::iterator cur = cont_chain[my_num].begin();
+    typename Container::iterator pair_cur = cont_chain[my_pair(my_num)].begin();
+    int ctr = 0;
+    int old_size = cont_chain[my_num].size();
+    
+    while (cont_chain[my_num].size() > old_size / 2)
+    {
+        if (sequence[ctr] == 'F')
+        {
+            *pair_cur = *cur;
+            cur = cont_chain[my_num].erase(cur);
+        }
+        else if (sequence[ctr] == 'S')
+        {
+            *pair_cur = *(cur + 1);
+            cont_chain[my_num].erase(cur + 1);
+        }
+        cur++;
+        pair_cur++;
+        ctr++;
+    }
 }
