@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:28:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/08 20:40:43 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:28:23 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ class MyList
         void        setup_next_depth();
         void        eliminate_empty_nodes();
         int         size();
+        void        display_list();
 
         int         old_size;
         

@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 12:11:55 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 13:07:45 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ MyList<Container>::MyList()
 template <class Container>
 MyList<Container>::~MyList()
 {
-    delete_internal_list();
+    //delete_internal_list();
 }
 
 template <class Container>
@@ -106,6 +106,7 @@ void MyList<Container>::setup_next_depth()
 template <class Container>
 void MyList<Container>::eliminate_empty_nodes()
 {
+    //we need to connect the two nodes also on the 2 side of the deleted one!!!
     Node<Container> *cur = internal_list_head;
     Node<Container> *prev;
     while (cur)
@@ -114,12 +115,31 @@ void MyList<Container>::eliminate_empty_nodes()
         {  
             prev = cur;
             cur = cur->next;
-            delete prev;
+            delete prev; //why is this invalid?
         }
         else
             cur = cur->next;
     }
     size(); //updates list size and indexes
+}
+
+template <class Container>
+void MyList<Container>::display_list()
+{
+    std::cout << std::endl;
+    std::cout << ">>>> DISPLAYING MyList CONTENT <<<<" << std::endl;
+    std::cout << "List size is currently " << size() << " nodes" << std::endl;
+
+    Node<Container> *cur = internal_list_head;
+    std::cout << std::endl;
+
+    while (cur)
+    {
+        std::cout << "Index " << cur->idx << " holds a container of ";
+        std::cout << cur->cont.size() << " capacity" << std::endl;
+        //std::cout << "The content is " << print_content(cur->idx);
+        cur = cur->next;
+    }
 }
 
 template <class Container>

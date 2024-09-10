@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/08 21:09:55 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 13:29:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int IMerge<Container>::calculate_depth(int argc)
         recursion_levels++;
     }
     max_containers = recursion_levels * 2;
-    cur_containers = 2;
-    prev_containers = 1;
+    cur_containers = 1;
+    prev_containers = 0;
 
     depth = 0;
     return (recursion_levels);
@@ -64,8 +64,10 @@ int IMerge<Container>::calculate_depth(int argc)
 template <class Container>
 int IMerge<Container>::my_pair(int my_num)
 {
-    if (prev_containers + my_num > cur_containers)
+    if (prev_containers + my_num >= cur_containers)
         return (-1);
+    //throw OperationInterrupt(PRIMED); //we would get out of bounds
+    //std::cout << "returning " << prev_containers << std::endl;
     return (prev_containers + my_num);
 }
 
@@ -117,6 +119,9 @@ void IMerge<Container>::create_sequence()
 template <class Container>
 void IMerge<Container>::mirror_sequence(int my_num)
 {
+    //std::cout << "lolll" << std::endl;
+    //if (my_pair(my_num) == -1)
+    //    return ;
     typename Container::iterator cur = cont_chain[my_num].begin();
     typename Container::iterator temp = cont_chain[my_num].begin();
     typename Container::iterator pair_cur = cont_chain[my_pair(my_num)].begin();
@@ -157,13 +162,17 @@ void IMerge<Container>::take_apart()
     //execute actual task
     std::cout << "Depth " << depth << ". Taking apart..." << std::endl;
     cont_chain.setup_next_depth();
+    //cont_chain.display_list();
     create_sequence();
     int my_num = 1;
+    //std::cout << "my pair is: " << my_pair(my_num) << std::endl;
     while (my_pair(my_num) != -1)
     {
         mirror_sequence(my_num);
         my_num++;
     }
+    //cont_chain.display_list();
+    depth++;
     return ;
 }
 
@@ -172,13 +181,15 @@ void IMerge<Container>::assemble()
 {
     //recursion criteria
     depth--;
-    if (depth >= breakpoint)
+    if (depth > breakpoint)
         assemble();
-    if (depth < breakpoint)
+    else if (depth <= breakpoint)
         take_apart();
     //execute actual task
     std::cerr << "Depth " << depth << ". Assembling..." << std::endl;
-    cont_chain.eliminate_empty_nodes();
+    depth++;
+    //cont_chain.eliminate_empty_nodes();
+    return ;
 }
 
 template <class Container>
