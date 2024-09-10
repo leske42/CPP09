@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 19:40:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 23:00:56 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     int max_idx = cont.size() - 1;
     int ctr = 0;
 
-    print_content(cont);
     while (idx < max_idx)
     {
         std::cout << "comparing " << cont[idx] << " and " << cont[idx + 1] << ", ";
@@ -122,7 +121,6 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
             std::cout << "moving " << cont[idx + 1] << std::endl;
             cont[idx + 1]  = DUMMY_VAL;
         }
-        print_content(cont);
         idx += 2;
         ctr++;
     }
@@ -226,13 +224,14 @@ void IMerge<Container>::take_apart()
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
+
     std::sort(from.begin(), from.end());
     std::sort(to.begin(), to.end());
 
-    to.resize(from.size() + to.size());
-    Container temp(to.size());
+    // to.resize(from.size() + to.size());
+    Container temp(from.size() + to.size());
 
-    std::merge(to.begin(), to.end(), from.begin(), from.end(), temp.begin());
+    std::merge(from.begin(), from.end(), to.begin(), to.end(), temp.begin());
 
     // std::cout << "Displaying temp content: ";
     // typename Container::iterator cur = temp.begin();
@@ -243,7 +242,6 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     // }
 
     to = temp;
-    std::cout << std::endl;
     from.clear();
 }
 

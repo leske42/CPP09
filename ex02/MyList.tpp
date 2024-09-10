@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 16:41:08 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 23:06:35 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,11 @@ void MyList<Container>::eliminate_empty_nodes()
     Node<Container> *cur = internal_list_head;
     Node<Container> *empty;
     Node<Container> *before;
+    bool first = true;
     while (cur)
     {
         if (cur->cont.empty())
-        {  
+        {
             std::cout << "deleting a container (idx " << cur->idx << ")" << std::endl;
             empty = cur;
             before = cur->prev;
@@ -124,8 +125,17 @@ void MyList<Container>::eliminate_empty_nodes()
                 cur->prev = before;
         }
         else
+        {
+            if (first == true)
+            {
+                internal_list_head = cur;
+                first = false;
+            }
             cur = cur->next;
+        }
     }
+    if (first == true)
+        internal_list_head = NULL;
     size(); //updates list size and indexes
 }
 
