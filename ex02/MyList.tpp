@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 15:03:34 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:32:00 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ template <class Container>
 void MyList<Container>::setup_next_depth()
 {
     int sm_size = get_smallest_cont_size();
-    int next_cont_size = (sm_size / 2); //+ (sm_size % 2); //do i move the +1 or not?
+    int next_cont_size = (sm_size / 2);// + (sm_size % 2); //do i move the +1 or not?
     old_size = internal_list_size;
     while (internal_list_size < (old_size * 2))
     {
@@ -189,4 +189,25 @@ int MyList<Container>::get_smallest_cont_size()
     while (cur && cur->next)
         cur = cur->next;
     return (cur->cont.size());
+}
+
+template <class Container>
+void MyList<Container>::print_content(int index)
+{
+    Node<Container> *cur = internal_list_head;
+    while (cur && cur->idx != index)
+        cur = cur->next;
+    if (!cur)
+    {
+        std::cout << "no content for index " << index << std::endl;
+        return ;
+    }
+    typename Container::iterator iter = cur->cont.begin();
+    while (iter != cur->cont.end())
+    {
+        std::cout << *iter << " ";
+        iter++;
+    }
+    std::cout << std::endl;
+    // std::cout << *cur << std::endl; //whyyy
 }

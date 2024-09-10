@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 15:14:51 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:35:23 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,12 @@ void IMerge<Container>::assemble()
     {
         // std::cout << "my pair is: " << my_pair(my_num) << std::endl;
         std::cout << "Merging " << my_pair(my_num) << " into " << my_num << std::endl;
+        std::cout << my_num << " content: ";
+        cont_chain.print_content(my_num);
+        std::cout << my_pair(my_num) << " content: ";
+        cont_chain.print_content(my_pair(my_num));
         merge_containers(cont_chain[my_pair(my_num)], cont_chain[my_num]);
+        // cont_chain.print_content(my_num);
         my_num++;
     }
     depth++;
