@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/08 21:05:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:41:24 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define IMERGE_HPP
 
 #include <iostream>
+#include <algorithm> 
 #include "MyList.hpp"
 
 template <class Container>
@@ -46,6 +47,7 @@ class IMerge
         void            do_sort();
         void            take_apart();
         void            assemble();
+        void            merge_containers(Container& from, Container& to);
 
         int             recursion_levels;
         int             depth;

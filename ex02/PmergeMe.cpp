@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 12:32:35 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:04:57 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ PmergeMe::PmergeMe(int argc, char **argv)
     //cont_chain.setup_next_depth(); //do i need this? What's the issue?
     print_content(0);
     do_sort();
-    // std::cout << "[0] content: ";
-    // print_content(0);
-    // std::cout << "[1] content: ";
-    // print_content(1);
+
+    cont_chain.display_list();
+    std::cout << "[0] content: ";
+    print_content(0);
+    std::cout << "[1] content: ";
+    print_content(1);
 }
 
 PmergeMe::~PmergeMe(void)

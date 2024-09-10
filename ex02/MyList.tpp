@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 13:36:17 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:03:34 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,22 @@ void MyList<Container>::setup_next_depth()
 template <class Container>
 void MyList<Container>::eliminate_empty_nodes()
 {
-    //we need to connect the two nodes also on the 2 side of the deleted one!!!
     Node<Container> *cur = internal_list_head;
-    Node<Container> *prev;
+    Node<Container> *empty;
+    Node<Container> *before;
     while (cur)
     {
         if (cur->cont.empty())
         {  
-            prev = cur;
+            std::cout << "deleting a container (idx " << cur->idx << ")" << std::endl;
+            empty = cur;
+            before = cur->prev;
             cur = cur->next;
-            delete prev; //why is this invalid?
+            delete empty; //why is this invalid? - or is it?
+            if (before)
+                before->next = cur;
+            if (cur)
+                cur->prev = before;
         }
         else
             cur = cur->next;

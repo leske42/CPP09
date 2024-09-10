@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 13:29:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:14:51 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void IMerge<Container>::create_sequence()
             cur++;
             sequence[ctr] = 'S';
         }
-        std::cout << "moved " << *pair_cur << std::endl;
+        std::cout << "moved " << *pair_cur << " to " << my_pair(0) << std::endl;
         cur++;
         std::cout << "erasing " << *temp << std::endl;
         cont_chain[0].erase(temp);
@@ -143,7 +143,7 @@ void IMerge<Container>::mirror_sequence(int my_num)
             temp = cur;
             cur++;
         }
-        std::cout << "moved " << *pair_cur << std::endl;
+        std::cout << "moved " << *pair_cur << " to " << my_pair(my_num) << std::endl;
         cur++;
         cont_chain[my_num].erase(temp);
         pair_cur++;
@@ -177,6 +177,22 @@ void IMerge<Container>::take_apart()
 }
 
 template <class Container>
+void IMerge<Container>::merge_containers(Container& from, Container& to)
+{
+    std::sort(from.begin(), from.end());
+    std::sort(to.begin(), to.end());
+
+    to.resize(from.size() + to.size());
+    Container temp(to.size());
+    //from.sort();
+    //to.sort();
+    std::merge(to.begin(), to.end(), from.begin(), from.end(), temp.begin());
+    // std::merge(to.begin(), to.begin() + (to.size() - from.size()), from.begin(), from.end(), temp.begin());
+    to = temp;
+    // from.clear();
+}
+
+template <class Container>
 void IMerge<Container>::assemble()
 {
     //recursion criteria
@@ -187,8 +203,17 @@ void IMerge<Container>::assemble()
         take_apart();
     //execute actual task
     std::cerr << "Depth " << depth << ". Assembling..." << std::endl;
+    int my_num = 0;
+    while (my_pair(my_num) != -1)
+    {
+        // std::cout << "my pair is: " << my_pair(my_num) << std::endl;
+        std::cout << "Merging " << my_pair(my_num) << " into " << my_num << std::endl;
+        merge_containers(cont_chain[my_pair(my_num)], cont_chain[my_num]);
+        my_num++;
+    }
     depth++;
-    //cont_chain.eliminate_empty_nodes();
+    cont_chain.eliminate_empty_nodes();
+    reassess_size();
     return ;
 }
 
