@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:28:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 15:25:10 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:41:29 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include "OperationInterrupt.hpp"
 
-long int	_atoi(const char *str);
+long int	ft_atoi(const char *str);
 
 template <class Container>
 struct Node
@@ -37,7 +37,7 @@ class MyList
         ~MyList(void);
 
         Container&  operator[](int index);
-        void        create_list_head(int argc, char **argv);
+        void        init_list_head(int argc, char **argv);
         void        setup_next_depth();
         void        eliminate_empty_nodes();
         int         size();

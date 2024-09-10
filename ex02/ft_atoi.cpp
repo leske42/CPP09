@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 18:01:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/03 15:24:10 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:26:18 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	survey(const char *str)
 		return (c * -1);
 }
 
-long int	_atoi(const char *str)
+long int	ft_atoi(const char *str)
 {
 	long int	nb;
 	int			sign;

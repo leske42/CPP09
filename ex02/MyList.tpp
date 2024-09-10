@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 15:32:00 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:41:08 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ MyList<Container>::MyList(int argc, char **argv)
     int cur_pos = 0;
     while (cur_pos <= argc - 2)
     {
-        internal_list_head->cont[cur_pos] = _atoi(argv[cur_pos + 1]);
+        internal_list_head->cont[cur_pos] = ft_atoi(argv[cur_pos + 1]);
         cur_pos++;
     }
     internal_list_head->prev = NULL;
@@ -42,7 +42,7 @@ MyList<Container>::MyList(int argc, char **argv)
 }
 
 template <class Container>
-void MyList<Container>::create_list_head(int argc, char **argv)
+void MyList<Container>::init_list_head(int argc, char **argv)
 {
     internal_list_head = NULL;
     internal_list_head = new Node<Container>;
@@ -50,7 +50,7 @@ void MyList<Container>::create_list_head(int argc, char **argv)
     int cur_pos = 0;
     while (cur_pos <= argc - 2)
     {
-        internal_list_head->cont[cur_pos] = _atoi(argv[cur_pos + 1]);
+        internal_list_head->cont[cur_pos] = ft_atoi(argv[cur_pos + 1]);
         cur_pos++;
     }
     internal_list_head->prev = NULL;
@@ -209,5 +209,4 @@ void MyList<Container>::print_content(int index)
         iter++;
     }
     std::cout << std::endl;
-    // std::cout << *cur << std::endl; //whyyy
 }
