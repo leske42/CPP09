@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 13:07:45 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 13:36:17 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ MyList<Container>::MyList()
 template <class Container>
 MyList<Container>::~MyList()
 {
-    //delete_internal_list();
+    delete_internal_list();
 }
 
 template <class Container>
