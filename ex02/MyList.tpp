@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 12:08:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:11:55 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int MyList<Container>::size()
         return (-1);
     while (cur)
     {
-        cur->idx = internal_list_sie;
+        cur->idx = internal_list_size;
         internal_list_size++;
         cur = cur->next;
     }
