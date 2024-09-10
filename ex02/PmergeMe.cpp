@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/03 17:50:02 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/08 21:12:41 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,33 @@
 
 PmergeMe::PmergeMe(void)
 {
-    
+    //cont_chain = MyList< std::deque<int> >;
 }
 
-PmergeMe::PmergeMe(int argc, char ***argv)
+PmergeMe::PmergeMe(int argc, char **argv)
 {
     // std::cout << (*argv)[1] << std::endl;
+    //depth = calculate_depth(argc) * 2 * (-1);
+    //std::cout << "Levels: " << recursion_levels << std::endl;
+    //cont_chain = MyList< std::deque<int> >;
+    
+    //cont_chain = new std::deque<int>[2];
+    //cont_chain = MyList< std::deque<int> >(argc, argv);
+    //intake_sequence(argc, argv);
     calculate_depth(argc);
-    cont_chain = new std::deque<int>[2];
-    intake_sequence(argc, argv);
+    cont_chain.create_list_head(argc, argv);
+    cont_chain.setup_next_depth(); //do i need this? What's the issue?
     print_content(0);
-    create_sequence();
+    do_sort();
+    std::cout << "[0] content: ";
     print_content(0);
+    std::cout << "[1] content: ";
+    print_content(1);
 }
 
 PmergeMe::~PmergeMe(void)
 {
-    delete[] cont_chain;
+    //delete[] cont_chain;
 }
 
 // void PmergeMe::calculate_depth()

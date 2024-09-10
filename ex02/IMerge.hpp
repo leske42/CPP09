@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/03 17:33:41 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/08 21:05:30 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define IMERGE_HPP
 
 #include <iostream>
+#include "MyList.hpp"
 
 template <class Container>
 class IMerge
@@ -23,6 +24,8 @@ class IMerge
 
         IMerge(void);
         ~IMerge(void);
+
+
         
     private:
 
@@ -31,22 +34,32 @@ class IMerge
 
     protected:
 
-        void            calculate_depth(int argc);
-        void            intake_sequence(int argc, char ***seq);
+        int             calculate_depth(int argc);
+        void            intake_sequence(int argc, char **seq);
         virtual void    execute() = 0;
         int             my_pair(int my_num);
         void            create_sequence();
         void            mirror_sequence(int my_num);
         void            print_content(int my_num);
+        void            reassess_size();
+
+        void            do_sort();
+        void            take_apart();
+        void            assemble();
 
         int             recursion_levels;
-        int             cur_level;
+        int             depth;
+        int             bottom;
+        int             breakpoint;
+    
+        int             cur_level; //called depth now
         int             max_containers;
         int             prev_containers;
         int             cur_containers;
 
-        Container       *cont_chain;
-        Container       sequence;
+        MyList<Container>   cont_chain;
+        Container           sequence;
+        //Container       *cont_chain;
 };
 
 long int	_atoi(const char *str);
