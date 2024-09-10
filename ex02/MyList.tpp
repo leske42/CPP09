@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/08 21:06:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:08:30 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void MyList<Container>::eliminate_empty_nodes()
         else
             cur = cur->next;
     }
+    size(); //updates list size and indexes
 }
 
 template <class Container>
@@ -136,6 +137,7 @@ void MyList<Container>::attach_new_node(int cont_size)
     internal_list_size++;
 }
 
+//updates internal__list_size variable. reindexes all nodes in the chain.
 template <class Container>
 int MyList<Container>::size()
 {
@@ -145,6 +147,7 @@ int MyList<Container>::size()
         return (-1);
     while (cur)
     {
+        cur->idx = internal_list_sie;
         internal_list_size++;
         cur = cur->next;
     }
