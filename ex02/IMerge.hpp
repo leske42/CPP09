@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 16:38:11 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:08:57 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <iostream>
 #include <algorithm> 
 #include "MyList.hpp"
+
+#define DUMMY_VAL 2147483650
 
 template <class Container>
 class IMerge
@@ -42,12 +44,13 @@ class IMerge
         int             calculate_depth(int argc);
 
         int             my_pair(int my_num);
-        void            create_sequence();
-        void            mirror_sequence(int my_num);
+        void            create_sequence(Container& cont, Container& pair);
+        void            follow_sequence(Container& cont, Container& pair);
         void            merge_containers(Container& from, Container& to);
         void            reassess_size();
+        void            clear_dummy_vals(Container& cont);
 
-        void            print_content(int my_num);
+        void            print_content(Container& cont);
     
         int             depth;
         int             recursion_levels;
