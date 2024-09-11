@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 18:01:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 16:26:18 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:08:32 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,18 @@ long int	ft_atoi(const char *str)
 	sign = survey(str);
 	start = sign;
 	if (sign < 0)
-		return (-1);
+		start = start * -1;
 	while (str[start] > 47 && str[start] < 58)
 	{
 		nb = (nb * 10) + str[start] - '0';
-		if (nb > 2147483647)
+		if ((nb > 2147483647 && sign > -1) || (nb > 2147483648 && sign < 0))
 			throw OperationInterrupt(PRIMED);
 		start++;
 	}
 	if (str[start] && (str[start] <= '0' || str[start] >= '9'))
 		throw OperationInterrupt(PRIMED);
-	return (nb);
+	if (sign < 0)
+		return (nb * -1);
+	else
+		return (nb);
 }
