@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 19:08:57 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:15:46 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ class IMerge
         int             calculate_depth(int argc);
 
         int             my_pair(int my_num);
+        int             my_pair_up(int my_num, int diff);
         void            create_sequence(Container& cont, Container& pair);
         void            follow_sequence(Container& cont, Container& pair);
         void            merge_containers(Container& from, Container& to);

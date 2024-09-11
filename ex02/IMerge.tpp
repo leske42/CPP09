@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 23:00:56 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:23:27 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,22 @@ int IMerge<Container>::my_pair(int my_num)
     if (prev_containers + my_num >= cur_containers)
         return (-1);
     return (prev_containers + my_num);
+}
+
+template <class Container>
+int IMerge<Container>::my_pair_up(int my_num, int diff)
+{
+    if (diff == 0)
+    {
+        if (prev_containers + my_num >= cur_containers
+            || prev_containers + my_num == my_num)
+            return (-1);
+        return (prev_containers + my_num);
+    }
+    if ((prev_containers / 4) + my_num >= cur_containers
+        || (prev_containers / 4) + my_num == my_num)
+        return (-1);
+    return ((prev_containers / 4) + my_num);
 }
 
 template <class Container>
@@ -254,16 +270,24 @@ void IMerge<Container>::assemble()
     else if (depth <= breakpoint)
         take_apart();
 
+    // int pair;
+    // if (depth = breakpoint + 1)
+    //     pair = my_pair(my_num);
+    // else
+    //     pair = my_pair_up(my_num);
+    int diff = depth - breakpoint;
+    std::cout << "Diff is: " << diff << std::endl;
     std::cerr << "Depth " << depth << ". Assembling..." << std::endl;
     int my_num = 0;
-    while (my_pair(my_num) != -1)
+    // std::cout << "my num is " << my_num << ", my pair is " << my_pair_up(my_num, diff) << std::endl;
+    while (my_pair_up(my_num, diff) != -1)
     {
-        std::cout << "Merging " << my_pair(my_num) << " into " << my_num << std::endl;
+        std::cout << "Merging " << my_pair_up(my_num, diff) << " into " << my_num << std::endl;
         // std::cout << my_num << " content: ";
         // cont_chain.print_content(my_num);
         // std::cout << my_pair(my_num) << " content: ";
         // cont_chain.print_content(my_pair(my_num));
-        merge_containers(cont_chain[my_pair(my_num)], cont_chain[my_num]);
+        merge_containers(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
         my_num++;
     }
     depth++;

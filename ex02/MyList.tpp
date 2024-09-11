@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 23:06:35 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:28:02 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void MyList<Container>::eliminate_empty_nodes()
             empty = cur;
             before = cur->prev;
             cur = cur->next;
-            delete empty; //why is this invalid? - or is it?
+            delete empty;
             if (before)
                 before->next = cur;
             if (cur)
@@ -153,7 +153,16 @@ void MyList<Container>::display_list()
     {
         std::cout << "Index " << cur->idx << " holds a container of ";
         std::cout << cur->cont.size() << " capacity" << std::endl;
-        //std::cout << "The content is " << print_content(cur->idx);
+        std::cout << "The content is ";
+
+        typename Container::iterator iter = cur->cont.begin();
+        while (iter != cur->cont.end())
+        {
+            std::cout << *iter << " ";
+            iter++;
+        }
+        std::cout << std::endl;
+    
         cur = cur->next;
     }
 }
