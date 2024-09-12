@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/12 22:05:58 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:21:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,11 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
         std::cout << "moving " << cont[idx] << std::endl;
         sequence[ctr] = idx;
         cont[idx] = DUMMY_VAL;
+        ctr++;// pair.resize(idx);
     }
-    pair.resize(idx);
+    pair.resize(ctr);
     sequence.resize(ctr);
     seq_max = ctr;
-    std::cout << "Sequence size: " << sequence.size() << std::endl;
-    std::cout << "Sequence content after creation: ";
-    print_content(sequence);
     clear_dummy_vals(cont);
 }
 
@@ -143,28 +141,22 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
     int max_idx = cont.size() - 1;
     int ctr = 0;
 
-    pair.resize(max_idx + 1);
-    // print_content(sequence);
-    std::cout << "Max index is: " << max_idx << std::endl;
+    pair.resize(seq_max);
+    std::cout << "smax: " << seq_max << " size: " << pair.size() << std::endl;
     while (idx <= max_idx)
     {
-        // std::cout << "Following seq" << std::endl;
         if (ctr < seq_max && idx == sequence[ctr])
         {
-            std::cout << "Moving " << cont[idx] << std::endl;
+            std::cout << "Following sequence and moving " << cont[idx] << std::endl;
             pair[ctr] = cont[idx];
             cont[idx] = DUMMY_VAL;
             ctr++; //will this never get out of bounds?
         }
         idx++;
     }
-    pair.resize(ctr);
+    // pair.resize(ctr);
     clear_dummy_vals(cont);
-    // int tempsize = sequence.size();
     sequence.clear();
-    // std::cout << "Seq content after clear: ";
-    print_content(sequence);
-    // sequence.resize(tempsize);
 }
 
 template <class Container>
@@ -179,7 +171,6 @@ void IMerge<Container>::take_apart()
     reassess_size(); //needed for calc of my_pair
     create_sequence(cont_chain[0], cont_chain[my_pair(0)]);
     int my_num = 1;
-    std::cout << "Num: " << my_num << " pair: " << my_pair(my_num) << std::endl;
     while (my_pair(my_num) != -1)
     {
         follow_sequence(cont_chain[my_num], cont_chain[my_pair(my_num)]);
@@ -195,6 +186,7 @@ template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
 
+    std::cout << "from size: " << from.size() << std::endl;
     std::sort(from.begin(), from.end());
     std::sort(to.begin(), to.end());
 
