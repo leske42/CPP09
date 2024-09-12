@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/12 22:21:58 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:29:13 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,19 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     sequence.resize(max_idx + 1);
     while (idx < max_idx)
     {
-        std::cout << "comparing " << cont[idx] << " and " << cont[idx + 1] << ", ";
+        // std::cout << "comparing " << cont[idx] << " and " << cont[idx + 1] << ", ";
         if (cont[idx] < cont[idx + 1])
         {
             pair[ctr] = cont[idx];
             sequence[ctr] = idx;
-            std::cout << "moving " << cont[idx] << std::endl;
+            // std::cout << "moving " << cont[idx] << std::endl;
             cont[idx] = DUMMY_VAL;
         }
         else
         {
             pair[ctr] = cont[idx + 1];
             sequence[ctr] = idx + 1;
-            std::cout << "moving " << cont[idx + 1] << std::endl;
+            // std::cout << "moving " << cont[idx + 1] << std::endl;
             cont[idx + 1]  = DUMMY_VAL;
         }
         idx += 2;
@@ -110,10 +110,10 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     if (idx == max_idx) //we had uneven numbers
     {
         pair[ctr] = cont[idx];
-        std::cout << "moving " << cont[idx] << std::endl;
+        // std::cout << "moving " << cont[idx] << " as leftover" << std::endl;
         sequence[ctr] = idx;
         cont[idx] = DUMMY_VAL;
-        ctr++;// pair.resize(idx);
+        ctr++;
     }
     pair.resize(ctr);
     sequence.resize(ctr);
@@ -142,19 +142,17 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
     int ctr = 0;
 
     pair.resize(seq_max);
-    std::cout << "smax: " << seq_max << " size: " << pair.size() << std::endl;
     while (idx <= max_idx)
     {
         if (ctr < seq_max && idx == sequence[ctr])
         {
-            std::cout << "Following sequence and moving " << cont[idx] << std::endl;
+            // std::cout << "Following sequence and moving " << cont[idx] << std::endl;
             pair[ctr] = cont[idx];
             cont[idx] = DUMMY_VAL;
             ctr++; //will this never get out of bounds?
         }
         idx++;
     }
-    // pair.resize(ctr);
     clear_dummy_vals(cont);
     sequence.clear();
 }
@@ -185,8 +183,6 @@ void IMerge<Container>::take_apart()
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
-
-    std::cout << "from size: " << from.size() << std::endl;
     std::sort(from.begin(), from.end());
     std::sort(to.begin(), to.end());
 
@@ -194,14 +190,14 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 
     std::merge(from.begin(), from.end(), to.begin(), to.end(), temp.begin());
 
-    std::cout << "Displaying from content: ";
-    typename Container::iterator cur = from.begin();
-    while (cur != from.end())
-    {
-        std::cout << *cur << " ";
-        cur++;
-    }
-    std::cout << std::endl;
+    // std::cout << "Displaying from content: ";
+    // typename Container::iterator cur = from.begin();
+    // while (cur != from.end())
+    // {
+    //     std::cout << *cur << " ";
+    //     cur++;
+    // }
+    // std::cout << std::endl;
 
     to = temp;
     from.clear();
@@ -221,7 +217,7 @@ void IMerge<Container>::assemble()
     int my_num = 0;
     while (my_pair_up(my_num, diff) != -1)
     {
-        std::cout << "Merging " << my_pair_up(my_num, diff) << " into " << my_num << std::endl;
+        // std::cout << "Merging " << my_pair_up(my_num, diff) << " into " << my_num << std::endl;
         merge_containers(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
         my_num++;
     }

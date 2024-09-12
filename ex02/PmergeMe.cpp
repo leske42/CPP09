@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/12 21:40:21 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:29:46 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void PmergeMe::do_sort(int argc, char **argv)
     cont_chain.init_list_head(argc, argv);
     bottom = (recursion_levels * 2 * (-1)); //lets try +etc here
     breakpoint = recursion_levels * (-1);
-    std::cout << "Bottom: " << bottom << " Breakpoint: " << breakpoint << " Levels: " << recursion_levels << std::endl;
+    // std::cout << "Bottom: " << bottom << " Breakpoint: " << breakpoint << " Levels: " << recursion_levels << std::endl;
     assemble();
 }

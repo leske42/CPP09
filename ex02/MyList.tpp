@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/11 20:28:02 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:29:28 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void MyList<Container>::eliminate_empty_nodes()
     {
         if (cur->cont.empty())
         {
-            std::cout << "deleting a container (idx " << cur->idx << ")" << std::endl;
+            // std::cout << "deleting a container (idx " << cur->idx << ")" << std::endl;
             empty = cur;
             before = cur->prev;
             cur = cur->next;
