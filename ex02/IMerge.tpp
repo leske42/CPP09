@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/11 21:18:42 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:05:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ template <class Container>
 int IMerge<Container>::calculate_depth(int argc)
 {
     recursion_levels = 0;
+    argc--;
     while (argc > 1)
     {
         argc /= 2;
@@ -41,6 +42,7 @@ int IMerge<Container>::calculate_depth(int argc)
     cur_containers = 1;
     prev_containers = 0;
     depth = 0;
+    seq_max = -1;
     return (recursion_levels);
 }
 
@@ -83,6 +85,8 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     int max_idx = cont.size() - 1;
     int ctr = 0;
 
+    pair.resize(max_idx + 1);
+    sequence.resize(max_idx + 1);
     while (idx < max_idx)
     {
         std::cout << "comparing " << cont[idx] << " and " << cont[idx + 1] << ", ";
@@ -106,9 +110,16 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     if (idx == max_idx) //we had uneven numbers
     {
         pair[ctr] = cont[idx];
+        std::cout << "moving " << cont[idx] << std::endl;
         sequence[ctr] = idx;
         cont[idx] = DUMMY_VAL;
     }
+    pair.resize(idx);
+    sequence.resize(ctr);
+    seq_max = ctr;
+    std::cout << "Sequence size: " << sequence.size() << std::endl;
+    std::cout << "Sequence content after creation: ";
+    print_content(sequence);
     clear_dummy_vals(cont);
 }
 
@@ -132,18 +143,28 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
     int max_idx = cont.size() - 1;
     int ctr = 0;
 
+    pair.resize(max_idx + 1);
+    // print_content(sequence);
+    std::cout << "Max index is: " << max_idx << std::endl;
     while (idx <= max_idx)
     {
-        if (idx == sequence[ctr])
+        // std::cout << "Following seq" << std::endl;
+        if (ctr < seq_max && idx == sequence[ctr])
         {
+            std::cout << "Moving " << cont[idx] << std::endl;
             pair[ctr] = cont[idx];
             cont[idx] = DUMMY_VAL;
             ctr++; //will this never get out of bounds?
         }
         idx++;
     }
+    pair.resize(ctr);
     clear_dummy_vals(cont);
+    // int tempsize = sequence.size();
     sequence.clear();
+    // std::cout << "Seq content after clear: ";
+    print_content(sequence);
+    // sequence.resize(tempsize);
 }
 
 template <class Container>
@@ -158,11 +179,14 @@ void IMerge<Container>::take_apart()
     reassess_size(); //needed for calc of my_pair
     create_sequence(cont_chain[0], cont_chain[my_pair(0)]);
     int my_num = 1;
+    std::cout << "Num: " << my_num << " pair: " << my_pair(my_num) << std::endl;
     while (my_pair(my_num) != -1)
     {
         follow_sequence(cont_chain[my_num], cont_chain[my_pair(my_num)]);
         my_num++;
     }
+    if (my_num == 1) //no "follow" happened
+        sequence.clear();
     depth++;
     return ;
 }
@@ -178,13 +202,14 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 
     std::merge(from.begin(), from.end(), to.begin(), to.end(), temp.begin());
 
-    // std::cout << "Displaying temp content: ";
-    // typename Container::iterator cur = temp.begin();
-    // while (cur != temp.end())
-    // {
-    //     std::cout << *cur << " ";
-    //     cur++;
-    // }
+    std::cout << "Displaying from content: ";
+    typename Container::iterator cur = from.begin();
+    while (cur != from.end())
+    {
+        std::cout << *cur << " ";
+        cur++;
+    }
+    std::cout << std::endl;
 
     to = temp;
     from.clear();

@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/11 20:15:46 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 21:58:54 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ class IMerge
 
         int             prev_containers;
         int             cur_containers;
+        int             seq_max;
 
         MyList<Container>   cont_chain;
         Container           sequence;
