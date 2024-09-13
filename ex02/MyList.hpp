@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:28:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 16:41:29 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:50:01 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ class MyList
         void        display_list();
         void        print_content(int index);
 
-        int         old_size;
         
     private:
 
@@ -55,6 +54,7 @@ class MyList
         int     get_smallest_cont_size();
         void    delete_internal_list();
 
+        int             old_size;
         int             internal_list_size;
         Node<Container> *internal_list_head;
 };

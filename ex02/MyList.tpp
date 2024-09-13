@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/12 22:29:28 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/12 22:42:06 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void MyList<Container>::display_list()
 {
     std::cout << std::endl;
     std::cout << ">>>> DISPLAYING MyList CONTENT <<<<" << std::endl;
-    std::cout << "List size is currently " << size() << " nodes" << std::endl;
+    std::cout << "List size is currently " << size() << " node" << std::endl;
 
     Node<Container> *cur = internal_list_head;
     std::cout << std::endl;

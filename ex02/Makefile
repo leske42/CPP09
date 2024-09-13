@@ -55,4 +55,4 @@ strict:
 	@$(MAKE) clean
 	@echo "$(GREEN)Tested for both compilers.$(DEF_COLOR)"
 
-.PHONY: all clean fclean re asif
+.PHONY: all clean fclean re asif strict
