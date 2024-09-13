@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/12 22:29:13 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/13 17:39:36 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int IMerge<Container>::calculate_depth(int argc)
     prev_containers = 0;
     depth = 0;
     seq_max = -1;
+    comp = 0;
     return (recursion_levels);
 }
 
@@ -177,19 +178,62 @@ void IMerge<Container>::take_apart()
     if (my_num == 1) //no "follow" happened
         sequence.clear();
     depth++;
+    // cont_chain.display_list(); //to test if 7 -> 3-4 -> 1-2 1-3 gets correctly divided (rn its 1-2 2-2)
     return ;
 }
+
+// template <class Container>
+// void IMerge<Container>::merge_containers(Container& from, Container& to)
+// {
+//     std::sort(from.begin(), from.end());
+//     std::sort(to.begin(), to.end());
+
+//     Container temp(from.size() + to.size());
+
+//     std::merge(from.begin(), from.end(), to.begin(), to.end(), temp.begin());
+
+//     // std::cout << "Displaying from content: ";
+//     // typename Container::iterator cur = from.begin();
+//     // while (cur != from.end())
+//     // {
+//     //     std::cout << *cur << " ";
+//     //     cur++;
+//     // }
+//     // std::cout << std::endl;
+
+//     to = temp;
+//     from.clear();
+// }
 
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
-    std::sort(from.begin(), from.end());
-    std::sort(to.begin(), to.end());
+    typename Container::iterator target = from.begin();
+    typename Container::iterator first = to.begin();
+    typename Container::iterator last = to.end();
+    typename Container::iterator mid;
 
-    Container temp(from.size() + to.size());
+    merge_next:
 
-    std::merge(from.begin(), from.end(), to.begin(), to.end(), temp.begin());
-
+    while (first < last)
+    {
+        mid = first + ((last - first) / 2);
+        comp++;
+        if (*mid == *target)
+            to.insert(mid, *target);
+        else if (*mid > *target)
+            last = mid - 1;
+        else
+            first = mid + 1;
+    }
+    to.insert(first, *target); //why only first seem to work here?
+    if (++target != from.end())
+    {
+        first = to.begin();
+        last = to.end();
+        goto merge_next;
+    }
+    from.clear();
     // std::cout << "Displaying from content: ";
     // typename Container::iterator cur = from.begin();
     // while (cur != from.end())
@@ -198,9 +242,6 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     //     cur++;
     // }
     // std::cout << std::endl;
-
-    to = temp;
-    from.clear();
 }
 
 template <class Container>
@@ -218,6 +259,10 @@ void IMerge<Container>::assemble()
     while (my_pair_up(my_num, diff) != -1)
     {
         // std::cout << "Merging " << my_pair_up(my_num, diff) << " into " << my_num << std::endl;
+        // std::cout << my_pair_up(my_num, diff) << " content: ";
+        // print_content(cont_chain[my_pair_up(my_num, diff)]);
+        // std::cout << my_num << " content: ";
+        // print_content(cont_chain[my_num]);
         merge_containers(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
         my_num++;
     }

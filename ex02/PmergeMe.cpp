@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/12 22:29:46 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/13 17:40:40 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ PmergeMe::PmergeMe(int argc, char **argv)
     do_sort(argc, argv);
 
     cont_chain.display_list();
+    std::cout << "COMP NUM: " << comp << std::endl;
 }
 
 PmergeMe::~PmergeMe(void)
