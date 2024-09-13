@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/13 22:46:40 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:52:51 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,26 +207,44 @@ void IMerge<Container>::take_apart()
 //     from.clear();
 // }
 
+#include <cmath>
+
+template <class Container>
+typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, int jacob_index)
+{
+    typename Container::iterator target;
+    
+    last_bound += (pow(2, (jacob_index - 1) + 1) + pow(-1, (jacob_index - 1))) / 3;
+    if (last_bound > from.end() - 1)
+        throw OperationInterrupt(UNPRIMED);
+    target = last_bound; //do we count from here or the beginning?
+    target += (pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3;
+    if (target > from.end() - 1)
+        target = from.end() - 1;
+    return (target);
+}
+
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
-    std::cout << "From content: ";
-    print_content(from);
-    std::cout << "To content: ";
-    print_content(to);
+    // std::cout << "From content: ";
+    // print_content(from);
+    // std::cout << "To content: ";
+    // print_content(to);
     
+    last_bound = from.begin();
     typename Container::iterator target = from.begin();
     typename Container::iterator first = to.begin();
     typename Container::iterator last = to.end() - 1;
     typename Container::iterator mid;
-
+    int jacob_index = 1;
+    
     merge_next:
-
+    // std::cout << "Inserting " << *target << std::endl;
     while (first <= last)
     {
         mid = first + ((last - first) / 2);
         comp++;
-        std::cout << "mid is: " << *mid << std::endl;
         if (*mid == *target) //the issue is mid not the target
         {
             to.insert(mid, *target);
@@ -241,21 +259,27 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     
     insertion_done:
 
-    if (++target != from.end())
+    if (--target >= last_bound)
     {
         first = to.begin();
         last = to.end() - 1;
-        goto merge_next;
     }
-    from.clear();
-    // std::cout << "Displaying from content: ";
-    // typename Container::iterator cur = from.begin();
-    // while (cur != from.end())
-    // {
-    //     std::cout << *cur << " ";
-    //     cur++;
-    // }
-    // std::cout << std::endl;
+    else
+    {
+        try
+        {
+            jacob_index++;
+            target = recalc_bounds(from, jacob_index);
+            std::cout << "Diff is: " << target - last_bound << std::endl;
+        }
+        catch (OperationInterrupt& e)
+        {
+            from.clear();
+            std::cout << "DONE" << std::endl;
+            return ;
+        }
+    }
+    goto merge_next;
 }
 
 template <class Container>

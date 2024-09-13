@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/13 16:17:56 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:42:23 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ class IMerge
         void            merge_containers(Container& from, Container& to);
         void            reassess_size();
         void            clear_dummy_vals(Container& cont);
+        typename Container::iterator recalc_bounds(Container& from, int jacob_index);
 
         void            print_content(Container& cont);
     
@@ -63,6 +64,7 @@ class IMerge
         int             seq_max;
         int             comp;
 
+        typename Container::iterator last_bound;
         MyList<Container>   cont_chain;
         Container           sequence;
 };
