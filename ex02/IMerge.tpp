@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/13 17:39:36 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/13 22:46:40 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     sequence.resize(ctr);
     seq_max = ctr;
     clear_dummy_vals(cont);
+    // print_content(cont);
 }
 
 template <class Container>
@@ -155,6 +156,7 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
         idx++;
     }
     clear_dummy_vals(cont);
+    // print_content(cont);
     sequence.clear();
 }
 
@@ -208,29 +210,41 @@ void IMerge<Container>::take_apart()
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
+    std::cout << "From content: ";
+    print_content(from);
+    std::cout << "To content: ";
+    print_content(to);
+    
     typename Container::iterator target = from.begin();
     typename Container::iterator first = to.begin();
-    typename Container::iterator last = to.end();
+    typename Container::iterator last = to.end() - 1;
     typename Container::iterator mid;
 
     merge_next:
 
-    while (first < last)
+    while (first <= last)
     {
         mid = first + ((last - first) / 2);
         comp++;
-        if (*mid == *target)
+        std::cout << "mid is: " << *mid << std::endl;
+        if (*mid == *target) //the issue is mid not the target
+        {
             to.insert(mid, *target);
+            goto insertion_done;
+        }
         else if (*mid > *target)
             last = mid - 1;
         else
             first = mid + 1;
     }
     to.insert(first, *target); //why only first seem to work here?
+    
+    insertion_done:
+
     if (++target != from.end())
     {
         first = to.begin();
-        last = to.end();
+        last = to.end() - 1;
         goto merge_next;
     }
     from.clear();
