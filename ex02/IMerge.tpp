@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/14 00:52:51 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:06:33 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,10 +227,10 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
-    // std::cout << "From content: ";
-    // print_content(from);
-    // std::cout << "To content: ";
-    // print_content(to);
+    std::cout << "From content: ";
+    print_content(from);
+    std::cout << "To content: ";
+    print_content(to);
     
     last_bound = from.begin();
     typename Container::iterator target = from.begin();
@@ -240,14 +240,15 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     int jacob_index = 1;
     
     merge_next:
-    // std::cout << "Inserting " << *target << std::endl;
+    // std::cout << "Inserting " << *target;// << std::endl;
     while (first <= last)
     {
         mid = first + ((last - first) / 2);
         comp++;
-        if (*mid == *target) //the issue is mid not the target
+        if (*mid == *target)
         {
             to.insert(mid, *target);
+            // std::cout << " before [mid] " << *mid << std::endl;
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -255,7 +256,8 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         else
             first = mid + 1;
     }
-    to.insert(first, *target); //why only first seem to work here?
+    to.insert(first, *target);
+    // std::cout << " before [first] " << *first << std::endl; //why only first seem to work here?
     
     insertion_done:
 
@@ -270,7 +272,9 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         {
             jacob_index++;
             target = recalc_bounds(from, jacob_index);
-            std::cout << "Diff is: " << target - last_bound << std::endl;
+            // std::cout << "Diff is: " << target - last_bound << std::endl;
+            target++; // fix 2
+            goto insertion_done; //fix 1
         }
         catch (OperationInterrupt& e)
         {
