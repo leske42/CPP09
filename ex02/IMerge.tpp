@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/15 21:06:33 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:10:01 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
     last_bound += (pow(2, (jacob_index - 1) + 1) + pow(-1, (jacob_index - 1))) / 3;
     if (last_bound > from.end() - 1)
         throw OperationInterrupt(UNPRIMED);
-    target = last_bound; //do we count from here or the beginning?
+    target = last_bound - 1; //idk why but this -1 solved it???
     target += (pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3;
     if (target > from.end() - 1)
         target = from.end() - 1;
@@ -248,7 +248,6 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         if (*mid == *target)
         {
             to.insert(mid, *target);
-            // std::cout << " before [mid] " << *mid << std::endl;
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -257,7 +256,6 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     to.insert(first, *target);
-    // std::cout << " before [first] " << *first << std::endl; //why only first seem to work here?
     
     insertion_done:
 
@@ -272,9 +270,8 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         {
             jacob_index++;
             target = recalc_bounds(from, jacob_index);
-            // std::cout << "Diff is: " << target - last_bound << std::endl;
-            target++; // fix 2
-            goto insertion_done; //fix 1
+            target++;
+            goto insertion_done;
         }
         catch (OperationInterrupt& e)
         {
