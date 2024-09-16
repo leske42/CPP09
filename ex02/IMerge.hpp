@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 15:24:07 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 22:12:08 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #define DUMMY_VAL 2147483650
 
 #ifndef DEBUG_MODE
-#define DEBUG_MODE 0
+# define DEBUG_MODE 0
 #endif
 
 template <class Container>
@@ -72,6 +72,7 @@ class IMerge
         int             cur_containers;
         int             seq_max;
         int             comp;
+        int             og_size;
 
         typename Container::iterator        last_bound;
         Container                           sequence;

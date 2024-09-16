@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 15:23:08 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 22:14:33 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     int idx = 0;
     int max_idx = cont.size() - 1;
     int ctr = 0;
+    og_size = max_idx;
 
     pair.resize(max_idx + 1);
     sequence.resize(max_idx + 1);
@@ -119,6 +120,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     pair.resize(ctr);
     sequence.resize(ctr);
     seq_max = ctr;
+    std::cout << "SEQMAX: " << sequence[seq_max] << std::endl;
     clear_dummy_vals(cont);
     // print_content(cont);
 }
@@ -143,18 +145,41 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
     int max_idx = cont.size() - 1;
     int ctr = 0;
 
-    pair.resize(seq_max);
+    pair.resize(seq_max); //can this be an issue?
     while (idx <= max_idx)
     {
-        if (ctr < seq_max && idx == sequence[ctr])
+        if (ctr < seq_max && idx == sequence[ctr]) //why do we need the = here - [otherwise segfault with 1 3 5 7 9 2 4 6 8 10]
         {
             // std::cout << "Following sequence and moving " << cont[idx] << std::endl;
             pair[ctr] = cont[idx];
             cont[idx] = DUMMY_VAL;
             ctr++; //will this never get out of bounds?
+            // std::cout << "Moved " << ctr << std::endl;
         }
+        else if (idx > og_size)
+        {
+            // std::cout << "Contsize: " << cont.size() << std::endl;
+            // std::cout << "PUSBACK" << std::endl;
+            // ctr++;
+            // pair.resize(ctr);
+            // std::cout << "counter is: " << ctr << " seq_max is: " << seq_max << " seq[ctr] is: " << sequence[ctr] << " container has: " << cont[idx] << std::endl;
+            pair.push_back(cont[idx]); //Should i increment size??
+            // std::cout << "Contsize: " << cont.size() << std::endl;
+            cont[idx] = DUMMY_VAL;
+        }
+        // else
+        // {
+        //     if (depth == -6)
+        //         std::cout << "idx is: " << idx << " seq_max is: " << seq_max << " seq[ctr] is: " << sequence[ctr] << " container has: " << cont[idx] << std::endl;
+        // }
         idx++;
     }
+
+    // std::cout << "Cont content:   ";
+    // print_content(cont);
+    // std::cout << "Pair content: ";
+    // print_content(pair);
+    
     clear_dummy_vals(cont);
     // print_content(cont);
     sequence.clear();
@@ -339,8 +364,15 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
     {
         // std::cout << "Inserting " << *target;// << std::endl;
         to.insert(pos + *idx, *target);
+        // std::cout << "Insert " << *target << " before idx " << *idx << std::endl; 
         target++;
         idx++;
+    }
+    while (target < from.end())
+    {
+        // std::cout << "Inserting " << *target;// << std::endl;
+        to.push_back(*target);
+        target++;
     }
     from.clear();
 }
