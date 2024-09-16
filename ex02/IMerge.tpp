@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 10:10:32 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:05:01 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         if (*mid == *target)
         {
             to.insert(mid, *target);
-            insert_dummy_val(from, mid - to.begin());
+            // insert_dummy_val(from, mid - to.begin());
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -272,11 +272,12 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     to.insert(first, *target);
-    insert_dummy_val(from, first - to.begin());
+    // insert_dummy_val(from, first - to.begin());
     
     insertion_done:
 
-    if (next_target(from, target) >= last_bound)
+    // if (next_target(from, target) >= last_bound)
+    if (--target >= last_bound)
     {
         first = to.begin();
         last = to.end() - 1;
