@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 22:14:33 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 00:51:23 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     pair.resize(ctr);
     sequence.resize(ctr);
     seq_max = ctr;
-    std::cout << "SEQMAX: " << sequence[seq_max] << std::endl;
     clear_dummy_vals(cont);
     // print_content(cont);
 }
@@ -163,6 +162,7 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
             // ctr++;
             // pair.resize(ctr);
             // std::cout << "counter is: " << ctr << " seq_max is: " << seq_max << " seq[ctr] is: " << sequence[ctr] << " container has: " << cont[idx] << std::endl;
+            // pair.push_front(cont[idx]);
             pair.push_back(cont[idx]); //Should i increment size??
             // std::cout << "Contsize: " << cont.size() << std::endl;
             cont[idx] = DUMMY_VAL;
@@ -297,16 +297,19 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     int jacob_index = 1;
     
     merge_next:
-    // std::cout << "Inserting " << *target;// << std::endl;
+    std::cout << *target << " pair is: " << *last << std::endl;
+    std::cout << "Inserting " << *target;// << std::endl;
     while (first <= last)
     {
         mid = first + ((last - first) / 2);
+        // std::cout << "CALC RES: " << (last - first) / 2 << std::endl;
         comp++;
         if (*mid == *target)
         {
             to.insert(mid, *target);
             lookup.adjustPositions(mid - to.begin());
-            sequence[target - from.begin()] = mid - to.begin();
+            if (depth != -1)
+                sequence[target - from.begin()] = mid - to.begin();
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -314,16 +317,17 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         else
             first = mid + 1;
     }
+    std::cout << " before " << *first << std::endl;
     to.insert(first, *target);
     lookup.adjustPositions(first - to.begin());
-    sequence[target - from.begin()] = first - to.begin();
+    sequence[target - from.begin()] = first - to.begin(); //i HAVE TO deduct one here idk what to do
     
     insertion_done:
 
     if (--target >= last_bound)
     {
         first = to.begin();
-        last = last = calc_last(to, target - from.begin());//to.end() - 1;
+        last = calc_last(to, target - from.begin());//to.end() - 1;
     }
     else
     {
@@ -341,6 +345,8 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             // std::cout << "To content: ";
             // print_content(to);
             from.clear();
+            std::cout << "Sequence content: ";
+            print_content(sequence);
             // std::cout << "DONE" << std::endl;
             return ;
         }
@@ -363,7 +369,7 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
     while (target < from.end() && idx < sequence.end())
     {
         // std::cout << "Inserting " << *target;// << std::endl;
-        to.insert(pos + *idx, *target);
+        to.insert((pos + *idx) - 1, *target);
         // std::cout << "Insert " << *target << " before idx " << *idx << std::endl; 
         target++;
         idx++;
@@ -371,6 +377,7 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
     while (target < from.end())
     {
         // std::cout << "Inserting " << *target;// << std::endl;
+        // to.push_front(*target);
         to.push_back(*target);
         target++;
     }
