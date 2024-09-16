@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/14 00:42:23 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:14:53 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define IMERGE_HPP
 
 #include <iostream>
-#include <algorithm> 
+#include <algorithm>
+#include <cmath>
 #include "MyList.hpp"
 
 #define DUMMY_VAL 2147483650

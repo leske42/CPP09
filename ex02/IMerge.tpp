@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/15 21:10:01 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:14:48 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,6 @@ void IMerge<Container>::take_apart()
 //     to = temp;
 //     from.clear();
 // }
-
-#include <cmath>
 
 template <class Container>
 typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, int jacob_index)
