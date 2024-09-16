@@ -33,6 +33,9 @@ $(NAME): $(OBJ) $(HEADER)
 
 bonus: all
 
+debug: fclean
+	@$(MAKE) all CXXFLAGS="$(CXXFLAGS) -DDEBUG_MODE=1"
+
 clean:
 	rm -f $(OBJ)
 
@@ -55,4 +58,4 @@ strict:
 	@$(MAKE) clean
 	@echo "$(GREEN)Tested for both compilers.$(DEF_COLOR)"
 
-.PHONY: all clean fclean re asif strict
+.PHONY: all clean fclean re asif strict debug

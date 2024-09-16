@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 14:12:57 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:24:07 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 #include "PairKeeper.hpp"
 
 #define DUMMY_VAL 2147483650
+
+#ifndef DEBUG_MODE
+#define DEBUG_MODE 0
+#endif
 
 template <class Container>
 class IMerge

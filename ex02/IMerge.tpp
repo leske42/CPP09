@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 14:57:39 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:23:08 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,8 @@ void IMerge<Container>::take_apart()
     if (depth > bottom)
         take_apart();
 
-    std::cout << "Depth " << depth << ". Taking apart..." << std::endl;
+    if (DEBUG_MODE)
+        std::cout << "\033[31mDepth " << depth << ". Taking apart...\033[0m" << std::endl;
     cont_chain.setup_next_depth();
     reassess_size(); //needed for calc of my_pair
     create_sequence(cont_chain[0], cont_chain[my_pair(0)]);
@@ -180,7 +181,12 @@ void IMerge<Container>::take_apart()
     if (my_num == 1) //no "follow" happened
         sequence.clear();
     depth++;
-    // cont_chain.display_list(); //to test if 7 -> 3-4 -> 1-2 1-3 gets correctly divided (rn its 1-2 2-2)
+    //cont_chain.display_list(); //to test if 7 -> 3-4 -> 1-2 1-3 gets correctly divided (rn its 1-2 2-2)
+    if(DEBUG_MODE)
+    {
+        cont_chain.display_list();
+        std::cout << std::endl;
+    }
     return ;
 }
 
@@ -349,7 +355,8 @@ void IMerge<Container>::assemble()
         take_apart();
 
     int diff = depth - breakpoint;
-    std::cerr << "Depth " << depth << ". Assembling..." << std::endl;
+    if (DEBUG_MODE)
+        std::cerr << "\033[31mDepth " << depth << ". Assembling...\033[0m" << std::endl;
     merge_containers(cont_chain[my_pair_up(0, diff)], cont_chain[0]);
     int my_num = 1;
     while (my_pair_up(my_num, diff) != -1)
@@ -366,6 +373,12 @@ void IMerge<Container>::assemble()
     depth++;
     cont_chain.eliminate_empty_nodes();
     reassess_size();
+    
+    if(DEBUG_MODE)
+    {
+        cont_chain.display_list();
+        std::cout << std::endl;
+    }
     return ;
 }
 
