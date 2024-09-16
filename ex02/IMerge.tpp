@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/15 21:14:48 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 10:10:32 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,23 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
 }
 
 template <class Container>
+void IMerge<Container>::insert_dummy_val(Container& into, int idx)
+{
+    typename Container::iterator position = into.begin() + idx;
+    
+    into.insert(position, DUMMY_VAL);
+}
+
+template <class Container>
+typename Container::iterator& IMerge<Container>::next_target(Container& cont, typename Container::iterator& target)
+{
+    target--;
+    while (target >= cont.begin() && *target == DUMMY_VAL)
+        target--;
+    return (target);
+}
+
+template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
     std::cout << "From content: ";
@@ -246,6 +263,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         if (*mid == *target)
         {
             to.insert(mid, *target);
+            insert_dummy_val(from, mid - to.begin());
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -254,10 +272,11 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     to.insert(first, *target);
+    insert_dummy_val(from, first - to.begin());
     
     insertion_done:
 
-    if (--target >= last_bound)
+    if (next_target(from, target) >= last_bound)
     {
         first = to.begin();
         last = to.end() - 1;
@@ -273,6 +292,10 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         }
         catch (OperationInterrupt& e)
         {
+            // std::cout << "From content: ";
+            // print_content(from);
+            // std::cout << "To content: ";
+            // print_content(to);
             from.clear();
             std::cout << "DONE" << std::endl;
             return ;
