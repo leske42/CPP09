@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 14:20:54 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:57:39 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,10 +250,10 @@ typename Container::iterator IMerge<Container>::calc_last(Container& cont, int i
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
+    // std::cout << "To content:   ";
+    // print_content(to);
     // std::cout << "From content: ";
     // print_content(from);
-    // std::cout << "To content: ";
-    // print_content(to);
     
     sequence.clear();
     sequence.resize(from.size());
@@ -310,7 +310,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             // std::cout << "To content: ";
             // print_content(to);
             from.clear();
-            std::cout << "DONE" << std::endl;
+            // std::cout << "DONE" << std::endl;
             return ;
         }
     }
@@ -376,6 +376,8 @@ void IMerge<Container>::print_content(Container& cont)
     while (cur != cont.end())
     {
         std::cout << *cur << " ";
+        if (*cur < 10)
+            std::cout << " ";
         cur++;
     }
     std::cout << std::endl;
