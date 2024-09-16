@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 13:05:01 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:47:29 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,17 +240,26 @@ typename Container::iterator& IMerge<Container>::next_target(Container& cont, ty
 }
 
 template <class Container>
+typename Container::iterator IMerge<Container>::calc_last(Container& cont, int idx)
+{
+    typename Container::iterator res = cont.begin();
+    res += lookup.pairIndex(idx);
+    return (res);
+}
+
+template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
-    std::cout << "From content: ";
-    print_content(from);
-    std::cout << "To content: ";
-    print_content(to);
+    // std::cout << "From content: ";
+    // print_content(from);
+    // std::cout << "To content: ";
+    // print_content(to);
     
+    lookup.initialize(from.size());
     last_bound = from.begin();
     typename Container::iterator target = from.begin();
     typename Container::iterator first = to.begin();
-    typename Container::iterator last = to.end() - 1;
+    typename Container::iterator last = to.end() - 1;//calc_last(to, target - from.begin());
     typename Container::iterator mid;
     int jacob_index = 1;
     
@@ -263,7 +272,6 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         if (*mid == *target)
         {
             to.insert(mid, *target);
-            // insert_dummy_val(from, mid - to.begin());
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -272,15 +280,13 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     to.insert(first, *target);
-    // insert_dummy_val(from, first - to.begin());
     
     insertion_done:
 
-    // if (next_target(from, target) >= last_bound)
     if (--target >= last_bound)
     {
         first = to.begin();
-        last = to.end() - 1;
+        last = last = to.end() - 1;//calc_last(to, target - from.begin());
     }
     else
     {

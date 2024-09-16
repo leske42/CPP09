@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 11:37:54 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:15:19 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cmath>
 #include "MyList.hpp"
+#include "PairKeeper.hpp"
 
 #define DUMMY_VAL 2147483650
 
@@ -54,6 +55,7 @@ class IMerge
         typename Container::iterator recalc_bounds(Container& from, int jacob_index);
         typename Container::iterator& next_target(Container& cont, typename Container::iterator& target);
         void insert_dummy_val(Container& into, int idx);
+        typename Container::iterator calc_last(Container& cont, int idx);
         
 
         void            print_content(Container& cont);
@@ -71,6 +73,7 @@ class IMerge
         typename Container::iterator        last_bound;
         Container                           sequence;
         MyList<Container>                   cont_chain;
+        PairKeeper                          lookup;
         // std::deque< std::pair<int, int> >   indexes;
 };
 
