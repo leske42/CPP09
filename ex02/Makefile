@@ -16,7 +16,7 @@ MAGENTA = \033[0;95m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-SRC_FILES = main PmergeMe ft_atoi OperationInterrupt
+SRC_FILES = main PmergeMe ft_atoi OperationInterrupt PairKeeper
 
 SRC = $(addsuffix .cpp, $(SRC_FILES))
 

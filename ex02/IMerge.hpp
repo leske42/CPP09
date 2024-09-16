@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 10:11:48 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:37:54 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ class IMerge
         int             seq_max;
         int             comp;
 
-        typename Container::iterator last_bound;
-        typename Container::iterator cur_bound;
-        MyList<Container>   cont_chain;
-        Container           sequence;
+        typename Container::iterator        last_bound;
+        Container                           sequence;
+        MyList<Container>                   cont_chain;
+        // std::deque< std::pair<int, int> >   indexes;
 };
 
 long int        ft_atoi(const char *str);
