@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 14:12:28 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:20:54 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     last_bound = from.begin();
     typename Container::iterator target = from.begin();
     typename Container::iterator first = to.begin();
-    typename Container::iterator last = to.end() - 1;//calc_last(to, target - from.begin());
+    typename Container::iterator last = calc_last(to, target - from.begin());//to.end() - 1;
     typename Container::iterator mid;
     int jacob_index = 1;
     
@@ -274,6 +274,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         if (*mid == *target)
         {
             to.insert(mid, *target);
+            lookup.adjustPositions(mid - to.begin());
             sequence[target - from.begin()] = mid - to.begin();
             goto insertion_done;
         }
@@ -283,6 +284,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     to.insert(first, *target);
+    lookup.adjustPositions(first - to.begin());
     sequence[target - from.begin()] = first - to.begin();
     
     insertion_done:
@@ -290,7 +292,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     if (--target >= last_bound)
     {
         first = to.begin();
-        last = last = to.end() - 1;//calc_last(to, target - from.begin());
+        last = last = calc_last(to, target - from.begin());//to.end() - 1;
     }
     else
     {

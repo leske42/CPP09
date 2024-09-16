@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:35:36 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 12:30:12 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:28 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int     PairKeeper::pairIndex(int idx)
 void    PairKeeper::adjustPositions(int inserted_at)
 {
     if (inserted_at > max)
-        throw OperationInterrupt(PRIMED);
+        return ;
+    //throw OperationInterrupt(PRIMED);
     while (inserted_at <= max)
     {
         indexes[inserted_at]++;
