@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 13:15:19 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:12:57 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,8 @@ class IMerge
         void            reassess_size();
         void            clear_dummy_vals(Container& cont);
         typename Container::iterator recalc_bounds(Container& from, int jacob_index);
-        typename Container::iterator& next_target(Container& cont, typename Container::iterator& target);
-        void insert_dummy_val(Container& into, int idx);
         typename Container::iterator calc_last(Container& cont, int idx);
+        void copy_merge(Container& from, Container& to);
         
 
         void            print_content(Container& cont);

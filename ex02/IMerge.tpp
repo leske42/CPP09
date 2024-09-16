@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 13:47:29 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:12:28 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,22 +222,22 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
     return (target);
 }
 
-template <class Container>
-void IMerge<Container>::insert_dummy_val(Container& into, int idx)
-{
-    typename Container::iterator position = into.begin() + idx;
+// template <class Container>
+// void IMerge<Container>::insert_dummy_val(Container& into, int idx)
+// {
+//     typename Container::iterator position = into.begin() + idx;
     
-    into.insert(position, DUMMY_VAL);
-}
+//     into.insert(position, DUMMY_VAL);
+// }
 
-template <class Container>
-typename Container::iterator& IMerge<Container>::next_target(Container& cont, typename Container::iterator& target)
-{
-    target--;
-    while (target >= cont.begin() && *target == DUMMY_VAL)
-        target--;
-    return (target);
-}
+// template <class Container>
+// typename Container::iterator& IMerge<Container>::next_target(Container& cont, typename Container::iterator& target)
+// {
+//     target--;
+//     while (target >= cont.begin() && *target == DUMMY_VAL)
+//         target--;
+//     return (target);
+// }
 
 template <class Container>
 typename Container::iterator IMerge<Container>::calc_last(Container& cont, int idx)
@@ -255,6 +255,8 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     // std::cout << "To content: ";
     // print_content(to);
     
+    sequence.clear();
+    sequence.resize(from.size());
     lookup.initialize(from.size());
     last_bound = from.begin();
     typename Container::iterator target = from.begin();
@@ -272,6 +274,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         if (*mid == *target)
         {
             to.insert(mid, *target);
+            sequence[target - from.begin()] = mid - to.begin();
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -280,6 +283,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     to.insert(first, *target);
+    sequence[target - from.begin()] = first - to.begin();
     
     insertion_done:
 
@@ -312,6 +316,28 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 }
 
 template <class Container>
+void IMerge<Container>::copy_merge(Container& from, Container& to)
+{
+    // std::cout << "From content: ";
+    // print_content(from);
+    // std::cout << "To content: ";
+    // print_content(to);
+
+    typename Container::iterator target = from.begin();
+    typename Container::iterator pos = to.begin();
+    typename Container::iterator idx = sequence.begin();
+
+    while (target < from.end() && idx < sequence.end())
+    {
+        // std::cout << "Inserting " << *target;// << std::endl;
+        to.insert(pos + *idx, *target);
+        target++;
+        idx++;
+    }
+    from.clear();
+}
+
+template <class Container>
 void IMerge<Container>::assemble()
 {
     depth--;
@@ -322,7 +348,8 @@ void IMerge<Container>::assemble()
 
     int diff = depth - breakpoint;
     std::cerr << "Depth " << depth << ". Assembling..." << std::endl;
-    int my_num = 0;
+    merge_containers(cont_chain[my_pair_up(0, diff)], cont_chain[0]);
+    int my_num = 1;
     while (my_pair_up(my_num, diff) != -1)
     {
         // std::cout << "Merging " << my_pair_up(my_num, diff) << " into " << my_num << std::endl;
@@ -330,7 +357,8 @@ void IMerge<Container>::assemble()
         // print_content(cont_chain[my_pair_up(my_num, diff)]);
         // std::cout << my_num << " content: ";
         // print_content(cont_chain[my_num]);
-        merge_containers(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
+        // merge_containers(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
+        copy_merge(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
         my_num++;
     }
     depth++;
