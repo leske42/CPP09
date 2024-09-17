@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 22:12:08 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:51:46 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ class IMerge
         typename Container::iterator recalc_bounds(Container& from, int jacob_index);
         typename Container::iterator calc_last(Container& cont, int idx);
         void copy_merge(Container& from, Container& to);
+        void fill_Jakob(void);
         
 
         void            print_content(Container& cont);
@@ -76,8 +77,10 @@ class IMerge
 
         typename Container::iterator        last_bound;
         Container                           sequence;
+        Container                           infiniteJakob;
         MyList<Container>                   cont_chain;
         PairKeeper                          lookup;
+        std::deque < std::pair < int, int > > inserted;
         // std::deque< std::pair<int, int> >   indexes;
 };
 

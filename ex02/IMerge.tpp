@@ -6,14 +6,14 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 00:51:23 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:53:11 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 template <class Container>
 IMerge<Container>::IMerge(void)
 {
-
+    fill_Jakob();
 }
 
 template <class Container>
@@ -53,6 +53,27 @@ int IMerge<Container>::my_pair(int my_num)
     if (prev_containers + my_num >= cur_containers)
         return (-1);
     return (prev_containers + my_num);
+}
+
+//TODO: argc protection for this limit
+template <class Container>
+void IMerge<Container>::fill_Jakob()
+{
+    int idx = 0;
+    int nextJakob = 0;
+    int elem = 0; //TODO: is first elem 0 or 1?
+    infiniteJakob.resize(10000);
+    while (idx < 10000)
+    {
+        if (nextJakob == 0)
+        {
+            nextJakob = (pow(2, elem + 1) + pow(-1, elem)) / 3;
+            elem++;
+        }
+        infiniteJakob[idx] = nextJakob;
+        nextJakob--;
+        idx++;
+    }
 }
 
 template <class Container>
@@ -244,7 +265,7 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
     typename Container::iterator target;
     
     last_bound += (pow(2, (jacob_index - 1) + 1) + pow(-1, (jacob_index - 1))) / 3;
-    if (last_bound > from.end() - 1)
+    if (last_bound >= from.end())
         throw OperationInterrupt(UNPRIMED);
     target = last_bound - 1; //idk why but this -1 solved it???
     target += (pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3;
@@ -278,6 +299,82 @@ typename Container::iterator IMerge<Container>::calc_last(Container& cont, int i
     return (res);
 }
 
+// template <class Container>
+// void IMerge<Container>::merge_containers(Container& from, Container& to)
+// {
+//     // std::cout << "To content:   ";
+//     // print_content(to);
+//     // std::cout << "From content: ";
+//     // print_content(from);
+    
+//     sequence.clear();
+//     sequence.resize(from.size());
+//     lookup.initialize(from.size());
+//     last_bound = from.begin();
+//     typename Container::iterator target = from.begin();
+//     typename Container::iterator first = to.begin();
+//     typename Container::iterator last = calc_last(to, target - from.begin());//to.end() - 1;
+//     typename Container::iterator mid;
+//     int jacob_index = 1;
+    
+//     merge_next:
+//     // std::cout << *target << " pair is: " << *last << std::endl;
+//     // std::cout << "Inserting " << *target;// << std::endl;
+//     while (first <= last)
+//     {
+//         mid = first + ((last - first) / 2);
+//         // std::cout << "CALC RES: " << (last - first) / 2 << std::endl;
+//         comp++;
+//         if (*mid == *target)
+//         {
+//             to.insert(mid, *target);
+//             lookup.adjustPositions(mid - to.begin());
+//             if (depth != -1)
+//                 sequence[target - from.begin()] = mid - to.begin();
+//             goto insertion_done;
+//         }
+//         else if (*mid > *target)
+//             last = mid - 1;
+//         else
+//             first = mid + 1;
+//     }
+//     // std::cout << " before " << *first << std::endl;
+//     to.insert(first, *target);
+//     lookup.adjustPositions(first - to.begin());
+//     sequence[target - from.begin()] = first - to.begin(); //i HAVE TO deduct one here idk what to do
+    
+//     insertion_done:
+
+//     if (--target >= last_bound)
+//     {
+//         first = to.begin();
+//         last = calc_last(to, target - from.begin());//to.end() - 1;
+//     }
+//     else
+//     {
+//         try
+//         {
+//             jacob_index++;
+//             target = recalc_bounds(from, jacob_index);
+//             target++;
+//             goto insertion_done;
+//         }
+//         catch (OperationInterrupt& e)
+//         {
+//             // std::cout << "From content: ";
+//             // print_content(from);
+//             // std::cout << "To content: ";
+//             // print_content(to);
+//             from.clear();
+//             std::cout << "Sequence content: ";
+//             print_content(sequence);
+//             // std::cout << "DONE" << std::endl;
+//             return ;
+//         }
+//     }
+//     goto merge_next;
+// }
+
 template <class Container>
 void IMerge<Container>::merge_containers(Container& from, Container& to)
 {
@@ -286,8 +383,9 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     // std::cout << "From content: ";
     // print_content(from);
     
-    sequence.clear();
-    sequence.resize(from.size());
+    // sequence.clear();
+    inserted.clear();
+    // sequence.resize(from.size());
     lookup.initialize(from.size());
     last_bound = from.begin();
     typename Container::iterator target = from.begin();
@@ -295,10 +393,11 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     typename Container::iterator last = calc_last(to, target - from.begin());//to.end() - 1;
     typename Container::iterator mid;
     int jacob_index = 1;
+    std::pair<int, int> store;
     
     merge_next:
-    std::cout << *target << " pair is: " << *last << std::endl;
-    std::cout << "Inserting " << *target;// << std::endl;
+    // std::cout << *target << " pair is: " << *last << std::endl;
+    // std::cout << "Inserting " << *target;// << std::endl;
     while (first <= last)
     {
         mid = first + ((last - first) / 2);
@@ -308,8 +407,9 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         {
             to.insert(mid, *target);
             lookup.adjustPositions(mid - to.begin());
-            if (depth != -1)
-                sequence[target - from.begin()] = mid - to.begin();
+            store.first = target - from.begin(); //save target index
+            store.second = mid - to.begin();
+            inserted.push_back(store); //TODO: does this take a reference or does it make a copy?
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -317,10 +417,13 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         else
             first = mid + 1;
     }
-    std::cout << " before " << *first << std::endl;
+    // std::cout << " before " << *first << std::endl;
     to.insert(first, *target);
     lookup.adjustPositions(first - to.begin());
-    sequence[target - from.begin()] = first - to.begin(); //i HAVE TO deduct one here idk what to do
+    // sequence[target - from.begin()] = first - to.begin(); //i HAVE TO deduct one here idk what to do
+    store.first = target - from.begin(); //save target index
+    store.second = first - to.begin(); //save pos
+    inserted.push_back(store);
     
     insertion_done:
 
@@ -345,8 +448,8 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             // std::cout << "To content: ";
             // print_content(to);
             from.clear();
-            std::cout << "Sequence content: ";
-            print_content(sequence);
+            // std::cout << "Sequence content: ";
+            // print_content(sequence);
             // std::cout << "DONE" << std::endl;
             return ;
         }
@@ -357,32 +460,191 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 template <class Container>
 void IMerge<Container>::copy_merge(Container& from, Container& to)
 {
+    // std::cout << "To content:   ";
+    // print_content(to);
     // std::cout << "From content: ";
     // print_content(from);
-    // std::cout << "To content: ";
-    // print_content(to);
 
-    typename Container::iterator target = from.begin();
+    // last_bound = from.begin();
     typename Container::iterator pos = to.begin();
-    typename Container::iterator idx = sequence.begin();
+    // typename Container::iterator len = sequence.begin();
+    // int jacob_index = 1;
+    size_t idx = 0;
+    // int num = 0;
 
-    while (target < from.end() && idx < sequence.end())
+    while (idx < inserted.size())
     {
-        // std::cout << "Inserting " << *target;// << std::endl;
-        to.insert((pos + *idx) - 1, *target);
-        // std::cout << "Insert " << *target << " before idx " << *idx << std::endl; 
-        target++;
+        to.insert(pos + inserted[idx].second, from[inserted[idx].first]);
+        from[inserted[idx].first] = DUMMY_VAL;
         idx++;
     }
+    clear_dummy_vals(from);
+    typename Container::iterator target = from.begin();
     while (target < from.end())
     {
-        // std::cout << "Inserting " << *target;// << std::endl;
-        // to.push_front(*target);
         to.push_back(*target);
         target++;
     }
     from.clear();
+    // while (idx < sequence.size())
+    // {
+    //     target = from.begin() + idx;
+    //     len = sequence.begin() + idx;
+    //     to.insert((pos + *len), *target); //TODO: kell-e -1 here?
+    //     idx = infiniteJakob[num];
+    //     num++;
+    // }
+    // target = from.begin() + idx;
+    // while (target < from.end())
+    // {
+    //     // std::cout << "Inserting " << *target << std::endl;
+    //     to.push_front(*target);
+    //     to.push_back(*target);
+    //     target++;
+    // }
+    // from.clear();
+    // return ;
+    
+    // merge_next:
+    // // std::cout << *target << " pair is: " << *last << std::endl;
+    // // std::cout << "Inserting " << *target;// << std::endl;
+    // to.insert((pos + *len), *target); //TODO: kell-e -1 here?
+    
+    // insertion_done:
+
+    // if (--target >= last_bound && --idx >= sequence.begin())
+    // {
+    //     goto merge_next;
+    // }
+    // else
+    // {
+    //     try
+    //     {
+    //         jacob_index++;
+    //         target = recalc_bounds(from, jacob_index);
+    //         idx = sequence.begin() + (target - from.begin());
+    //         target++;
+    //         idx++;
+    //         goto insertion_done;
+    //     }
+    //     catch (OperationInterrupt& e)
+    //     {
+    //         while (target < from.end())
+    //         {
+    //             // std::cout << "Inserting " << *target << std::endl;
+    //             to.push_front(*target);
+    //             to.push_back(*target);
+    //             target++;
+    //         }
+    //         from.clear();
+    //         return ;
+    //     }
+    // }
+    // goto merge_next;
 }
+
+// template <class Container>
+// void IMerge<Container>::copy_merge(Container& from, Container& to) //LATEST
+// {
+//     // std::cout << "To content:   ";
+//     // print_content(to);
+//     // std::cout << "From content: ";
+//     // print_content(from);
+
+//     // last_bound = from.begin();
+//     typename Container::iterator target = from.begin();
+//     typename Container::iterator pos = to.begin();
+//     typename Container::iterator len = sequence.begin();
+//     // int jacob_index = 1;
+//     size_t idx = 0;
+//     int num = 0;
+
+//     while (idx < sequence.size())
+//     {
+//         target = from.begin() + idx;
+//         len = sequence.begin() + idx;
+//         to.insert((pos + *len), *target); //TODO: kell-e -1 here?
+//         idx = infiniteJakob[num];
+//         num++;
+//     }
+//     target = from.begin() + idx;
+//     while (target < from.end())
+//     {
+//         // std::cout << "Inserting " << *target << std::endl;
+//         to.push_front(*target);
+//         to.push_back(*target);
+//         target++;
+//     }
+//     from.clear();
+//     return ;
+    
+//     // merge_next:
+//     // // std::cout << *target << " pair is: " << *last << std::endl;
+//     // // std::cout << "Inserting " << *target;// << std::endl;
+//     // to.insert((pos + *len), *target); //TODO: kell-e -1 here?
+    
+//     // insertion_done:
+
+//     // if (--target >= last_bound && --idx >= sequence.begin())
+//     // {
+//     //     goto merge_next;
+//     // }
+//     // else
+//     // {
+//     //     try
+//     //     {
+//     //         jacob_index++;
+//     //         target = recalc_bounds(from, jacob_index);
+//     //         idx = sequence.begin() + (target - from.begin());
+//     //         target++;
+//     //         idx++;
+//     //         goto insertion_done;
+//     //     }
+//     //     catch (OperationInterrupt& e)
+//     //     {
+//     //         while (target < from.end())
+//     //         {
+//     //             // std::cout << "Inserting " << *target << std::endl;
+//     //             to.push_front(*target);
+//     //             to.push_back(*target);
+//     //             target++;
+//     //         }
+//     //         from.clear();
+//     //         return ;
+//     //     }
+//     // }
+//     // goto merge_next;
+// }
+
+// template <class Container>
+// void IMerge<Container>::copy_merge(Container& from, Container& to)
+// {
+//     // std::cout << "From content: ";
+//     // print_content(from);
+//     // std::cout << "To content: ";
+//     // print_content(to);
+
+//     typename Container::iterator target = from.begin();
+//     typename Container::iterator pos = to.begin();
+//     typename Container::iterator idx = sequence.begin();
+
+//     while (target < from.end() && idx < sequence.end())
+//     {
+//         // std::cout << "Inserting " << *target;// << std::endl;
+//         to.insert((pos + *idx) - 1, *target);
+//         // std::cout << "Insert " << *target << " before idx " << *idx << std::endl; 
+//         target++;
+//         idx++;
+//     }
+//     while (target < from.end())
+//     {
+//         // std::cout << "Inserting " << *target;// << std::endl;
+//         // to.push_front(*target);
+//         to.push_back(*target);
+//         target++;
+//     }
+//     from.clear();
+// }
 
 template <class Container>
 void IMerge<Container>::assemble()
