@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 15:49:46 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:15:22 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,14 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     og_size = max_idx;
 
     pair.resize(max_idx + 1);
+    sequence.clear();
     sequence.resize(max_idx + 1);
     while (idx < max_idx)
     {
         // std::cout << "comparing " << cont[idx] << " and " << cont[idx + 1] << ", ";
         //comp++;
+        if (depth == bottom)
+            comp++;
         if (cont[idx] < cont[idx + 1])
         {
             pair[ctr] = cont[idx];
@@ -204,7 +207,7 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
     
     clear_dummy_vals(cont);
     // print_content(cont);
-    sequence.clear();
+    // sequence.clear();
 }
 
 template <class Container>
