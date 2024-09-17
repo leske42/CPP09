@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 12:53:11 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:02:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,7 +397,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     
     merge_next:
     // std::cout << *target << " pair is: " << *last << std::endl;
-    // std::cout << "Inserting " << *target;// << std::endl;
+    std::cout << "Inserting " << *target;// << std::endl;
     while (first <= last)
     {
         mid = first + ((last - first) / 2);
@@ -405,10 +405,10 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         comp++;
         if (*mid == *target)
         {
-            to.insert(mid, *target);
-            lookup.adjustPositions(mid - to.begin());
             store.first = target - from.begin(); //save target index
             store.second = mid - to.begin();
+            to.insert(mid, *target);
+            lookup.adjustPositions(mid - to.begin());
             inserted.push_back(store); //TODO: does this take a reference or does it make a copy?
             goto insertion_done;
         }
@@ -417,12 +417,12 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         else
             first = mid + 1;
     }
-    // std::cout << " before " << *first << std::endl;
+    std::cout << " before " << *first << " which is of index " << first - to.begin() << std::endl;
+    store.first = target - from.begin(); //save target index
+    store.second = first - to.begin(); //save pos
     to.insert(first, *target);
     lookup.adjustPositions(first - to.begin());
     // sequence[target - from.begin()] = first - to.begin(); //i HAVE TO deduct one here idk what to do
-    store.first = target - from.begin(); //save target index
-    store.second = first - to.begin(); //save pos
     inserted.push_back(store);
     
     insertion_done:
@@ -474,6 +474,7 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
 
     while (idx < inserted.size())
     {
+        std::cout << "Insert before: " << inserted[idx].second << " the val: " << from[inserted[idx].first] << std::endl;
         to.insert(pos + inserted[idx].second, from[inserted[idx].first]);
         from[inserted[idx].first] = DUMMY_VAL;
         idx++;
