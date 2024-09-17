@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:35:34 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/16 12:30:52 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:04:07 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PAIRKEEPER_HPP
 
 #include <deque>
+
+#define DUMMY_VAL 2147483650
 
 class PairKeeper
 {
@@ -32,8 +34,10 @@ class PairKeeper
         PairKeeper(const PairKeeper& other);
         PairKeeper& operator=(const PairKeeper& other);
 
-        std::deque<int> indexes;
+        std::deque<long int> indexes;
+        std::deque<long int> dummy_cont;
         int max;
+        int dummy_max;
 };
 
 #endif

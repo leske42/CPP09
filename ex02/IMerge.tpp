@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 13:17:42 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:50:00 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,6 +395,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     int jacob_index = 1;
     std::pair<int, int> store;
     
+    std::cout << "THE PAIR IS " << *last << ". ";
     merge_next:
     // std::cout << *target << " pair is: " << *last << std::endl;
     std::cout << "Inserting " << *target;// << std::endl;
@@ -431,6 +432,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     {
         first = to.begin();
         last = calc_last(to, target - from.begin());//to.end() - 1;
+        std::cout << "THE PAIR IS " << *last << ". ";
     }
     else
     {
