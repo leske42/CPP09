@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 13:02:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:17:42 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,7 +466,7 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
     // print_content(from);
 
     // last_bound = from.begin();
-    typename Container::iterator pos = to.begin();
+    // typename Container::iterator pos = to.begin();
     // typename Container::iterator len = sequence.begin();
     // int jacob_index = 1;
     size_t idx = 0;
@@ -475,7 +475,7 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
     while (idx < inserted.size())
     {
         std::cout << "Insert before: " << inserted[idx].second << " the val: " << from[inserted[idx].first] << std::endl;
-        to.insert(pos + inserted[idx].second, from[inserted[idx].first]);
+        to.insert(to.begin() + inserted[idx].second, from[inserted[idx].first]);
         from[inserted[idx].first] = DUMMY_VAL;
         idx++;
     }
