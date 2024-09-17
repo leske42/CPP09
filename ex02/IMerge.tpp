@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 13:50:00 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 15:49:46 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     while (idx < max_idx)
     {
         // std::cout << "comparing " << cont[idx] << " and " << cont[idx + 1] << ", ";
+        //comp++;
         if (cont[idx] < cont[idx + 1])
         {
             pair[ctr] = cont[idx];
@@ -395,22 +396,28 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     int jacob_index = 1;
     std::pair<int, int> store;
     
-    std::cout << "THE PAIR IS " << *last << ". ";
+    // std::cout << "THE PAIR IS " << *last << ". ";
     merge_next:
     // std::cout << *target << " pair is: " << *last << std::endl;
-    std::cout << "Inserting " << *target;// << std::endl;
-    while (first <= last)
+    // std::cout << "Inserting " << *target;// << std::endl;
+    if (last == to.end())
+        last--;
+    while (first <= last) //TODO: do we need <= here?
     {
+        // std::cout << "ENTER" << std::endl;
         mid = first + ((last - first) / 2);
-        // std::cout << "CALC RES: " << (last - first) / 2 << std::endl;
+        // std::cout << "MID IS AT IDX: " << (last - first) / 2 << std::endl;
         comp++;
         if (*mid == *target)
         {
+            // std::cout << "MATCH FOUND" << std::endl;
             store.first = target - from.begin(); //save target index
             store.second = mid - to.begin();
             to.insert(mid, *target);
+            // first = to.begin();
             lookup.adjustPositions(mid - to.begin());
             inserted.push_back(store); //TODO: does this take a reference or does it make a copy?
+            std::cout << std::endl;
             goto insertion_done;
         }
         else if (*mid > *target)
@@ -418,7 +425,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
         else
             first = mid + 1;
     }
-    std::cout << " before " << *first << " which is of index " << first - to.begin() << std::endl;
+    // std::cout << " before " << *first << " which is of index " << first - to.begin() << std::endl;
     store.first = target - from.begin(); //save target index
     store.second = first - to.begin(); //save pos
     to.insert(first, *target);
@@ -432,7 +439,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     {
         first = to.begin();
         last = calc_last(to, target - from.begin());//to.end() - 1;
-        std::cout << "THE PAIR IS " << *last << ". ";
+        // std::cout << "THE PAIR IS " << *last << ". ";
     }
     else
     {

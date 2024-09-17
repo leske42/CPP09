@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:35:36 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 14:08:03 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 15:17:45 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void    PairKeeper::adjustPositions(int inserted_at)
     int iternums = 0;
     if (inserted_at > dummy_max) //TODO: or .size() if also works
     {
-        std::cout << "wanted idx: " << inserted_at << " but max is: " << max;
+        std::cout << "wanted idx: " << inserted_at << " but max is: " << dummy_max;
         std::cout << ". Returning from lookup... " << std::endl;
         return ;
     }
