@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 16:23:59 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/18 16:37:22 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     sequence.resize(max_idx + 1);
     while (idx < max_idx)
     {
-        if (depth == bottom)
+        if (COUNT && depth == bottom)
             comp++;
         if (cont[idx] < cont[idx + 1])
         {
@@ -278,7 +278,8 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     while (first <= last) //TODO: do we need <= here?
     {
         mid = first + ((last - first) / 2);
-        comp++;
+        if (COUNT)
+            comp++;
         if (*mid == *target)
         {
             store.first = target - from.begin(); //save target index

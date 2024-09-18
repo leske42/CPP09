@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 12:51:46 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/18 16:36:30 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 
 #ifndef DEBUG_MODE
 # define DEBUG_MODE 0
+#endif
+
+#ifndef COUNT
+# define COUNT 0
 #endif
 
 template <class Container>
