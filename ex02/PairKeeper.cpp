@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:35:36 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 15:17:45 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:26:10 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void    PairKeeper::initialize(int size)
         dummy_cont[pos] = pos;
         pos++;
     }
-    // dummy_cont = indexes;
     max = dummy_max = size - 1;
 }
 int     PairKeeper::pairIndex(int idx)
@@ -49,10 +48,10 @@ void    PairKeeper::adjustPositions(int inserted_at)
 {
     int actual_idx = 0;
     int iternums = 0;
-    if (inserted_at > dummy_max) //TODO: or .size() if also works
+    if (inserted_at > dummy_max) //TODO: or .size() if also works - actually its size-1
     {
-        std::cout << "wanted idx: " << inserted_at << " but max is: " << dummy_max;
-        std::cout << ". Returning from lookup... " << std::endl;
+        // std::cout << "wanted idx: " << inserted_at << " but max is: " << dummy_max;
+        // std::cout << ". Returning from lookup... " << std::endl;
         return ;
     }
     else
@@ -68,7 +67,6 @@ void    PairKeeper::adjustPositions(int inserted_at)
     dummy_cont.insert(iter, DUMMY_VAL);
     while (actual_idx <= max)
     {
-        // std::cout << "Incrementing " << indexes[actual_idx] << " to " << indexes[actual_idx] + 1 << std::endl;
         indexes[actual_idx]++;
         actual_idx++;
     }
