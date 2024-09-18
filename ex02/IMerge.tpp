@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/18 16:37:22 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:08:21 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,23 @@ int IMerge<Container>::my_pair(int my_num)
 template <class Container>
 void IMerge<Container>::fill_Jakob()
 {
-    int idx = 0;
-    int nextJakob = 0;
-    int elem = 0; //TODO: is first elem 0 or 1?
+    int idx = 1;
+    int nextJakob = 1;
+    int prevJakob = 1;
+    int elem = 2; //TODO: is first elem 0 or 1?
     infiniteJakob.resize(10000);
-    while (idx < 10000)
+    infiniteJakob[0] = 1;
+    while (idx < 100)
     {
-        if (nextJakob == 0)
+        if (nextJakob <= prevJakob)
         {
+            prevJakob = (pow(2, (elem - 1) + 1) + pow(-1, (elem - 1))) / 3;
             nextJakob = (pow(2, elem + 1) + pow(-1, elem)) / 3;
             elem++;
         }
         infiniteJakob[idx] = nextJakob;
+        // std::cout << "Next num is: " << nextJakob << std::endl;
+        // std::cout << "Limit is: " << prevJakob << std::endl;
         nextJakob--;
         idx++;
     }
