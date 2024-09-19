@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/19 12:19:10 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:40:22 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,18 +273,20 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     typename Container::iterator first = to.begin();
     typename Container::iterator last = calc_last(to, target - from.begin());//to.end() - 1;
     typename Container::iterator mid;
+    typename Container::iterator pair;
     int jacob_index = 1;
     std::pair<int, int> store;
 
     merge_next:
 
+    pair = last;
     if (last == to.end())
         last--;
     std::cout << "Target is: " << *target << ", pair is: " << *last << " at index " << last - to.begin() << std::endl;
     while (first <= last) //TODO: do we need <= here?
     {
         mid = first + ((last - first) / 2);
-        if (COUNT && !(first == last && target - from.begin() == last - to.begin()))
+        if (COUNT && mid != pair/*&& !(first == last && target - from.begin() == last - to.begin())*/) //<-- need a rule: do not count my own pair but this is not sufficient
             comp++;
         if (*mid == *target)
         {
