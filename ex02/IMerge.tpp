@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/18 19:08:21 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:19:10 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
     sequence.resize(max_idx + 1);
     while (idx < max_idx)
     {
-        if (COUNT && depth == bottom)
+        if (COUNT)
             comp++;
         if (cont[idx] < cont[idx + 1])
         {
@@ -280,17 +280,18 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 
     if (last == to.end())
         last--;
+    std::cout << "Target is: " << *target << ", pair is: " << *last << " at index " << last - to.begin() << std::endl;
     while (first <= last) //TODO: do we need <= here?
     {
         mid = first + ((last - first) / 2);
-        if (COUNT)
+        if (COUNT && !(first == last && target - from.begin() == last - to.begin()))
             comp++;
         if (*mid == *target)
         {
             store.first = target - from.begin(); //save target index
             store.second = mid - to.begin();
-            to.insert(mid, *target);
             lookup.adjustPositions(mid - to.begin());
+            to.insert(mid, *target);
             inserted.push_back(store);
             std::cout << std::endl;
             goto insertion_done;
@@ -302,8 +303,9 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     }
     store.first = target - from.begin(); //save target index
     store.second = first - to.begin(); //save pos
-    to.insert(first, *target);
+    // std::cout << *target << " got inserted before index " << first - to.begin() << " value " << *first << std::endl;
     lookup.adjustPositions(first - to.begin());
+    to.insert(first, *target);
     inserted.push_back(store);
     
     insertion_done:

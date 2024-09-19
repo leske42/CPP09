@@ -31,8 +31,6 @@ $(NAME): $(OBJ) $(HEADER)
 	$(CXX) $(CXXFLAGS) $(OBJ) -g -o $(NAME)
 	@echo "$(GREEN)Executable $(NAME) created!$(DEF_COLOR)"
 
-bonus: all
-
 debug: fclean
 	@$(MAKE) all CXXFLAGS="$(CXXFLAGS) -DDEBUG_MODE=1 -DCOUNT=1"
 

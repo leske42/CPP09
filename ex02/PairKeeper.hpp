@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:35:34 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/17 14:04:07 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:48:17 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ class PairKeeper
 
         PairKeeper(const PairKeeper& other);
         PairKeeper& operator=(const PairKeeper& other);
+        void print_content(char flag);
 
         std::deque<long int> indexes;
         std::deque<long int> dummy_cont;

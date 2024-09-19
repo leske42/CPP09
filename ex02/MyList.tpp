@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/18 20:19:40 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:34:51 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void MyList<Container>::init_list_head(int argc, char **argv)
         cur_pos++;
     }
     internal_list_size = 1;
+    if (argc == 2)
+    {
+        std::cout << argv[1] << std::endl;
+        throw OperationInterrupt(UNPRIMED);
+    }
 }
 
 template <class Container>
