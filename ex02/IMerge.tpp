@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/19 13:40:22 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:53:05 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,17 +279,21 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 
     merge_next:
 
-    pair = last;
     if (last == to.end())
         last--;
+    pair = last;
     std::cout << "Target is: " << *target << ", pair is: " << *last << " at index " << last - to.begin() << std::endl;
     while (first <= last) //TODO: do we need <= here?
     {
         mid = first + ((last - first) / 2);
-        if (COUNT && mid != pair/*&& !(first == last && target - from.begin() == last - to.begin())*/) //<-- need a rule: do not count my own pair but this is not sufficient
+        if (COUNT && mid != pair)
+        {
+            std::cout << "Comp " << *target << " with " << *mid << std::endl;
             comp++;
+        }
         if (*mid == *target)
         {
+            // mid++;
             store.first = target - from.begin(); //save target index
             store.second = mid - to.begin();
             lookup.adjustPositions(mid - to.begin());
