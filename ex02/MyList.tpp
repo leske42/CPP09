@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/19 12:34:51 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:00:53 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ template <class Container>
 void MyList<Container>::setup_next_depth()
 {
     int sm_size = get_smallest_cont_size();
-    int next_cont_size = (sm_size / 2);// + (sm_size % 2); //do i move the +1 or not?
+    int next_cont_size = (sm_size / 2);
     old_size = internal_list_size;
     while (internal_list_size < (old_size * 2))
     {
@@ -119,7 +119,6 @@ void MyList<Container>::eliminate_empty_nodes()
     {
         if (cur->cont.empty())
         {
-            // std::cout << "deleting a container (idx " << cur->idx << ")" << std::endl;
             empty = cur;
             before = cur->prev;
             cur = cur->next;

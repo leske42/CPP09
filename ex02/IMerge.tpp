@@ -6,14 +6,14 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 17:16:29 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:08:02 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 template <class Container>
 IMerge<Container>::IMerge(void)
 {
-    fill_Jakob();
+    
 }
 
 template <class Container>
@@ -55,31 +55,6 @@ int IMerge<Container>::my_pair(int my_num)
     return (prev_containers + my_num);
 }
 
-//TODO: argc protection for this limit
-template <class Container>
-void IMerge<Container>::fill_Jakob()
-{
-    int idx = 1;
-    int nextJakob = 1;
-    int prevJakob = 1;
-    int elem = 2; //TODO: is first elem 0 or 1?
-    infiniteJakob.resize(10000);
-    infiniteJakob[0] = 1;
-    while (idx < 100)
-    {
-        if (nextJakob <= prevJakob)
-        {
-            prevJakob = (pow(2, (elem - 1) + 1) + pow(-1, (elem - 1))) / 3;
-            nextJakob = (pow(2, elem + 1) + pow(-1, elem)) / 3;
-            elem++;
-        }
-        infiniteJakob[idx] = nextJakob;
-        // std::cout << "Next num is: " << nextJakob << std::endl;
-        // std::cout << "Limit is: " << prevJakob << std::endl;
-        nextJakob--;
-        idx++;
-    }
-}
 
 template <class Container>
 int IMerge<Container>::my_pair_up(int my_num, int diff)
@@ -168,14 +143,14 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
     int max_idx = cont.size() - 1;
     int ctr = 0;
 
-    pair.resize(seq_max); //can this be an issue?
+    pair.resize(seq_max);
     while (idx <= max_idx)
     {
         if (ctr < seq_max && idx == sequence[ctr])
         {
             pair[ctr] = cont[idx];
             cont[idx] = DUMMY_VAL;
-            ctr++; //will this never get out of bounds?
+            ctr++;
         }
         else if (idx > og_size)
         {
@@ -196,8 +171,10 @@ void IMerge<Container>::take_apart()
 
     if (DEBUG_MODE)
         std::cout << "\033[31mDepth " << depth << ". Taking apart...\033[0m" << std::endl;
+
     cont_chain.setup_next_depth();
     reassess_size(); //needed for calc of my_pair
+
     create_sequence(cont_chain[0], cont_chain[my_pair(0)]);
     int my_num = 1;
     while (my_pair(my_num) != -1)
@@ -205,6 +182,7 @@ void IMerge<Container>::take_apart()
         follow_sequence(cont_chain[my_num], cont_chain[my_pair(my_num)]);
         my_num++;
     }
+
     if (my_num == 1) //no "follow" happened
         sequence.clear();
     depth++;
@@ -215,29 +193,6 @@ void IMerge<Container>::take_apart()
     }
     return ;
 }
-
-// template <class Container>
-// void IMerge<Container>::merge_containers(Container& from, Container& to)
-// {
-//     std::sort(from.begin(), from.end());
-//     std::sort(to.begin(), to.end());
-
-//     Container temp(from.size() + to.size());
-
-//     std::merge(from.begin(), from.end(), to.begin(), to.end(), temp.begin());
-
-//     // std::cout << "Displaying from content: ";
-//     // typename Container::iterator cur = from.begin();
-//     // while (cur != from.end())
-//     // {
-//     //     std::cout << *cur << " ";
-//     //     cur++;
-//     // }
-//     // std::cout << std::endl;
-
-//     to = temp;
-//     from.clear();
-// }
 
 template <class Container>
 typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, int jacob_index)
@@ -282,20 +237,15 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     if (last == to.end())
         last--;
     pair = last;
-    std::cout << "Target is: " << *target << ", pair is: " << *last << " at index " << last - to.begin() << std::endl;
-    while (first <= last) //TODO: do we need <= here?
+    while (first <= last)
     {
         mid = first + ((last - first) / 2);
         if (COUNT && mid != pair)
-        {
-            std::cout << "Comp " << *target << " with " << *mid << std::endl;
             comp++;
-        }
         if (*mid == *target)
         {
-            // mid++;
             store.first = target - from.begin(); //save target index
-            store.second = mid - to.begin();
+            store.second = mid - to.begin(); //save insert pos
             lookup.adjustPositions(mid - to.begin());
             to.insert(mid, *target);
             inserted.push_back(store);
@@ -308,8 +258,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             first = mid + 1;
     }
     store.first = target - from.begin(); //save target index
-    store.second = first - to.begin(); //save pos
-    // std::cout << *target << " got inserted before index " << first - to.begin() << " value " << *first << std::endl;
+    store.second = first - to.begin(); //save insert pos
     lookup.adjustPositions(first - to.begin());
     to.insert(first, *target);
     inserted.push_back(store);
@@ -369,9 +318,10 @@ void IMerge<Container>::assemble()
     else if (depth <= breakpoint)
         take_apart();
 
-    int diff = depth - breakpoint;
     if (DEBUG_MODE)
         std::cerr << "\033[31mDepth " << depth << ". Assembling...\033[0m" << std::endl;
+
+    int diff = depth - breakpoint;
     merge_containers(cont_chain[my_pair_up(0, diff)], cont_chain[0]);
     int my_num = 1;
     while (my_pair_up(my_num, diff) != -1)
@@ -379,6 +329,7 @@ void IMerge<Container>::assemble()
         copy_merge(cont_chain[my_pair_up(my_num, diff)], cont_chain[my_num]);
         my_num++;
     }
+
     depth++;
     cont_chain.eliminate_empty_nodes();
     reassess_size();
@@ -404,3 +355,27 @@ void IMerge<Container>::print_content(Container& cont)
     }
     std::cout << std::endl;
 }
+
+//would need argc protection for this limit if this function was in use
+// template <class Container>
+// void IMerge<Container>::fill_Jakob()
+// {
+//     int idx = 1;
+//     int nextJakob = 1;
+//     int prevJakob = 1;
+//     int elem = 2;
+//     infiniteJakob.resize(10000);
+//     infiniteJakob[0] = 1;
+//     while (idx < 100)
+//     {
+//         if (nextJakob <= prevJakob)
+//         {
+//             prevJakob = (pow(2, (elem - 1) + 1) + pow(-1, (elem - 1))) / 3;
+//             nextJakob = (pow(2, elem + 1) + pow(-1, elem)) / 3;
+//             elem++;
+//         }
+//         infiniteJakob[idx] = nextJakob;
+//         nextJakob--;
+//         idx++;
+//     }
+// }

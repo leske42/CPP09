@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/18 16:36:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:00:04 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,14 @@ class IMerge
         void            create_sequence(Container& cont, Container& pair);
         void            follow_sequence(Container& cont, Container& pair);
         void            merge_containers(Container& from, Container& to);
+        void            copy_merge(Container& from, Container& to);
         void            reassess_size();
         void            clear_dummy_vals(Container& cont);
+        void            print_content(Container& cont);
+        
         typename Container::iterator recalc_bounds(Container& from, int jacob_index);
         typename Container::iterator calc_last(Container& cont, int idx);
-        void copy_merge(Container& from, Container& to);
-        void fill_Jakob(void);
-        
-
-        void            print_content(Container& cont);
+    
     
         int             depth;
         int             recursion_levels;
@@ -85,7 +84,6 @@ class IMerge
         MyList<Container>                   cont_chain;
         PairKeeper                          lookup;
         std::deque < std::pair < int, int > > inserted;
-        // std::deque< std::pair<int, int> >   indexes;
 };
 
 long int        ft_atoi(const char *str);

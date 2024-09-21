@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:35:34 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/18 21:48:17 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:09:06 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 #define DUMMY_VAL 2147483650
 
+#ifndef DEBUG_MODE
+# define DEBUG_MODE 0
+#endif
+
 class PairKeeper
 {
     public:
@@ -25,7 +29,6 @@ class PairKeeper
         ~PairKeeper(void);
 
         void    initialize(int size);
-        //usage will be: iter = cont.begin() + pairIndex(cur - cont.begin())
         int     pairIndex(int idx);
         void    adjustPositions(int inserted_at);
     
