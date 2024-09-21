@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:23:59 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 22:27:11 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 22:35:56 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ void DataBase::CreateDB()
     {
         std::getline(data, line);
         //std::cout << line << std::endl;
-        if (line.empty())
+        if (data.eof() && line.empty())
             break ;
+        else if (line.empty())
+            throw ParseException(DATABASE, idx, INC_ENT); //TODO: make its own error
         CheckRawFormat(line, idx);
         ValidateLine(line, idx, DATABASE);
         line.clear();
