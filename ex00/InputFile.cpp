@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 19:10:12 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 22:27:24 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,15 @@ void InputFile::ParseInput(char *target)
         //std::cout << line << std::endl;
         if (line.empty())
             break ;
-        CheckRawFormat(line, idx);
-        ValidateLine(line, idx, INPUT);
+        try
+        {
+            CheckRawFormat(line, idx);
+            ValidateLine(line, idx, INPUT);
+        }
+        catch (ParseException& e)
+        {
+            e.displayIssue();
+        }
         line.clear();
         if (data.eof())
             break ;

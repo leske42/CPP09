@@ -32,8 +32,6 @@ $(NAME): $(OBJ) $(HEADER)
 	$(CXX) $(CXXFLAGS) $(OBJ) -g -o $(NAME)
 	@echo "$(GREEN)Executable $(NAME) created!$(DEF_COLOR)"
 
-bonus: all
-
 clean:
 	rm -f $(OBJ)
 
@@ -56,4 +54,4 @@ strict:
 	@$(MAKE) clean
 	@echo "$(GREEN)Tested for both compilers.$(DEF_COLOR)"
 
-.PHONY: all clean fclean re asif
+.PHONY: all clean fclean re asif strict

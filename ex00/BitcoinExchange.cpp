@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 15:11:09 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 22:24:36 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #include "ParseException.hpp"
 #include <fstream>
 #include <cstdlib>
+
+void BitcoinExchange::displayResult(std::string& line, float result)
+{
+    while (line[line.size() - 1] != '|')
+        line.erase(line.size() - 1, 1);
+    line.erase(line.size() - 1, 1);
+    std::cout << line << "=> " << result << std::endl;
+}
 
 void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
 {
@@ -45,7 +53,13 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
 
     res = year << 16 | mon << 8 | day;
 
-    BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
+    if (mode == DATABASE)
+        BitcoinDB.insert(std::pair<uint32_t, float>(res, val));
+    else
+    {
+        float result = other_link->LookupVal(res) * val;
+        displayResult(line, result);
+    }
 }
 
 void BitcoinExchange::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
@@ -59,10 +73,21 @@ void BitcoinExchange::SeparateValues(std::string& line, uint32_t& year, uint32_t
 
 BitcoinExchange::BitcoinExchange()
 {
-    
+    other_link = NULL;
 }
 
 BitcoinExchange::~BitcoinExchange()
 {
     
+}
+
+void BitcoinExchange::link_other(BitcoinExchange *other)
+{
+    this->other_link = other;
+}
+
+float BitcoinExchange::LookupVal(uint32_t val)
+{
+    (void)val;
+    return (0);
 }

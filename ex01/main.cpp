@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:52:20 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 18:42:54 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 21:14:43 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int main(int argc, char **argv)
     {
         std::string input = argv[1];
         RPN hehe(input);
-        // ValidateLine(input);
     }
     catch (OperationInterrupt& e)
     {

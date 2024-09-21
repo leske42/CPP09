@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:12:10 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 22:21:59 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ class BitcoinExchange
         BitcoinExchange(void);
         ~BitcoinExchange(void);
 
+        void link_other(BitcoinExchange *other);
+
     private:
 
         BitcoinExchange(const BitcoinExchange& other);
@@ -35,11 +37,14 @@ class BitcoinExchange
     
     protected:
         
-        virtual void CheckRawFormat(std::string& line, int idx) = 0;
-        void ValidateLine(std::string& line, int idx, int mode);
-        virtual void SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+        virtual void    CheckRawFormat(std::string& line, int idx) = 0;
+        virtual float   LookupVal(uint32_t val);
+        virtual void    SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
+        void            ValidateLine(std::string& line, int idx, int mode);
+        void            displayResult(std::string& line, float result);
 
-        std::map<uint32_t, float> BitcoinDB;
+        std::map<uint32_t, float>   BitcoinDB;
+        BitcoinExchange             *other_link;
 };
 
 //void StoreLine(std::string& line);
