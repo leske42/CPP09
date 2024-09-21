@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/19 14:53:05 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 17:16:29 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,11 +244,11 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
 {
     typename Container::iterator target;
     
-    last_bound += (pow(2, (jacob_index - 1) + 1) + pow(-1, (jacob_index - 1))) / 3;
+    last_bound = from.begin() + (pow(2, jacob_index) + pow(-1, (jacob_index - 1))) / 3;
     if (last_bound >= from.end())
         throw OperationInterrupt(UNPRIMED);
     target = last_bound - 1; //idk why but this -1 solved it???
-    target += (pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3;
+    target = from.begin() + ((pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3) - 1;
     if (target > from.end() - 1)
         target = from.end() - 1;
     return (target);
