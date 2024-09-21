@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmergeMe.cpp                                       :+:      :+:    :+:   */
+/*   PmergeVect.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 20:29:08 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 18:37:38 by mhuszar          ###   ########.fr       */
+/*   Created: 2024/09/21 18:29:43 by mhuszar           #+#    #+#             */
+/*   Updated: 2024/09/21 18:38:57 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PmergeMe.hpp"
+#include "PmergeVect.hpp"
 
-PmergeMe::PmergeMe(void)
+PmergeVect::PmergeVect(void)
 {
 
 }
 
-PmergeMe::PmergeMe(int argc, char **argv)
+PmergeVect::PmergeVect(int argc, char **argv)
 {
     sequence.resize(argc);
     
@@ -29,12 +29,12 @@ PmergeMe::PmergeMe(int argc, char **argv)
         std::cout << std::endl << "Number of comparisons: " << comp << std::endl;
 }
 
-PmergeMe::~PmergeMe(void)
+PmergeVect::~PmergeVect(void)
 {
 
 }
 
-void PmergeMe::do_sort(int argc, char **argv)
+void PmergeVect::do_sort(int argc, char **argv)
 {
     calculate_depth(argc);
     cont_chain.init_list_head(argc, argv);
