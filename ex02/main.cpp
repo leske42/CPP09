@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 20:00:37 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 20:21:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,15 @@
 #include "MyList.hpp"
 #include <sys/time.h>
 
-#define MIL 1000000 //TODO: can i do define here?
-
 void display_time(struct timeval& ts1, struct timeval& ts2)
 {
     size_t total_micros1 = ts1.tv_sec * MIL + ts1.tv_usec;
     size_t total_micros2 = ts2.tv_sec * MIL + ts2.tv_usec;
     size_t diff_micros = total_micros2 - total_micros1;
     size_t sec = diff_micros / MIL;
-    // size_t msec = 
-    size_t usec = diff_micros % MIL;
-    std::cout << sec << " seconds and " << usec << " microseconds." << std::endl;
+    size_t msec = (diff_micros % MIL) / 1000;
+    size_t usec = (diff_micros % MIL) % 1000;
+    std::cout << sec << " seconds, " << msec << " milliseconds and " << usec << " microseconds." << std::endl;
 }
 
 int main(int argc, char **argv)

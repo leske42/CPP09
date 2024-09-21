@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 18:37:24 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 20:21:33 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 #ifndef COUNT
 # define COUNT 0
 #endif
+
+#define MIL 1000000
 
 template <class Container>
 class IMerge
