@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 13:54:57 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:31:38 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
     if (mon == 2 && (year == 2012 || year == 2016 || year == 2020
         || year == 2024) && day > 29)
         throw ParseException(mode, idx, DAY_RNG);
-    else if (mon == 2 && day > 28)
+    else if (mon == 2 && !(year == 2012 || year == 2016 || year == 2020
+        || year == 2024) && day > 28)
         throw ParseException(mode, idx, DAY_RNG);
     if ((mon == 4 || mon == 6 || mon == 9 || mon == 11) && day > 30)
         throw ParseException(mode, idx, DAY_RNG);
