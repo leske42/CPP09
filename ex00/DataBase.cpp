@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:23:59 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 14:04:42 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:44:01 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,23 @@ DataBase::~DataBase(void)
     
 }
 
-//TODO: check this function
 float DataBase::LookupVal(uint32_t val)
 {
+    bool of_flag = false;
     std::map<uint32_t, float>::iterator iter;
     std::pair<uint32_t, float> unit;
+
     iter = BitcoinDB.lower_bound(val);
+    if (iter == BitcoinDB.end())
+    {
+        of_flag = true;
+        iter--;
+    }
     unit = *iter;
-    if (unit.first == val)
+    if (unit.first == val || of_flag)
         return (unit.second);
-    else if (iter == BitcoinDB.begin())
-        throw OperationInterrupt(); //ParseException would be better
-    iter--;
+    if (iter != BitcoinDB.begin())
+        iter--;
     unit = *iter;
     return (unit.second);
 }
