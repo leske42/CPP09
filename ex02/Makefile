@@ -2,7 +2,7 @@ NAME = PmergeMe
 CXX1 = clang++
 CXX2 = g++
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 -g
+CXXFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98 #-g
 #HEADER =
 
 #Colors
@@ -32,7 +32,7 @@ $(NAME): $(OBJ) $(HEADER)
 	@echo "$(GREEN)Executable $(NAME) created!$(DEF_COLOR)"
 
 debug: fclean
-	@$(MAKE) all CXXFLAGS="$(CXXFLAGS) -DDEBUG_MODE=1 -DCOUNT=1"
+	@$(MAKE) all CXXFLAGS="$(CXXFLAGS) -DDEBUG_MODE=1 -DCOUNT=1 -g"
 
 count: fclean
 	@$(MAKE) all CXXFLAGS="$(CXXFLAGS) -DCOUNT=1"
