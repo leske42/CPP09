@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 22:24:36 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:14:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ParseException.hpp"
 #include <fstream>
 #include <cstdlib>
+#include <cmath>
 
 void BitcoinExchange::displayResult(std::string& line, float result)
 {
@@ -58,6 +59,8 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
     else
     {
         float result = other_link->LookupVal(res) * val;
+        if (result == INFINITY)
+            throw ParseException(mode, idx, OVERFLOW);
         displayResult(line, result);
     }
 }
