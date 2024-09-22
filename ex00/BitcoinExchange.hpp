@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 14:03:32 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:48:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ class BitcoinExchange
         virtual float   LookupVal(uint32_t val);
         virtual void    SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
         void            ValidateLine(std::string& line, int idx, int mode);
-        void            displayResult(std::string& line, float result);
+        void            displayResult(std::string& line, float coins, float result);
 
         std::map<uint32_t, float>   BitcoinDB;
         BitcoinExchange             *other_link;

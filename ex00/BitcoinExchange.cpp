@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 14:31:38 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:47:52 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include <cstdlib>
 #include <cmath>
 
-void BitcoinExchange::displayResult(std::string& line, float result)
+void BitcoinExchange::displayResult(std::string& line, float coins, float result)
 {
     while (line[line.size() - 1] != '|')
         line.erase(line.size() - 1, 1);
     line.erase(line.size() - 1, 1);
-    std::cout << line << "=> " << result << std::endl;
+    std::cout << line << "=> " << coins << " = " << result << std::endl;
 }
 
 void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
@@ -70,7 +70,7 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
         float result = other_link->LookupVal(res) * val;
         if (result == INFINITY)
             throw ParseException(mode, idx, OVERFLOW);
-        displayResult(line, result);
+        displayResult(line, val, result);
     }
 }
 
