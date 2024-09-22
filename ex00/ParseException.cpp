@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:32:49 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 22:27:52 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:57:57 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void ParseException::displayIssue()
         std::cerr << "On line " << line << ": ";
     switch (issue)
     {
+        case HEADER:
+            std::cerr << "header should be formatted: `date | value`";
+            break;
         case INC_ENT:
             std::cerr << "incomplete entry";
             break;

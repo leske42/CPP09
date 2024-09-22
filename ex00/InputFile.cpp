@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 22:38:57 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:55:51 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ void InputFile::ParseInput(char *target)
     if (!data.is_open())
         throw ParseException(INPUT, 0, FILE_NOP);
     std::getline(data, line);
-    if (line.empty())
+    if (data.eof())
         throw ParseException(INPUT, 0, EMPTY);
+    else if (line != "date | value")
+        throw ParseException(INPUT, 1, HEADER);
     int idx = 2;
     while (1)
     {
@@ -94,7 +96,10 @@ void InputFile::ParseInput(char *target)
         if (line.empty() && data.eof())
             break ;
         else if (line.empty())
+        {
+            idx++;
             continue ;
+        }
         try
         {
             CheckRawFormat(line, idx);
