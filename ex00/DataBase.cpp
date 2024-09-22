@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:23:59 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 22:35:56 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:08:43 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void DataBase::CreateDB()
     if (!data.is_open())
         throw ParseException(DATABASE, 0, FILE_NOP);
     std::getline(data, line);
-    if (line.empty())
+    if (data.eof())
         throw ParseException(DATABASE, 0, EMPTY);
+    else if (line != "date,exchange_rate")
+        throw ParseException(DATABASE, 1, HEADER);
     int idx = 2;
     while (1)
     {
