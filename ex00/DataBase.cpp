@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:23:59 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 12:28:45 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 13:53:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void DataBase::CreateDB()
     data.close();
 }
 
-void DataBase::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val, int idx)
+void DataBase::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
 {
     //TODO: use strtod() or ft_atoi() here
     const char *str = line.c_str();

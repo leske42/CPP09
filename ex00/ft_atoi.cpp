@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 18:01:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/11 21:08:32 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 13:56:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ long int	ft_atoi(const char *str)
 			throw OperationInterrupt(PRIMED);
 		start++;
 	}
-	if (str[start] && (str[start] <= '0' || str[start] >= '9'))
-		throw OperationInterrupt(PRIMED);
 	if (sign < 0)
 		return (nb * -1);
 	else

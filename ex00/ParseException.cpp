@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:32:49 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 12:15:55 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 13:54:35 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void ParseException::displayIssue()
             std::cerr << "negative request detected";
             break;
         case OVERFLOW:
-            std::cerr << "calculation leads to float overflow";
+            std::cerr << "processing would lead to overflow";
             break;
         default:
             std::cerr << "wrong input format";

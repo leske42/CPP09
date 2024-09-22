@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:42:29 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 14:53:36 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:06:02 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 OperationInterrupt::OperationInterrupt(void)
 {
-    
+    primed = false;
+}
+
+OperationInterrupt::OperationInterrupt(bool primer)
+{
+    primed = primer;
 }
 
 OperationInterrupt::~OperationInterrupt() throw()
@@ -24,10 +29,5 @@ OperationInterrupt::~OperationInterrupt() throw()
 
 OperationInterrupt::OperationInterrupt(const OperationInterrupt& other)
 {
-    (void) other;
+    this->primed = other.primed;
 }
-
-// OperationInterrupt& OperationInterrupt::operator=(const OperationInterrupt& other)
-// {
-    
-// }

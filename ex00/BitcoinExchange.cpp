@@ -6,12 +6,13 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:07 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 12:27:58 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 13:54:57 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include "ParseException.hpp"
+#include "OperationInterrupt.hpp"
 #include <fstream>
 #include <cstdlib>
 #include <cmath>
@@ -32,7 +33,14 @@ void BitcoinExchange::ValidateLine(std::string& line, int idx, int mode)
     float       val;
     uint32_t    res;
 
-    SeparateValues(line, year, mon, day, val);
+    try
+    {
+        SeparateValues(line, year, mon, day, val);
+    }
+    catch (OperationInterrupt &e)
+    {
+        throw ParseException(mode, idx, OVERFLOW);
+    }
 
     if (year < 2009 || year > 2024)
         throw ParseException(mode, idx, YEAR_RNG);
