@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 11:55:51 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:00:19 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void InputFile::SeparateValues(std::string& line, uint32_t& year, uint32_t& mont
     //TIP: use strtod() or ft_atoi() here
     const char *str = line.c_str();
 
-    year = atoi(str);
+    year = ft_atoi(str);
     while (*str != '-')
         str++;
     str++;
-    month = atoi(str); //cannot jump with += 3 cause they can give OF atp
+    month = ft_atoi(str); //cannot jump with += 3 cause they can give OF atp
     while (*str != '-')
         str++;
     str++;
-    day = atoi(str);
+    day = ft_atoi(str);
     while (*str != '|')
         str++;
     str += 2;
