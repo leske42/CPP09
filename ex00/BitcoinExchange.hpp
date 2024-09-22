@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 12:27:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:03:32 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,5 @@ class BitcoinExchange
 };
 
 long int	ft_atoi(const char *str);
-
-//void StoreLine(std::string& line);
-// void SeparateValuesDB(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
-// void SeparateValuesIN(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);
-// void CheckRawFormatDB(std::string& line, int idx);
-// void CheckRawFormatIN(std::string& line, int idx);
-// void StoreValue(uint32_t& val);
 
 #endif

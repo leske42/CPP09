@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/27 18:30:16 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:14:34 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ class InputFile : public BitcoinExchange
         ~InputFile(void);
 
         void ParseInput(char *target);
-        std::pair<uint32_t, float> get_next_val(void); //for now without &
 
     private:
 

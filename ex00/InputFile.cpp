@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 14:00:19 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:14:30 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 void InputFile::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
 {
-    //TIP: use strtod() or ft_atoi() here
     const char *str = line.c_str();
 
     year = ft_atoi(str);
     while (*str != '-')
         str++;
     str++;
-    month = ft_atoi(str); //cannot jump with += 3 cause they can give OF atp
+    month = ft_atoi(str);
     while (*str != '-')
         str++;
     str++;
@@ -92,7 +91,6 @@ void InputFile::ParseInput(char *target)
     while (1)
     {
         std::getline(data, line);
-        //std::cout << line << std::endl;
         if (line.empty() && data.eof())
             break ;
         else if (line.empty())
@@ -114,21 +112,7 @@ void InputFile::ParseInput(char *target)
             break ;
         idx++;
     }
-    //std::cout << "InputFile created & values stored" << std::endl;
     data.close();
-}
-
-std::pair<uint32_t, float> InputFile::get_next_val(void)
-{
-    if (BitcoinDB.empty())
-        throw OperationInterrupt();
-    std::pair<uint32_t, float> ret;
-    std::map<uint32_t, float>::iterator iter = BitcoinDB.begin();
-    ret = *iter;
-    BitcoinDB.erase(iter);
-    DisplayLog(ret);
-    return (ret);
-    //return (std::pair<uint32_t, float>(10, 10.0));
 }
 
 void InputFile::DisplayLog(std::pair<uint32_t, float> log)
