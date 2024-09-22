@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 19:30:09 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 22:21:59 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:27:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ class BitcoinExchange
         std::map<uint32_t, float>   BitcoinDB;
         BitcoinExchange             *other_link;
 };
+
+long int	ft_atoi(const char *str);
 
 //void StoreLine(std::string& line);
 // void SeparateValuesDB(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val);

@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:23:59 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 12:08:43 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:28:45 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,21 @@ void DataBase::CreateDB()
     data.close();
 }
 
-void DataBase::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val)
+void DataBase::SeparateValues(std::string& line, uint32_t& year, uint32_t& month, uint32_t& day, float& val, int idx)
 {
-    //TIP: use strtod() or ft_atoi() here
+    //TODO: use strtod() or ft_atoi() here
     const char *str = line.c_str();
 
-    year = atoi(str);
+    //TODO: put try_catch block here
+    year = ft_atoi(str);
     while (*str != '-')
         str++;
     str++;
-    month = atoi(str); //cannot jump with += 3 cause they can give OF atp
+    month = ft_atoi(str); //cannot jump with += 3 cause they can give OF atp
     while (*str != '-')
         str++;
     str++;
-    day = atoi(str);
+    day = ft_atoi(str);
     while (*str != ',')
         str++;
     str++;

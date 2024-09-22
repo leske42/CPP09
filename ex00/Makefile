@@ -17,7 +17,7 @@ CYAN = \033[0;96m
 WHITE = \033[0;97m
 
 SRC_FILES = main BitcoinExchange InputFile DataBase ParseException \
-			OperationInterrupt
+			OperationInterrupt ft_atoi
 
 SRC = $(addsuffix .cpp, $(SRC_FILES))
 
