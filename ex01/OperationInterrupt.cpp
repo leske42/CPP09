@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:42:29 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/29 18:22:28 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:50:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,3 @@ OperationInterrupt::OperationInterrupt(const OperationInterrupt& other)
 {
     this->primed = other.primed;
 }
-
-// OperationInterrupt& OperationInterrupt::operator=(const OperationInterrupt& other)
-// {
-    
-// }

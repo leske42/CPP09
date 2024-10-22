@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 18:37:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:06:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,16 +198,21 @@ template <class Container>
 typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, int jacob_index)
 {
     typename Container::iterator target;
+    int res = 0;
     
     last_bound = from.begin() + (pow(2, jacob_index) + pow(-1, (jacob_index - 1))) / 3;
     if (last_bound >= from.end())
         throw OperationInterrupt(UNPRIMED);
-    target = last_bound - 1; //idk why but this -1 solved it???
-    target = from.begin() + ((pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3) - 1;
+    target = last_bound - 1;
+    res = ((pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3);
+    if (res < 0 || (unsigned long)res > from.size())
+        res = from.size();
+    target = from.begin() + res - 1;
     if (target > from.end() - 1)
         target = from.end() - 1;
     return (target);
 }
+// target = from.begin() + ((pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3) - 1;
 
 template <class Container>
 typename Container::iterator IMerge<Container>::calc_last(Container& cont, int idx)
@@ -226,7 +231,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
     last_bound = from.begin();
     typename Container::iterator target = from.begin();
     typename Container::iterator first = to.begin();
-    typename Container::iterator last = calc_last(to, target - from.begin());//to.end() - 1;
+    typename Container::iterator last = calc_last(to, target - from.begin());
     typename Container::iterator mid;
     typename Container::iterator pair;
     int jacob_index = 1;

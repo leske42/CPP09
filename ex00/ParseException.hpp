@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:32:03 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 12:14:21 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:21:59 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ enum Issue
 {
     INC_ENT,
     HEADER,
-    INV_SEP,
+    FILE_NOP,
     INV_CHAR,
     YEAR_RNG,
     MON_RNG,
     DAY_RNG,
     REQ_RNG,
     NEG_NUM,
-    FILE_NOP,
+    INV_SEP,
     OVERFLOW,
     EMPTY,
     OTHER

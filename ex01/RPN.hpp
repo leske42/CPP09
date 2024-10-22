@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:24 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/31 18:02:09 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:50:43 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,5 @@ class RPN
         long int inspect;
 
 };
-
-// void ValidateLine(std::string& line);
 
 #endif

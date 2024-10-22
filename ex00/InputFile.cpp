@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:24:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 14:14:30 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:34:33 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,16 @@ void InputFile::CheckRawFormat(std::string& line, int idx)
     iter++;
     if (iter != line.end() && *iter == '-')
         iter++;
-    if (iter == line.end())
-        throw ParseException(INPUT, idx, INV_SEP);
+    if (iter == line.end() || !isdigit(*iter))
+        throw ParseException(INPUT, idx, *iter);
     while (iter != line.end() && isdigit(*iter))
         iter++;
-    if (iter != line.end() && *iter == '.')
+    if (iter == line.end())
+        return ;
+    else if (*iter == '.')
         iter++;
+    if (iter == line.end())
+        throw ParseException(INPUT, idx, INV_SEP);
     while (iter != line.end() && isdigit(*iter))
         iter++;
     if (iter != line.end())

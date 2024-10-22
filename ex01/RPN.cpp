@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 20:44:22 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/08/30 12:10:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:46:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,12 @@ void RPN::_execute_calc(long int first, long int second, long int operand)
             result = first * second;
             break;
         case DIV:
+        {
+            if (second == 0)
+                throw (OperationInterrupt(PRIMED));
             result = first / second;
             break;
+        }
     }
     if (result > INT_MAX)
     {

@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 12:32:49 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/22 13:54:35 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/10/15 13:19:51 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ ParseException::ParseException(int loc, unsigned int ln, int type)
         else
             issue = INV_CHAR;
     }
+    else if (type == '\t')
+        issue = INV_SEP;
     else
         issue = type;
     location = loc;
