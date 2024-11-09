@@ -10,7 +10,7 @@ Firstly, you will need [the book](https://seriouscomputerist.atariverse.com/medi
 
 ### Why do the number of comparisons matter?
 
-This is one question that gets asked very frequently during evaluations. When sorting a container of int, merge insertion sort is definitely not the fastest way to do it. This method is optimized for the least amount of comparisons, not time complexity. Why would any sort be optimized this way?
+This is one question that gets asked very frequently during evaluations. When sorting a container of int, merge insertion sort is definitely not the fastest way to do it. This method is optimized for the least amount of comparisons, not time complexity. But why would any sort be optimized this way?
 
 The point of optimization is always to save resources. Let's say we are not sorting a container of int, but some arbitrary data type `T`, from which any two elements are very expensive to compare. For example, such `T` can be a one-gigabyte string (`strcmp` iterating through 1,073,741,824 characters, anyone?), or a huge object/struct loaded with all kinds of data. If comparisons are expensive and eating up resources (like time), you want to make as few of them as possible. It is indeed does not make much sense to choose merge insertion sort when `T` is a simple int, but the point of the exercise is not creating a practical use case, but understanding the algorithm.
 
@@ -33,32 +33,32 @@ What does this mean?
 Let's say we have a container of 9 numbers:<br>
 `2, 3, 8, 11, 3, 1, 99, 8, 0`
 
-**Point 1** is simple: take all of the numbers you have to sort, assign them into pairs (2 neighbors are one pair), and for each pair, decide which one is the bigger number (if they are equal, then it doesn't matter).
+**Step 1** is simple: take all of the numbers you have to sort, assign them into pairs (2 neighbors are one pair), and for each pair, decide which one is the bigger number (if they are equal, then it doesn't matter).
 
 This means we now have the pairs:<br>
 `(2,3) (8,11) (3,1) (99, 8) (0)`
 
-**Point 2** says: from all of these pairs, you need to sort the bigger elements - therefore you need to separate the big and small members of the pairs first. You can, for example, have another container and put all the "small" elements there.
+**Step 2** says: from all of these pairs, you need to sort the bigger elements - therefore you need to separate the big and small members of the pairs first. How you approach this depends on your individual implementation. Some people assign them to `std::pair`s. You can also have another container and put all the "small" elements there.
 
 We have the big elements:<br>
 `3, 11, 3, 99`<br>
 And the small ones:<br>
 `2, 8, 1, 8, 0`
 
-Now comes the tricky part. The book says: the way you will have to sort the larger elements is *by merge insertion*. Therefore, whatever implementation you make, will have to be *recursive*. Since merge insertion itself is point 1-3, we will take the larger elements now, and apply the merge insertion sort to them.
+Now comes the tricky part. The book says: the way you will have to sort the larger elements is *by merge insertion*. Therefore, whatever implementation you make, will have to be *recursive*. Since _merge insertion itself is step 1-3_, we will take the larger elements now, and apply the merge insertion sort to them.
 
-Let's grab the big numbers and go back to **point 1**.<br>
+Let's grab the big numbers and go back to **step 1**.<br>
 Make pairs:<br>
 `(3, 11), (3, 99)`<br>
 Separate.<br>
 `Big: 11, 99`<br>
 `Small: 3, 3`
 
-Then go back to **point 1** again (and again if needed).
+Then go back to **step 1** again (and again if needed).
 
-When will the recursion stop? When you only have 1 pair left (in the above example `(11, 99)`, you separate that and you end up with only 1 element in your "bigger" container. That 1 element is inherently sorted. Since the "larger numbers", at least for this depth of the recursion, are sorted, you can now proceed to **point 3**.
+When will the recursion stop? When you only have 1 pair left (in the above example `(11, 99)`, you separate that and you end up with only 1 element in your "bigger" container. That 1 element is inherently sorted. Since the "larger numbers", at least for this depth of the recursion, are sorted, you can now proceed to **step 3**.
 
-When you arrive at **point 3** (on any depth), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted.
+When you arrive at **step 3** (on any depth), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted.
 
 You have to, then, insert the latter into the former, with *binary insertion*. Look at the last line on the picture, and check the indexes of the elements to insert (labeled `b`).<br> 
 You can see a pattern like *3->2->5->4->11->10->9->8->7->6->21->20...*
@@ -69,11 +69,11 @@ These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence
 
 <div align="center">
 
-(2<sup>k+1</sup> + ( -1 )<sup> k </sup>) / 3
+(2<sup>k+1</sup> + ( -1 )<sup>k </sup>) / 3
 
 </div>
 
-where *k* is the index of the element. So the first element will be (2<sup>1+1</sup> + ( -1 )<sup> 1 </sup>) / 3 = 3 / 3 = 1. The fifth element is (2<sup>5+1</sup> + ( -1 )<sup> 5 </sup>) / 3 = 63 / 3 = 21 etc.
+where *k* is the index of the element. So the first element will be (2<sup>1+1</sup> + ( -1 )<sup>1 </sup>) / 3 = 3 / 3 = 1. The fifth element is (2<sup>5+1</sup> + ( -1 )<sup>5 </sup>) / 3 = 63 / 3 = 21 etc.
 
 ### What is the purpose of the Jacobstahl sequence?
 
@@ -83,9 +83,15 @@ This is another thing that the book does not explain very clearly, but it's quit
 
 We are using *binary insertion* to insert the unsorted elements into the sorted container. Binary insertion is basically just the technique to apply *binary search* to find the position at which to insert. I will not explain it in detail here, because this process is very easy to find on the internet (basically you cut whatever you are searching in in half, identify which half to look in further, then cut that in half etc. Naturally this only works on a container whose elements are already sorted).
 
-Binary insertion, on the worse case scenario, takes $\lfloor log_2(n)\rfloor + 1$ comparisons to insert an element into a container of *n* elements at the right position. This expression means: *to what power would I have to raise 2 to get n (rounded down), plus one.* This happens because during binary search, you keep dividing the range of elements you parse by 2 (each division happens after one comparison), and worst case scenario, if this continues until you end up with a range of exactly one element, you need to compare your element against that one.
+Binary insertion, on the worse case scenario, takes
 
-To use this expression in practice, for example, if you have a container of 12 elements: you need the last power of 2 that fits into 12. It is $2^3$ (8), because $2^4$ (16) already exceeds it, and you will need to round down, not up. Then you add 1 to it, so for a container of 12 elements, you need 4 comparisons to insert something, worst case. In below table you can see the worst-case comparisons calculated for some number of elements.
+<div align="center">
+<img src="/resources/imgs/insertion_num.png" width="125">
+</div>
+
+comparisons to insert an element into a container of *n* elements at the right position. This expression means: *to what power would I have to raise 2 to get n (rounded down), plus one.* This happens because during binary search, you keep dividing the range of elements you parse by 2 (each division happens after one comparison), and worst case scenario, if this continues until you end up with a range of exactly one element, you need to compare your element against that one.
+
+To use this expression in practice, for example, if you have a container of 12 elements: you need the last power of 2 that fits into 12. It is 2<sup>3</sup> (8), because 2<sup>4</sup> (16) already exceeds it, and you will need to round down, not up. Then you add 1 to it, so for a container of 12 elements, you need 4 comparisons to insert something, worst case. In below table you can see the worst-case comparisons calculated for some number of elements.
 
 <br>
 
@@ -113,6 +119,8 @@ To use this expression in practice, for example, if you have a container of 12 e
 You can see that the comparisons always grow upon reaching the next power of 2 (2, 4, 16, etc).
 
 Now imagine then that you need to insert a container of 11 (unsorted) elements into another container of 11 (sorted). We will examine three appraches for insertion: inserting left to right, inserting right to left, and then inserting following the Jacobstahl sequence.
+
+*NOTE: If you have _Ligretto_ or any other colored & numbered cards, I recommend using them to try and visualize each approach for yourself (one distinct color for each container). In case you do not have any at hand, I will attach some pictures at the end of this file at the _Pictures_ section.*
 
 **First approach - inserting left to right**
 
@@ -166,7 +174,7 @@ Another approach would be to insert right to left. If you immediately seek out t
 | 2 | 10 | 4 |
 | 1 | 10 | 4 |
 
-Total number of comparisons: **40**
+Total number of comparisons: **44**
 
 </div>
 
@@ -206,6 +214,22 @@ Total number of comparisons: **34**
 
 <br>
 
-If you observe the above table, you can see what the Jacobstahl sequence does *beautifully*. Table 1 shows that the amount of comparisons needed always increases at a field size of the next power of 2 (for example, there is an increase in comparisons at 1, 4, 8, and 16 elements). Jacobstahl *keeps your search field size just below this treshold, for as long as possible*. Since beginning from 2<sup>n</sup> elements you would have a required comparison number increase, you can be sure as hell your n<sup>th</sup> search field size will be *exactly* 2<sup>n</sup> - 1. **This** is why Jacobstahl is crazy optimized for binary insertion. You might even get lucky on each turn and insert right from your next search field, but like at approach 2, this is not part of the calculation.
+If you observe the above table, you can see what the Jacobstahl sequence does beautifully. Table 1 shows that the amount of comparisons needed always increases at a field size of the next power of 2 (for example, there is an increase in comparisons at 1, 4, 8, and 16 elements). Jacobstahl *keeps your search field size just below this treshold, for as long as possible*. Since beginning from 2<sup>n</sup> elements you would have a required comparison number increase, you can be sure as hell your n<sup>th</sup> search field size will be *exactly* 2<sup>n</sup> - 1. **This** is why Jacobstahl is crazy optimized for binary insertion.
 
 ### But how to keep track of my pairs?
+
+In my above examples, you could see perhaps the biggest challenge one can face when implementing the algorithm. Remember that in **step 1**, we had to create pairs. When it comes to **step 3**, the insertion phase, you need to strongly rely on these pairs, because when it comes to the binary insertion, each B gets inserted *left from* its pair, and everything right from its pair can be ignored. If we don't keep track of the pairs, each B needs to be inserted *on a search field covering the whole container A*. This means more comparisons than any of the approaches listed before.
+
+But there are multiple levels of recursion between most step 1s and corresponding step 3s. Let's say you have a container of 22 elements, separating it into 11 As and 11 Bs is the very first step in your algorithm. Merging the 11 Bs into the now-sorted As should be the very last. It's easy to say "pick an A and find its pair" - but how to know which B used to belong to it?
+
+The first and most important thing I want to say about this: **DO NOT use std::find for this purpose!**
+
+This approach includes not taking duplicates, then for every A, saving what your original B was at **step 1**, and using `std::find` to find it in the unsorted container when you arrive at **step 3** (this could return in a false positive if you take duplicates, hence the exclusion). A lot of people do this, but it's wrong, and is completely against the purpose of the algorithm.
+
+Like I mentioned earlier, the point of merge insertion is sorting your elements with the least amount of comparisons between any two `T`. `std::find` will use binary search to find its target in the unsorted container - on each turn comparing two `T` which each other, which could be completely avoided, had we kept proper track of the relationship between As and Bs from the beginning. Remember that our base assumption is that comparing any two `T` is a very expensive operation.
+
+Since `std::find` is basically just a binary search, using it for the binary insertion phase (finding where exactly to insert within your custom boundaries) is, of course, fine. While I would personally recommend you to write your own binary search algorithm to better understand the process, this is also a valid approach. **But using std::find to find which B belongs to a certain A is not acceptable.** A properly implemented Ford-Johnson should have no issue with duplicates.
+
+There are many other ways to tackle this challenge, although this is arguably the hardest part of any implementation. [Xaver](https://github.com/rwxg) had a solution using `std::pair`s and "ancestor pointers" pointing at the pairs they were derived from. I also know [Michi](https://github.com/HeiMichael) treats groups of `T` that have ever been compared as one unit that moves together, and then always compares the "top" element of two units with each other (see picture).
+
+
