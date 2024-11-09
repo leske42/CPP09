@@ -67,9 +67,13 @@ This means: you choose the element with the 3rd index from the sorted container,
 
 These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence**. Looking at fig. 13 in the book, you can see that any element of this sequence can be calculated with the formula 
 
-$$ (2^{k+1} + (-1)^k)/3 $$
+<div align="center">
 
-where *k* is the index of the element. So the first element will be $(2^{1 + 1} + (-1)^1)/3 = 3/3 = 1$. The fifth element is $(2^{5 + 1} + (-1)^5)/3 = 63/3 = 21$ etc.
+(2<sup>k+1</sup> + ( -1 )<sup> k </sup>) / 3
+
+</div>
+
+where *k* is the index of the element. So the first element will be (2<sup>1+1</sup> + ( -1 )<sup> 1 </sup>) / 3 = 3 / 3 = 1. The fifth element is (2<sup>5+1</sup> + ( -1 )<sup> 5 </sup>) / 3 = 63 / 3 = 21 etc.
 
 ### What is the purpose of the Jacobstahl sequence?
 
@@ -114,7 +118,7 @@ Now imagine then that you need to insert a container of 11 (unsorted) elements i
 
 Let's start the indexing from 1 instead of 0 for convenience's sake.
 
-You go to the 1st element (index 1) of the sorted container - let's name it $A_1$, and *select its pair* from the unsorted one - name that $B_1$. Because you know that $B_1$ is smaller than its pair, and you also know that $A_1$ is the smallest in the unsorted container, you need 0 comparisons to insert $B_1$. Now you move on to $A_2$ - which now has been promoted to index 3 - and insert its pair ($B_2$). Again, you only need to compare $B_2$ with the elements *left from* $A_2$, because you know that its smaller than $A_2$, and everything right from $A_2$ is bigger than $A_2$. But because you always insert left-side from your current index, each insertion will, with 100% certainty, increase the number of elements you need to perform the search on in the next turn. When you arrive to the last B to insert, you will need to do binary insertion on a container of 20 elements (from the total of 22, excluding the pair of $B_{11}$ and $B_{11}$ itself).
+You go to the 1st element (index 1) of the sorted container - let's name it A<sub>1</sub>, and *select its pair* from the unsorted one - name that B<sub>1</sub>. Because you know that B<sub>1</sub> is smaller than its pair, and you also know that A<sub>1</sub> is the smallest in the unsorted container, you need 0 comparisons to insert B<sub>1</sub>. Now you move on to A<sub>2</sub> (which now has been promoted to index 3) and insert its pair (B<sub>2</sub>). Again, you only need to compare B<sub>2</sub> with the elements *left from* A<sub>2</sub>, because you know that its smaller than A<sub>2</sub>, and everything right from A<sub>2</sub> is bigger than A<sub>2</sub>. But because you always insert left-side from your current index, each insertion will, with 100% certainty, increase the number of elements you need to perform the search on in the next turn. When you arrive to the last B to insert, you will need to do binary insertion on a container of 20 elements (from the total of 22, excluding the pair of B<sub>11</sub> and B<sub>11</sub> itself).
 
 <br>
 
@@ -142,7 +146,7 @@ Total number of comparisons: **39**
 
 **Second approach - inserting right to left**
 
-Another approach would be to insert right to left. If you immediately seek out the A with the index 11, you will still need to compare its B with everything left from it, but this will now only mean 10 elements, not 20. You might even get lucky and get to insert it *rightmost* from the $A_{10}$, which means $B_{10}$ will have a "search field" of only 9 elements (everything still left from $A_{10}$). But when we count the number of comparisons, *we always account for the worst case*. Let's imagine everything in container B is smaller than the smallest A. This means that, as you insert right to left, in each turn you can subtract one more A from the search field, but there will be a B added instead. So your search field will have a constant size of 10 elements.
+Another approach would be to insert right to left. If you immediately seek out the A with the index 11, you will still need to compare its B with everything left from it, but this will now only mean 10 elements, not 20. You might even get lucky and get to insert it *rightmost* from the A<sub>10</sub>, which means B<sub>10</sub> will have a "search field" of only 9 elements (everything still left from A<sub>10</sub>). But when we count the number of comparisons, *we always account for the worst case*. Let's imagine everything in container B is smaller than the smallest A. This means that, as you insert right to left, in each turn you can subtract one more A from the search field, but there will be a B added instead. So your search field will have a constant size of 10 elements.
 
 <br>
 
@@ -174,7 +178,7 @@ One can of course argue that we don't have a lot of chance to get *this unlucky*
 
 Let's assume we have the same "unlucky" containers we had for **approach 2**: all of the elements in container B are smaller than the smallest A. Therefore, all Bs get inserted leftmost from all of the As.
 
-We start with A<sub>1</sub> (the A with the index of 1): its pair will gets inserted leftmost from it, without any comparisons, like in **approach 1**. Then we jump to $A_3$ - our search field now consists of 3 elements: $A_1$, $A_2$ and the already inserted $B_1$. Then, moving backwards to $A_2$ the field remains the same size: $A_2$ itself is not part of the search field anymore, but $B_3$ has been added.
+We start with A<sub>1</sub> (the A with the index of 1): its pair will gets inserted leftmost from it, without any comparisons, like in **approach 1**. Then we jump to A<sub>3</sub> - our search field now consists of 3 elements: A<sub>1</sub>, A<sub>2</sub> and the already inserted B<sub>1</sub>. Then, moving backwards to A<sub>2</sub> the field remains the same size: A<sub>2</sub> itself is not part of the search field anymore, but B<sub>3</sub> has been added.
 
 After you jump up to a "boundary index" and it sets the size of your search field, you can observe that while you move backwards, this size will remain constant (exactly like in **approach 2**). You can look at the table of how the field grows:
 
@@ -202,6 +206,6 @@ Total number of comparisons: **34**
 
 <br>
 
-If you observe the above table, you can see what the Jacobstahl sequence does *beautifully*. Table 1 shows that the amount of comparisons needed always increases at a field size of the next power of 2 (for example, there is an increase in comparisons at 1, 4, 8, and 16 elements). Jacobstahl *keeps your seach field size just below this treshold, for as long as possible*. Since beginning from 2<sup>n</sup> elements you would have a required comparison number increase, you can be sure as hell your n<sup>th</sup> search field size will be *exactly* 2<sup>n</sup> - 1. **This** is why Jacobstahl is crazy optimized for binary insertion. You might even get lucky on each turn and insert right from your next search field, but like at approach 2, this is not part of the calculation.
+If you observe the above table, you can see what the Jacobstahl sequence does *beautifully*. Table 1 shows that the amount of comparisons needed always increases at a field size of the next power of 2 (for example, there is an increase in comparisons at 1, 4, 8, and 16 elements). Jacobstahl *keeps your search field size just below this treshold, for as long as possible*. Since beginning from 2<sup>n</sup> elements you would have a required comparison number increase, you can be sure as hell your n<sup>th</sup> search field size will be *exactly* 2<sup>n</sup> - 1. **This** is why Jacobstahl is crazy optimized for binary insertion. You might even get lucky on each turn and insert right from your next search field, but like at approach 2, this is not part of the calculation.
 
 ### But how to keep track of my pairs?
