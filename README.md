@@ -232,4 +232,8 @@ Since `std::find` is basically just a binary search, using it for the binary ins
 
 There are many other ways to tackle this challenge, although this is arguably the hardest part of any implementation. [Xaver](https://github.com/rwxg) had a solution using `std::pair`s and "ancestor pointers" pointing at the pairs they were derived from. I also know [Michi](https://github.com/HeiMichael) treats groups of `T` that have ever been compared as one unit that moves together, and then always compares the "top" element of two units with each other (see picture).
 
+<div align="center">
+<img src="/resources/imgs/groups.jpg" width="600">
 
+  Grouping approach. After 3rd comparison we have arrived at **step 3** for the first time.
+</div>
