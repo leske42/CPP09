@@ -2,11 +2,31 @@
 Last project of 42 school's C++ Piscine
 
 ## How to do the Ford-Johnson merge insertion sort
-I have suffered a lot with this project, but I am quite satisfied with the result, so I decided to make this short tutorial on how to implement the merge insertion sort correctly.
+I have suffered a lot with this project, but I think my understanding became quite solid by the end, so I decided to make this short tutorial on how to implement the merge insertion sort correctly.
 
-If you are from 42 & working on this project - do not take my code, the implementation is quite shitty (i am mostly writing C in C++), but i am pretty sure with this tutorial you will be able to implement your own.
+**DISCLAIMER**: If you are from 42 & working on this project - do not take my code, the implementation is quite shitty (I am mostly writing C in C++), but I am pretty sure with this tutorial you will be able to implement the algorithm on your own. You will not find parts telling you how to write your code or what containers/functions to use, but I try to cover the theory and logic behind the exercise as much as I can (based on my current knowledge).
 
-Firstly, you will need [the book](https://seriouscomputerist.atariverse.com/media/pdf/book/Art%20of%20Computer%20Programming%20-%20Volume%203%20(Sorting%20&%20Searching).pdf) - by now you should also be able to find this link in the subject. It is very important to use this book to understand the logic of the sort and not other sources or articles from the internet. They might seem similar, but they are not *exactly right* and this result in much more comparisons in the end.
+I recommend this tutorial also to students who are already done with the project, but either feel like they have not done the correct implementation and are not sure where it went wrong, or have done it correctly but there were some parts of the process they did not find very clear (for example, the purpose of the Jacobstahl sequence is not explained well in most resources, but it is very important for the sorting to work well, and is also super interesting). If you belong to this group, you can use my table of contents to choose the parts you are interested in.
+
+### Small table of contents
+
+- [1. What you will need](#what-you-will-need)
+- [2. Why do the number of comparisons matter?](#why-do-the-number-of-comparisons-matter)
+- [3. The main idea: merge insertion in 3 steps](#the-main-idea-merge-insertion-in-3-steps)
+- [4. What is the purpose of the Jacobstahl sequence?](#what-is-the-purpose-of-the-jacobstahl-sequence)
+- [5. But how to keep track of my pairs?](#but-how-to-keep-track-of-my-pairs)
+- [6. Testing if your implementation is correct](#testing-if-your-implementation-is-correct)
+- [7. Pictures](#pictures)
+   - [7.1. Mirroring](#mirroring-approach)
+   - [7.2. Insertion methods](#insertion-methods)
+
+### What you will need
+
+Firstly, if you have some colored/numbered cards around (like Uno or Ligretto), they will be super useful for visualizing the process of sorting (separating and insertion). During/after reading this tutorial, but before starting to code, I recommend playing around with them to better visualize the process (especially because recursion can be hard to imagine). They are super helpful for debugging too. In case you do not have access to any cards though, I have documented some of the concepts I'm talking about - you can find this in the [Pictures](#pictures) section.
+
+You will definitely need _the book_ - by now you should be able to find the link to this in the subject. Some people have told me there are periods when the link for the book is not accessible, therefore I have uploaded an excerpt of the parts that we need to this repo (you can find it in the `resources` folder). I hope I will get no letters to take it down in the near future. If you can access the whole book and you have some time, it is in general a very interesting read.
+
+It is very important to use this book to understand the logic of the sort and not other sources or articles from the internet. They might seem similar, but they are not *exactly right* and this can (usually will) result in your algorithm doing much more comparisons than necessary in the end.
 
 ### Why do the number of comparisons matter?
 
@@ -18,52 +38,43 @@ Another thing that follows from this is that when we say we try to reduce the am
 
 ### The main idea: merge insertion in 3 steps
 
-Some people have told me there are periods when the link for the book is not accessible from the subject. Therefore I have uploaded an excerpt of the parts that we need to this repo (you can find it in the `book` folder). But if you can access the book and you have some time, it is in general a very interesting read.
-
-If you have no time, just search for `merge insertion` (you will find the one you need on page 184). On page 185, you will find the main description of the algorithm in 3 steps:
+Take the book and search for "merge insertion" (you will find the one you need on page 184). On page 185, you will find the main description of the algorithm in 3 steps.
 
 <br>
+<div align="center">
+<img src="/resources/imgs/steps.png" width="600">
 
-![steps](/resources/imgs/steps.png)
-
+  Merge insertion in 3 steps
+</div>
 <br>
 
 What does this mean?
 
 Let's say we have a container of 9 numbers:<br>
-`2, 3, 8, 11, 3, 1, 99, 8, 0`
+**2, 3, 8, 11, 3, 1, 99, 8, 0**
 
-**Step 1** is simple: take all of the numbers you have to sort, assign them into pairs (2 neighbors are one pair), and for each pair, decide which one is the bigger number (if they are equal, then it doesn't matter).
+**Step 1** is simple: take all of the numbers you have to sort, assign them into pairs (2 neighbors are one pair), and for each pair, decide which one is the bigger number (if they are equal, you can choose the one you like).
 
 This means we now have the pairs:<br>
-`(2,3) (8,11) (3,1) (99, 8) (0)`
+**(2,3) (8,11) (3,1) (99, 8) (0)**
 
-**Step 2** says: from all of these pairs, you need to sort the bigger elements - therefore you need to separate the big and small members of the pairs first. How you approach this depends on your individual implementation. Some people assign them to `std::pair`s. You can also have another container and put all the "small" elements there.
+**Step 2** says: from all of these pairs, you need to sort *the bigger elements only* - therefore you need to separate the big and small members of the pairs first. How you approach this depends on your individual implementation. Some people assign them to `std::pair`s. You can also have another container and put all the "small" elements there, which is what I will imitate now because it looks much more readable.
 
-We have the big elements:<br>
-`3, 11, 3, 99`<br>
+So we have the big elements:<br>
+**3, 11, 3, 99**<br>
 And the small ones:<br>
-`2, 8, 1, 8, 0`
+**2, 8, 1, 8, 0**
 
 Now comes the tricky part. The book says: the way you will have to sort the larger elements is *by merge insertion*. Therefore, whatever implementation you make, will have to be *recursive*. Since _merge insertion itself is step 1-3_, we will take the larger elements now, and apply the merge insertion sort to them.
 
-Let's grab the big numbers and go back to **step 1**.<br>
-Make pairs:<br>
-`(3, 11), (3, 99)`<br>
-Separate.<br>
-`Big: 11, 99`<br>
-`Small: 3, 3`
+Let's grab only the big numbers and go back to **step 1**. Make pairs. Separate. Then go back to **step 1** again (and again, and again, if needed).
 
-Then go back to **step 1** again (and again if needed).
+When will the recursion stop? When you only have 1 pair left (in the above example this will be **(11, 99)** ), you separate that and you end up with only 1 element in your "bigger" container. That 1 element is inherently sorted. Since the "larger numbers", at least for this depth of the recursion, are sorted, you can now proceed to **step 3**.
 
-When will the recursion stop? When you only have 1 pair left (in the above example `(11, 99)`, you separate that and you end up with only 1 element in your "bigger" container. That 1 element is inherently sorted. Since the "larger numbers", at least for this depth of the recursion, are sorted, you can now proceed to **step 3**.
+When you arrive at **step 3** (on any applicable depth of the recursion), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted. You have to, then, insert the latter into the former, with *binary insertion*. Look at the last line on the picture, and check the indexes of the elements to insert (labeled `b`).<br> 
+You can see a pattern like *3->2->5->4->11->10->(9->8->7->6->21->20...)*
 
-When you arrive at **step 3** (on any depth), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted.
-
-You have to, then, insert the latter into the former, with *binary insertion*. Look at the last line on the picture, and check the indexes of the elements to insert (labeled `b`).<br> 
-You can see a pattern like *3->2->5->4->11->10->9->8->7->6->21->20...*
-
-This means: you choose the element with the 3rd index from the sorted container, *select its pair* from the unsorted one, and insert it into the former. Then do this with the element with the 2nd index, the 5th, and so on. You can see that you always jump up to a "boundary" number (5, 11, 21, etc), then count backwards until you reach what you have already covered.
+This means: you choose the element with the 3rd index from the sorted container, *select its pair* from the unsorted one, and insert it into the former. Then do this with the element with the 2nd index, the 5th, and so on. (The first index is not listed here because, as you will see later, its pair can be inserted with 0 comparisons, so can technically be counted as an element of the sorted container). You can see that you always jump up to a "boundary" number (5, 11, 21, etc), then count backwards until you reach and index you have already covered.
 
 These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence**. Looking at fig. 13 in the book, you can see that any element of this sequence can be calculated with the formula 
 
@@ -120,7 +131,7 @@ You can see that the comparisons always grow upon reaching the next power of 2 (
 
 Now imagine then that you need to insert a container of 11 (unsorted) elements into another container of 11 (sorted). We will examine three appraches for insertion: inserting left to right, inserting right to left, and then inserting following the Jacobstahl sequence.
 
-*NOTE: If you have _Ligretto_ or any other colored & numbered cards, I recommend using them to try and visualize each approach for yourself (one distinct color for each container). In case you do not have any at hand, I will attach some pictures at the end of this file at the _Pictures_ section.*
+*NOTE: If you have the cards mentioned in the introduction, now is a good chance to use them and visualize each approach for yourself (one distinct color for each container). In case you do not have any at hand, I will attach some pictures at the [Pictures](#insertion-methods) section.*
 
 **First approach - inserting left to right**
 
@@ -230,10 +241,70 @@ Like I mentioned earlier, the point of merge insertion is sorting your elements 
 
 Since `std::find` is basically just a binary search, using it for the binary insertion phase (finding where exactly to insert within your custom boundaries) is, of course, fine. While I would personally recommend you to write your own binary search algorithm to better understand the process, this is also a valid approach. **But using std::find to find which B belongs to a certain A is not acceptable.** A properly implemented Ford-Johnson should have no issue with duplicates.
 
-There are many other ways to tackle this challenge, although this is arguably the hardest part of any implementation. [Xaver](https://github.com/rwxg) had a solution using `std::pair`s and "ancestor pointers" pointing at the pairs they were derived from. I also know [Michi](https://github.com/HeiMichael) treats groups of `T` that have ever been compared as one unit that moves together, and then always compares the "top" element of two units with each other (see picture).
+There are many other ways to tackle this challenge, although this is arguably the hardest part of any implementation. [Xaver](https://github.com/rwxg) had a solution using `std::pair`s and "ancestor pointers" pointing at the pairs they were derived from. [Ismayil](https://github.com/ismayilguliyev28) stored each `T` together with their index in the original container, then used this information to look up the ancestor pairs of each element at every step 3 (since index is not of type `T`, going through a container to look for a specific index is fine). I also know [Michi](https://github.com/HeiMichael) treats groups of `T` that have ever been compared as one unit that moves together, and then always compares the "top" element of two units with each other (see picture).
 
 <div align="center">
 <img src="/resources/imgs/groups.jpg" width="600">
 
   Grouping approach. After 3rd comparison we have arrived at **step 3** for the first time.
 </div>
+
+I learned the approach I follow from [Mohamad](https://github.com/zolfagharipour) during an evaluation. I call it "mirroring" because it includes using multiple pairs of containers on each level - one of them "canonical", and all the others mirroring what happens in the first pair. The main idea behind this is that at the first separation, the pairs are aligned in a way that index 0 in container A will be the pair of index 0 in container B. However, the alignment of container A changes in the process of sorting, so we have to make sure that the alingment of container B changes in the exact same way - then the pairs will end up again correctly aligned (bearing the same index) before the final insertion. (Of course insertion itself will then change the indexes, so the implementation will have to account for that). Because this is the approach I know the best, for the ones interested, I have made a short documentation of the main idea using Ligretto cards and put it in the [Pictures](#pictures) section.
+
+### Testing if your implementation is correct
+
+In the final part of this tuturial, I want to give some tips on how to test if your implementation is done correctly. 
+
+I have to say that I find the subject of this exercise is very misleading for multiple reasons.
+
+Such a counter can be added manually during evaluation, but proper testing requires it to be set up beforehand anyway. My opinion on the topic is that even though the subject does not ask for it, if someone can not provide any proof of counting the comparisons in their code, regardless of their implementation being wrong or right - it means they do not understand the purpose of and the main idea behind merge insertion.
+
+It can be a pain to implement - it's recursive, it relies heavily on theory, and it needs a lot of trial and error to work _just right_. But once it does, it gives you a lot of pride that you have done it. With this tutorial, I hope to contribute to more people choosing to do it correctly.
+
+## Pictures
+
+### Mirroring approach
+
+<div align="center">
+<img src="/resources/imgs/mirroring/1.jpg" width="600">
+
+  Full container of 9 unsorted elements. Pairs marked with matching colors.
+</div>
+
+<div align="center">
+<img src="/resources/imgs/mirroring/2.jpg" width="600">
+
+  Smaller elements separated into container 2. Pairs still marked with matching colors. <br>Container 1 is now canonical and container 2 will mirror container 1 at the next step of separation.<br>Elements without pairs always move to the bottom.
+</div>
+
+<div align="center">
+<img src="/resources/imgs/mirroring/3.jpg" width="600">
+
+  Smaller elements of container 1 separated into container 3.<br> Container 2 mirrors container 1 (thus creating container 4).<br> No actual comparison happens there (you can see that container 4 <br>does not necessarily contain the smaller elements). <br>Elements without pairs always move to the bottom.
+</div>
+
+<div align="center">
+<img src="/resources/imgs/mirroring/4.jpg" width="600">
+
+  Container 1 still canonical. Containers 2, 3 and 4 follow the separation pattern<br> (index 0 goes down). Elements without pairs always move to the bottom.
+</div>
+
+<div align="center">
+<img src="/resources/imgs/mirroring/5.jpg" width="600">
+
+  Step 3 for the first time. Container 5 got merged into 1. Only this merge is canonical. <br>6, 7 and 8 got merged into 3, 2 and 4 copying the canonical pattern. <br>Elements without pairs get inserted to the end.
+</div>
+
+<div align="center">
+<img src="/resources/imgs/mirroring/6.jpg" width="600">
+
+  Step 3 for the second time. Container 3 got merged into 1. Canonical merge got copied by containers 2 and 4.<br> You can now see the point of mirroring: the pairs from the original container have been retained (marked with same color).<br> Each A has the same index as its B, but container A is now sorted. We are ready for the final binary insertion.
+</div>
+
+### Insertion methods
+
+**Inserting left to right**
+
+**Inserting right to left**
+
+**Inserting according to Jacobstahl sequece**
