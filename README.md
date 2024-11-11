@@ -253,9 +253,9 @@ I learned the approach I follow from [Mohamad](https://github.com/zolfagharipour
 
 ### Testing if your implementation is correct
 
-In the final part of this tuturial, I want to give some tips on how to test if your implementation is done correctly. 
+In the final part of this tutorial, I want to give some tips on how to test if your implementation is done correctly. 
 
-I have to say that I find the subject of this exercise is very misleading for multiple reasons.
+I have to say that I find the subject of this exercise very misleading for multiple reasons. First of all, it leaves up to your implementation if you want to accept duplicates or not, even though any approach that *has a reason* not to take them is probably faulty. Secondly, it does not require you to count the number of your comparisons, and asks you to use *timing* instead, as if entirely missing the point of the algorithm. One can still argue that timing can show the difference between how different containers operate - this could be a valid point, *if the subject would not encourage you to write differently optimized code for different containers*. If my code for sorting is different for container of type A and container of type B, then it makes no sense to attribute the time difference between the two sorts to differences in how the containers operate internally. (For this reason, I decided to use templates despite of subject recommendation).
 
 Such a counter can be added manually during evaluation, but proper testing requires it to be set up beforehand anyway. My opinion on the topic is that even though the subject does not ask for it, if someone can not provide any proof of counting the comparisons in their code, regardless of their implementation being wrong or right - it means they do not understand the purpose of and the main idea behind merge insertion.
 
