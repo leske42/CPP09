@@ -261,9 +261,15 @@ Such a counter can be added manually during evaluation, but proper testing requi
 
 It can be a pain to implement - it's recursive, it relies heavily on theory, and it needs a lot of trial and error to work _just right_. But once it does, it gives you a lot of pride that you have done it. With this tutorial, I hope to contribute to more people choosing to do it correctly.
 
+<br>
+
 ## Pictures
 
+<div align="center">
+
 ### Mirroring approach
+
+</div>
 
 <div align="center">
 <img src="/resources/imgs/mirroring/1.jpg" width="600">
@@ -301,10 +307,32 @@ It can be a pain to implement - it's recursive, it relies heavily on theory, and
   Step 3 for the second time. Container 3 got merged into 1. Canonical merge got copied by containers 2 and 4.<br> You can now see the point of mirroring: the pairs from the original container have been retained (marked with same color).<br> Each A has the same index as its B, but container A is now sorted. We are ready for the final binary insertion.
 </div>
 
+<br>
+
+<div align="center">
+
 ### Insertion methods
 
-**Inserting left to right**
+</div>
 
-**Inserting right to left**
+<div align="center">
 
-**Inserting according to Jacobstahl sequece**
+<img src="/resources/imgs/insertion/forward.jpg" width="600">
+
+  <b>Inserting left to right (approach 1)</b>.<br> Third element to insert has a search field of 4 (3 comparisons).
+</div>
+
+<div align="center">
+
+<img src="/resources/imgs/insertion/backward.jpg" width="600">
+
+  <b>Inserting right to left (approach 2)</b>.<br> Third element to insert has a search field of 10 (4 comparisons).<br>
+  White cards are used as placeholders to retain indexes of pairs.
+</div>
+
+<div align="center">
+
+<img src="/resources/imgs/insertion/jacobstahl.jpg" width="600">
+
+  <b>Inserting according to Jacobstahl sequence (approach 3)</b>.<br> Third element to insert has a search field of 3 (2 comparisons).
+</div>
