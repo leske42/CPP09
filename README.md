@@ -317,6 +317,13 @@ It can be a pain to implement - it's recursive, it relies heavily on theory, and
 
 <div align="center">
 
+<img src="/resources/imgs/insertion/before.jpg" width="600">
+
+  Two containers of 11 elements each, before insertion step.<br> Upper container sorted, lower unsorted, pairs have the same index.
+</div>
+
+<div align="center">
+
 <img src="/resources/imgs/insertion/forward.jpg" width="600">
 
   <b>Inserting left to right (approach 1)</b>.<br> Third element to insert has a search field of 4 (3 comparisons).
