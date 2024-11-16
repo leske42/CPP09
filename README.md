@@ -259,6 +259,15 @@ The subject requires us to print a very specific output (container content after
 
 The only way to *really* check if you have done it right is through checking the number of comparisons you make while you sort. You can put a counter in your code, and every time you check for `<`/ `>` / `=` *between any two `T`*, you increment it. This mostly happens between comparing the assigned pairs and doing the binary insertion. Some people overload `find` to be able to use it for the insertion and still do the counting, but if you have your own function written for this, it is even easier. Once you have your number printed, you can use this table from the book (page 186) to check if it's below the required treshold or not.
 
+<div align="center">
+   <br>
+<img src="/resources/imgs/table.png" width="600">
+
+  Table of worst-case comparisons for elements up to 33
+</div>
+
+
+
 Since the subject is very strict about the looks of the expected output, I recommend using conditional compilation to not have to change your code, in case you want to show the comparison numbers during evaluation. If you don't know how this works, check how you modified `BUFFER_SIZE` at compilation in `get_next_line` - you have to do the exact same thing for a macro of your choice, which then you can check before printing.
 
 I have to say that I find the subject of this exercise very misleading for multiple reasons. First of all, it leaves up to your implementation if you want to accept duplicates or not, even though any approach that *has a reason* not to take them is probably faulty. Secondly, it does not require you to count the number of your comparisons, and asks you to use *timing* instead, as if entirely missing the point of the algorithm. One can still argue that timing can show the difference between how different containers operate - this could be a valid point, *if the subject would not encourage you to write differently optimized code for different containers*. If my code for sorting is different for container of type A and container of type B, then it makes no sense to attribute the time difference between the two sorts to differences in how the containers operate internally. (For this reason, I decided to use templates despite of subject recommendation).
