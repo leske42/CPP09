@@ -100,7 +100,6 @@ Binary insertion, on the worse case scenario, takes
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png" width="125">
-  <img alt="Fallback image" src="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
 </picture>
 </div>
 
