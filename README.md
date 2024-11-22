@@ -98,8 +98,10 @@ Binary insertion, on the worse case scenario, takes
 
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png">
+   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
+   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="50">
+   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png" width="125">
+   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png" width="50">
    <img alt="Fallback image" src="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png">
 </picture>
 </div>
