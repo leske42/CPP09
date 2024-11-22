@@ -2,9 +2,9 @@
 Last project of 42 school's C++ Piscine
 
 ## How to do the Ford-Johnson merge insertion sort
-I have suffered a lot with this project, but I think my understanding became quite solid by the end, so I decided to make this short tutorial on how to implement the merge insertion sort correctly.
+I have suffered *a lot* with this project, but I like to think my understanding became quite solid by the end. I decided to make this short tutorial, so people who are new to it can have some guideline on how to implement the merge insertion sort correctly.
 
-**DISCLAIMER**: If you are from 42 & working on this project - do not take my code, the implementation is quite shitty (I am mostly writing C in C++), but I am pretty sure with this tutorial you will be able to implement the algorithm on your own. You will not find parts telling you how to write your code or what containers/functions to use, but I try to cover the theory and logic behind the exercise as much as I can (based on my current knowledge).
+**DISCLAIMER**: If you are from 42 & currently working on this project - do not take my code. The implementation itself is quite shitty anyway (I am mostly writing C in C++ and my coding style can be all over the place). But I am pretty sure with this tutorial you will be able to implement the algorithm on your own. You will not find parts telling you how to write your code or what containers/functions to use, but I try to cover the theory and logic behind the exercise as much as I can (based on my current knowledge).
 
 I recommend this tutorial also to students who are already done with the project, but either feel like they have not done the correct implementation and are not sure where it went wrong, or have done it correctly but there were some parts of the process they did not find very clear (for example, the purpose of the Jacobstahl sequence is not explained well in most resources, but it is very important for the sorting to work well, and is also super interesting). If you belong to this group, you can use my table of contents to choose the parts you are interested in.
 
@@ -98,11 +98,11 @@ Binary insertion, on the worse case scenario, takes
 
 <div align="center">
 <picture>
-   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
-   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="50">
-   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png" width="125">
-   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png" width="50">
-   <img alt="Fallback image" src="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png">
+   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="/resources/imgs/insertion_num.png" width="125">
+   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="/resources/imgs/tiny.jpg">
+   <source media="(min-width: 769px) and (prefers-color-scheme: light)" srcset="/resources/imgs/insertion_num_white.png" width="125">
+   <source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="/resources/imgs/tiny.jpg">
+   <img alt="Fallback image" src="/resources/imgs/insertion_num.png">
 </picture>
 </div>
 
@@ -261,9 +261,11 @@ I learned the approach I follow from [Mohamad](https://github.com/zolfagharipour
 
 In the final part of this tutorial, I want to give some tips on how to test if your implementation is done correctly.
 
-The subject requires us to print a very specific output (container content after sorting and time), but based on that output alone, it is impossible to determine if the sort was correctly implemented. You could implement bubble sort and still end up with a sorted sequence of numbers in the end. Or you could start with two containers, one empty, one full, then do pure binary insertion from one to the other and even the time will not tell you are doing something different. These are of course very extreme examples which would probably not pass an evaluation (in case the code is checked), but you could still do something *very similar* to merge insertion which still works different here and there.
+The subject requires us to print a very specific output (container content after sorting and time). But based on that output alone, it is impossible to determine if the sort was correctly implemented. You could implement bubble sort and still end up with a sorted sequence of numbers in the end. Or you could start with two containers, one empty, one full, then do pure binary insertion from one to the other and even the time will not tell you are doing something different. These are of course very extreme examples which would probably not pass an evaluation (in case the code is checked), but you could still do something *very similar* to merge insertion which still works different here and there.
 
-The only way to *really* check if you have done it right is through checking the number of comparisons you make while you sort. You can put a counter in your code, and every time you check for `<`/ `>` / `=` *between any two `T`*, you increment it. This mostly happens between comparing the assigned pairs and doing the binary insertion. Some people overload `find` to be able to use it for the insertion and still do the counting, but if you have your own function written for this, it is even easier. Once you have your number printed, you can use this table from the book (page 186) to check if it's below the required treshold or not.
+The only way to *really* check if you have done it the right way is through checking the number of comparisons you make while you sort.
+
+You can put a counter for comparisons in your code, and every time you check for `<`/ `>` / `=` *between any two `T`* (this is again important), you increment it. This mostly happens between comparing the assigned pairs and doing the binary insertion. Some people overload `find` to be able to use it for the insertion and still do the counting, but if you have your own function written for this part, it is even easier. Once you have your number printed, you can use this table from the book (page 186) to check if the amount of comparisons is below the required treshold or not.
 
 <div align="center">
    <br>
@@ -272,9 +274,13 @@ The only way to *really* check if you have done it right is through checking the
   Table of worst-case comparisons for elements up to 33
 </div>
 
+Because you are sorting random numbers, some sequences you get can be easier to sort than others (imagine a container made of 1, 1, 1, 1, 1 - at the binary insertion step, every number gets immediately inserted after at most 1 comparison). The picture only shows the worst amount of comparisons - *F(n)* - for a given number of members (*n*). This means sometimes you will get this number, sometimes you will go below this number - but given your numbers are *reasonably random* (so not like in my previous example), *you should not go significantly below the treshold*. If you generate a container of 21 numbers, and you happen to sort it with just 42 comparisons, then you are probably not counting your comparisons right.
 
+Another thing that should also never happen is exceeding the treshold - even in very rare cases, even if just by 1. This *always* means something is not correct in your code. 
 
-Since the subject is very strict about the looks of the expected output, I recommend using conditional compilation to not have to change your code, in case you want to show the comparison numbers during evaluation. If you don't know how this works, check how you modified `BUFFER_SIZE` at compilation in `get_next_line` - you have to do the exact same thing for a macro of your choice, which then you can check before printing.
+You can, for example, take this script from the subject: `` ./PmergeMe `shuf -i 1-100000 -n 21 | tr "\n" " "` ``. This will shuffle all numbers between 1 and 100000 and cut it short after the first 21 (so will give you a list of 21 random elements between 1 and 100k, no duplicates in this case). You need to be able to spam this command, sort correctly *and* never exceed the worst-case comparisons (66 in this case), no matter how many times you do it. If you notice any anomaly, you need to stop there and address that, because it always signals a bug and will help you make your code better. What I always did in this case is getting that exact sequence that caused the issue (only the *order* of elements in the input matters, so you can use the indexes instead of the random numbers themselves), make my program print what it does at each step, then manually do the sorting with the cards and compare the two for any differences. The whole debugging phase was really just an endless loop of doing this until everything finally checked out.
+
+In case you want to show the comparison numbers during evaluation, I recommend using conditional compilation to not have to change your code, since the subject is very strict about the looks of the expected output. If you don't know how this works, check how you modified `BUFFER_SIZE` at compilation in `get_next_line` - you have to do the exact same thing for a macro of your choice, which then you can check before printing.
 
 I have to say that I find the subject of this exercise very misleading for multiple reasons. First of all, it leaves up to your implementation if you want to accept duplicates or not, even though any approach that *has a reason* not to take them is probably faulty. Secondly, it does not require you to count the number of your comparisons, and asks you to use *timing* instead, as if entirely missing the point of the algorithm. One can still argue that timing can show the difference between how different containers operate - this could be a valid point, *if the subject would not encourage you to write differently optimized code for different containers*. If my code for sorting is different for container of type A and container of type B, then it makes no sense to attribute the time difference between the two sorts to differences in how the containers operate internally. (For this reason, I decided to use templates despite of subject recommendation).
 
