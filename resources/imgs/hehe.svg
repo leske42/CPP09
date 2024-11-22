@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="125" height="50">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .light { display: none; }
+      .dark { display: block; }
+    }
+    @media (prefers-color-scheme: light) {
+      .light { display: block; }
+      .dark { display: none; }
+    }
+  </style>
+  
+  <!-- Image for light mode -->
+  <image class="light" href="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num_white.png" x="0" y="0" width="125" height="50" />
+
+  <!-- Image for dark mode -->
+  <image class="dark" href="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" x="0" y="0" width="125" height="50" />
+</svg>
+
