@@ -98,13 +98,9 @@ Binary insertion, on the worse case scenario, takes
 
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
-  <img alt="Fallback image" src="/resources/imgs/insertion_num.png" width="125">
+  <img src="https://github.com/leske42/CPP09/blob/main/resources/imgs/insertion_num.png" width="125">
 </picture>
 </div>
-
-$$ \lfloor log_2(n) \rfloor + 1 $$
 
 comparisons to insert an element into a container of *n* elements at the right position. This expression means: *to what power would I have to raise 2 to get n (rounded down), plus one.* This happens because during binary search, you keep dividing the range of elements you parse by 2 (each division happens after one comparison), and worst case scenario, if this continues until you end up with a range of exactly one element, you need to compare your element against that one.
 
