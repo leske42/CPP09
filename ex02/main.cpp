@@ -6,12 +6,15 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 20:21:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:45:20 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PmergeMe.hpp"
-#include "PmergeVect.hpp"
+// #include "PmergeMe.hpp"
+// #include "PmergeVect.hpp"
+#include "AMerge.hpp"
+#include <deque>
+#include <vector>
 #include "OperationInterrupt.hpp"
 #include "MyList.hpp"
 #include <sys/time.h>
@@ -27,16 +30,30 @@ void display_time(struct timeval& ts1, struct timeval& ts2)
     std::cout << sec << " seconds, " << msec << " milliseconds and " << usec << " microseconds." << std::endl;
 }
 
+void print_argv(int argc, char **argv)
+{
+    int i = 1;
+    std::cout << "Before: ";
+    while (i < argc - 1)
+    {
+        std::cout << argv[i] << " ";
+        i++;
+    }
+    std::cout << argv[i] << std::endl;
+}
+
 int main(int argc, char **argv)
 {
     if (argc == 1)
         return (0);
+    print_argv(argc, argv);
     struct timeval ts1;
     struct timeval ts2;
     gettimeofday(&ts1, NULL);
     try
     {
-        PmergeMe hehe(argc, argv);
+        // PmergeMe hehe(argc, argv);
+        AMerge< std::deque<long int> > hehe(argc, argv);
     }
     catch (OperationInterrupt& e)
     {
@@ -53,7 +70,8 @@ int main(int argc, char **argv)
     gettimeofday(&ts1, NULL);
     try
     {
-        PmergeVect hihi(argc, argv);
+        AMerge< std::vector<long int> > hehe(argc, argv);
+        // PmergeVect hihi(argc, argv);
     }
     catch (OperationInterrupt& e)
     {

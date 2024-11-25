@@ -6,20 +6,40 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:18:58 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:44:03 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 template <class Container>
-AMerge<Container>::AMerge(void)
+AMerge<Container>::AMerge(int argc, char **argv)
 {
+    sequence.resize(argc);
     
+    do_sort(argc, argv);
+
+    std::cout << "After:   ";
+    cont_chain.print_content(0);
+    
+    if (COUNT)
+        std::cout << std::endl << "Number of comparisons: " << comp << std::endl;
 }
 
 template <class Container>
 AMerge<Container>::~AMerge(void)
 {
     
+}
+
+template <class Container>
+void AMerge<Container>::do_sort(int argc, char **argv)
+{
+    calculate_depth(argc);
+    cont_chain.init_list_head(argc, argv);
+    bottom = (recursion_levels * 2 * (-1));
+    breakpoint = recursion_levels * (-1);
+    // std::cout << "Before:  ";
+    // cont_chain.print_content(0);
+    assemble();
 }
 
 template <class Container>
