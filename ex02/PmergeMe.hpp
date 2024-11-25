@@ -5,33 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 20:29:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:18:58 by mhuszar          ###   ########.fr       */
+/*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
+/*   Updated: 2024/11/25 20:48:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PMERGE_HPP
-# define PMERGE_HPP
+#ifndef PMERGEME_HPP
+# define PMERGEME_HPP
 
-#include "AMerge.hpp"
 #include <iostream>
-#include <deque>
+#include <algorithm>
+#include <cmath>
+#include "MyList.hpp"
+#include "PairKeeper.hpp"
 
-class PmergeMe : public AMerge< std::deque<long int> >
+#define DUMMY_VAL 2147483650
+
+#ifndef DEBUG_MODE
+# define DEBUG_MODE 0
+#endif
+
+#ifndef COUNT
+# define COUNT 0
+#endif
+
+#define MIL 1000000
+
+template <class Container>
+class PmergeMe
 {
+
     public:
 
-        PmergeMe(void);
-        ~PmergeMe(void);
         PmergeMe(int argc, char **argv);
-    
+        ~PmergeMe(void);
+
     private:
 
+        PmergeMe(void);
         PmergeMe(const PmergeMe& other);
         PmergeMe& operator=(const PmergeMe& other);
 
-        void    do_sort(int argc, char **argv);
+    protected:
 
+        virtual void    do_sort(int argc, char **argv);
+
+        void            take_apart();
+        void            assemble();
+
+        void            intake_sequence(int argc, char **seq);
+        int             calculate_depth(int argc);
+
+        int             my_pair(int my_num);
+        int             my_pair_up(int my_num, int diff);
+        void            create_sequence(Container& cont, Container& pair);
+        void            follow_sequence(Container& cont, Container& pair);
+        void            merge_containers(Container& from, Container& to);
+        void            copy_merge(Container& from, Container& to);
+        void            reassess_size();
+        void            clear_dummy_vals(Container& cont);
+        void            print_content(Container& cont);
+        
+        typename Container::iterator recalc_bounds(Container& from, int jacob_index);
+        typename Container::iterator calc_last(Container& cont, int idx);
+    
+    
+        int             depth;
+        int             recursion_levels;
+        int             bottom;
+        int             breakpoint;
+
+        int             prev_containers;
+        int             cur_containers;
+        int             seq_max;
+        int             comp;
+        int             og_size;
+
+        typename Container::iterator        last_bound;
+        Container                           sequence;
+        Container                           infiniteJakob;
+        MyList<Container>                   cont_chain;
+        PairKeeper                          lookup;
+        std::deque < std::pair < int, int > > inserted;
 };
+
+long int        ft_atoi(const char *str);
+
+#include "PmergeMe.tpp"
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:45:20 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:48:25 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "PmergeMe.hpp"
 // #include "PmergeVect.hpp"
-#include "AMerge.hpp"
+#include "PmergeMe.hpp"
 #include <deque>
 #include <vector>
 #include "OperationInterrupt.hpp"
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     try
     {
         // PmergeMe hehe(argc, argv);
-        AMerge< std::deque<long int> > hehe(argc, argv);
+        PmergeMe< std::deque<long int> > hehe(argc, argv);
     }
     catch (OperationInterrupt& e)
     {
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     gettimeofday(&ts1, NULL);
     try
     {
-        AMerge< std::vector<long int> > hehe(argc, argv);
+        PmergeMe< std::vector<long int> > hehe(argc, argv);
         // PmergeVect hihi(argc, argv);
     }
     catch (OperationInterrupt& e)
