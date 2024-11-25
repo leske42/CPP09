@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/10/15 13:06:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:15:55 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,6 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
             lookup.adjustPositions(mid - to.begin());
             to.insert(mid, *target);
             inserted.push_back(store);
-            std::cout << std::endl;
             goto insertion_done;
         }
         else if (*mid > *target)
