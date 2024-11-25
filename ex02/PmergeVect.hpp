@@ -6,18 +6,18 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:29:11 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 18:38:42 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:18:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGE_VECT_HPP
 # define PMERGE_VECT_HPP
 
-#include "IMerge.hpp"
+#include "AMerge.hpp"
 #include <iostream>
 #include <vector>
 
-class PmergeVect : public IMerge< std::vector<long int> >
+class PmergeVect : public AMerge< std::vector<long int> >
 {
     public:
 

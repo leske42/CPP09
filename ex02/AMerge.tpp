@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IMerge.tpp                                         :+:      :+:    :+:   */
+/*   AMerge.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:15:55 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:18:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 template <class Container>
-IMerge<Container>::IMerge(void)
+AMerge<Container>::AMerge(void)
 {
     
 }
 
 template <class Container>
-IMerge<Container>::~IMerge(void)
+AMerge<Container>::~AMerge(void)
 {
     
 }
 
 template <class Container>
-void IMerge<Container>::intake_sequence(int argc, char **seq)
+void AMerge<Container>::intake_sequence(int argc, char **seq)
 {
     sequence.resize(argc);
     cont_chain = MyList<Container>(argc, seq);
 }
 
 template <class Container>
-int IMerge<Container>::calculate_depth(int argc)
+int AMerge<Container>::calculate_depth(int argc)
 {
     recursion_levels = 0;
     argc--;
@@ -48,7 +48,7 @@ int IMerge<Container>::calculate_depth(int argc)
 }
 
 template <class Container>
-int IMerge<Container>::my_pair(int my_num)
+int AMerge<Container>::my_pair(int my_num)
 {
     if (prev_containers + my_num >= cur_containers)
         return (-1);
@@ -57,7 +57,7 @@ int IMerge<Container>::my_pair(int my_num)
 
 
 template <class Container>
-int IMerge<Container>::my_pair_up(int my_num, int diff)
+int AMerge<Container>::my_pair_up(int my_num, int diff)
 {
     if (diff == 0)
     {
@@ -73,14 +73,14 @@ int IMerge<Container>::my_pair_up(int my_num, int diff)
 }
 
 template <class Container>
-void IMerge<Container>::reassess_size()
+void AMerge<Container>::reassess_size()
 {
     prev_containers = cur_containers;
     cur_containers = cont_chain.size();
 }
 
 template <class Container>
-void IMerge<Container>::create_sequence(Container& cont, Container& pair)
+void AMerge<Container>::create_sequence(Container& cont, Container& pair)
 {
 
     int idx = 0;
@@ -124,7 +124,7 @@ void IMerge<Container>::create_sequence(Container& cont, Container& pair)
 }
 
 template <class Container>
-void IMerge<Container>::clear_dummy_vals(Container& cont)
+void AMerge<Container>::clear_dummy_vals(Container& cont)
 {
     typename Container::iterator cur = cont.begin();
     while (cur != cont.end())
@@ -137,7 +137,7 @@ void IMerge<Container>::clear_dummy_vals(Container& cont)
 }
 
 template <class Container>
-void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
+void AMerge<Container>::follow_sequence(Container& cont, Container& pair)
 {
     int idx = 0;
     int max_idx = cont.size() - 1;
@@ -163,7 +163,7 @@ void IMerge<Container>::follow_sequence(Container& cont, Container& pair)
 }
 
 template <class Container>
-void IMerge<Container>::take_apart()
+void AMerge<Container>::take_apart()
 {
     depth--;
     if (depth > bottom)
@@ -195,7 +195,7 @@ void IMerge<Container>::take_apart()
 }
 
 template <class Container>
-typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, int jacob_index)
+typename Container::iterator AMerge<Container>::recalc_bounds(Container& from, int jacob_index)
 {
     typename Container::iterator target;
     int res = 0;
@@ -215,7 +215,7 @@ typename Container::iterator IMerge<Container>::recalc_bounds(Container& from, i
 // target = from.begin() + ((pow(2, jacob_index + 1) + pow(-1, jacob_index)) / 3) - 1;
 
 template <class Container>
-typename Container::iterator IMerge<Container>::calc_last(Container& cont, int idx)
+typename Container::iterator AMerge<Container>::calc_last(Container& cont, int idx)
 {
     typename Container::iterator res = cont.begin();
     res += lookup.pairIndex(idx);
@@ -223,7 +223,7 @@ typename Container::iterator IMerge<Container>::calc_last(Container& cont, int i
 }
 
 template <class Container>
-void IMerge<Container>::merge_containers(Container& from, Container& to)
+void AMerge<Container>::merge_containers(Container& from, Container& to)
 {
     inserted.clear();
     lookup.initialize(from.size());
@@ -293,7 +293,7 @@ void IMerge<Container>::merge_containers(Container& from, Container& to)
 }
 
 template <class Container>
-void IMerge<Container>::copy_merge(Container& from, Container& to)
+void AMerge<Container>::copy_merge(Container& from, Container& to)
 {
     size_t idx = 0;
 
@@ -314,7 +314,7 @@ void IMerge<Container>::copy_merge(Container& from, Container& to)
 }
 
 template <class Container>
-void IMerge<Container>::assemble()
+void AMerge<Container>::assemble()
 {
     depth--;
     if (depth > breakpoint)
@@ -347,7 +347,7 @@ void IMerge<Container>::assemble()
 }
 
 template <class Container>
-void IMerge<Container>::print_content(Container& cont)
+void AMerge<Container>::print_content(Container& cont)
 {
     typename Container::iterator cur = cont.begin();
     while (cur != cont.end())
@@ -362,7 +362,7 @@ void IMerge<Container>::print_content(Container& cont)
 
 //would need argc protection for this limit if this function was in use
 // template <class Container>
-// void IMerge<Container>::fill_Jakob()
+// void AMerge<Container>::fill_Jakob()
 // {
 //     int idx = 1;
 //     int nextJakob = 1;

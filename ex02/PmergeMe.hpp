@@ -6,18 +6,18 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:10 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/10 17:38:34 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:18:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGE_HPP
 # define PMERGE_HPP
 
-#include "IMerge.hpp"
+#include "AMerge.hpp"
 #include <iostream>
 #include <deque>
 
-class PmergeMe : public IMerge< std::deque<long int> >
+class PmergeMe : public AMerge< std::deque<long int> >
 {
     public:
 

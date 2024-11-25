@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IMerge.hpp                                         :+:      :+:    :+:   */
+/*   AMerge.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 20:21:33 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:18:58 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IMERGE_HPP
-# define IMERGE_HPP
+#ifndef AMERGE_HPP
+# define AMERGE_HPP
 
 #include <iostream>
 #include <algorithm>
@@ -32,18 +32,18 @@
 #define MIL 1000000
 
 template <class Container>
-class IMerge
+class AMerge
 {
 
     public:
 
-        IMerge(void);
-        ~IMerge(void);
+        AMerge(void);
+        ~AMerge(void);
 
     private:
 
-        IMerge(const IMerge& other);
-        IMerge& operator=(const IMerge& other);
+        AMerge(const AMerge& other);
+        AMerge& operator=(const AMerge& other);
 
     protected:
 
@@ -90,6 +90,6 @@ class IMerge
 
 long int        ft_atoi(const char *str);
 
-#include "IMerge.tpp"
+#include "AMerge.tpp"
 
 #endif
