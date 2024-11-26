@@ -13,12 +13,13 @@ I recommend this tutorial also to students who are already done with the project
 - [1. What you will need](#what-you-will-need)
 - [2. Why do the number of comparisons matter?](#why-do-the-number-of-comparisons-matter)
 - [3. The main idea: merge insertion in 3 steps](#the-main-idea-merge-insertion-in-3-steps)
-- [4. What is the purpose of the Jacobstahl sequence?](#what-is-the-purpose-of-the-jacobstahl-sequence)
-- [5. But how to keep track of my pairs?](#but-how-to-keep-track-of-my-pairs)
-- [6. Testing if your implementation is correct](#testing-if-your-implementation-is-correct)
-- [7. Pictures](#pictures)
-   - [7.1. Mirroring](#mirroring-approach)
-   - [7.2. Insertion methods](#insertion-methods)
+- [4. Is this even Jacobstahl or are we all scammed?](#is-this-even-jacobstahl-or-are-we-all-scammed)
+- [5. What is the purpose of the Jacobstahl sequence?](#what-is-the-purpose-of-the-jacobstahl-sequence)
+- [6. But how to keep track of my pairs?](#but-how-to-keep-track-of-my-pairs)
+- [7. Testing if your implementation is correct](#testing-if-your-implementation-is-correct)
+- [8. Pictures](#pictures)
+   - [8.1. Mirroring](#mirroring-approach)
+   - [8.2. Insertion methods](#insertion-methods)
 
 ### What you will need
 
@@ -74,9 +75,9 @@ When will the recursion stop? When you only have 1 pair left (in the above examp
 When you arrive at **step 3** (on any applicable depth of the recursion), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted. You have to, then, insert the latter into the former, with *binary insertion*. Look at the last line on the picture, and check the indexes of the elements to insert (labeled `b`).<br> 
 You can see a pattern like *3->2->5->4->11->10->(9->8->7->6->21->20...)*
 
-This means: you choose the element with the 3rd index from the sorted container, *select its pair* from the unsorted one, and insert it into the former. Then do this with the element with the 2nd index, the 5th, and so on. (The first index is not listed here because, as you will see later, its pair can be inserted with 0 comparisons, so can technically be counted as an element of the sorted container). You can see that you always jump up to a "boundary" number (5, 11, 21, etc), then count backwards until you reach and index you have already covered.
+This means: you choose the element with the 3rd index from the sorted container, *select its pair* from the unsorted one, and insert it into the former. Then do this with the element with the 2nd index, the 5th, and so on. (The first - in code 0th - index is not listed here because, as you will see later, its pair can be inserted with 0 comparisons, so can technically be counted as an element of the sorted container). You can see that you always jump up to a "boundary" number (5, 11, 21, etc), then count backwards until you reach and index you have already covered.
 
-These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence**. Looking at fig. 13 in the book, you can see that any element of this sequence can be calculated with the formula 
+These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence**.  Looking at fig. 13 in the book, you can see that any element of this sequence can be calculated with the formula 
 
 <div align="center">
 
@@ -85,6 +86,22 @@ These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence
 </div>
 
 where *k* is the index of the element. So the first element will be (2<sup>1+1</sup> + ( -1 )<sup>1 </sup>) / 3 = 3 / 3 = 1. The fifth element is (2<sup>5+1</sup> + ( -1 )<sup>5 </sup>) / 3 = 63 / 3 = 21 etc.
+
+If you already know a Jacobstahl number *J* with the index of *k* (for example, you know that index 3 is 5), the next Jacobstahl number *J<sub>k+1</sub>* can also be calculated with a simpler formula: 
+
+<div align="center">
+<picture>
+   <source media="(prefers-color-scheme: dark)" srcset="/resources/imgs/next_jacob.png" width="175">
+   <source media="(prefers-color-scheme: light)" srcset="/resources/imgs/next_jacob_white.png" width="175">
+   <img alt="Fallback image" src="/resources/imgs/next_jacob_white.png">
+</picture>
+</div>
+
+### Is this even Jacobstahl or are we all scammed?
+
+Some of you who have done some research might have noticed that on the [Wikipedia page](https://en.wikipedia.org/wiki/Jacobsthal_number) (and other internet resources) about the Jacobstahl sequence, the formulas are somewhat different from what you can find in the book and in this explanation. Actually, the sequence discussed in the book is never once "officially" named as the Jacobstahl sequence, but they are certainly very similar.
+
+On page 185, below fig. 12, the book says: "since t<sub>1</sub> = 1, we may set t<sub>0</sub> = 1 for convenience". This means that the sequence discussed starts as **1, 1, 3, 5, 11, 21, 43, 85**. The one discussed on Wikipedia has the 0th and 1st elements defined as 0 and 1, respectively, and starts as **0, 1, 1, 3, 5, 11, 21, 43**. The only difference compared to the book one is an extra zero at the beginning - therefore any element with the index *k* of the book sequence will be corresponding to the index *k + 1* of the other sequence. This leads to the difference in formulas between the two versions (in my both equations provided, I use 2<sup>k+1</sup> instead of 2<sup>k</sup>).
 
 ### What is the purpose of the Jacobstahl sequence?
 
@@ -231,7 +248,13 @@ Total number of comparisons: **34**
 
 <br>
 
-If you observe the above table, you can see what the Jacobstahl sequence does beautifully. Table 1 shows that the amount of comparisons needed always increases at a field size of the next power of 2 (for example, there is an increase in comparisons at 1, 4, 8, and 16 elements). Jacobstahl *keeps your search field size just below this treshold, for as long as possible*. Since beginning from 2<sup>n</sup> elements you would have a required comparison number increase, you can be sure as hell your n<sup>th</sup> search field size will be *exactly* 2<sup>n</sup> - 1. **This** is why Jacobstahl is crazy optimized for binary insertion.
+If you observe the above table, you can see what the Jacobstahl sequence does beautifully. Table 1 shows that the amount of comparisons needed always increases at a field size of the next power of 2 (for example, there is an increase in comparisons at 1, 4, 8, and 16 elements). Jacobstahl *keeps your search field size just below this treshold, for as long as possible*. Since beginning from 2<sup>n</sup> elements you would have a required comparison number increase, you can be sure as hell your n<sup>th</sup> search field size will be *exactly* 2<sup>n</sup> - 1.
+
+How does this happen? Maybe you remember from the beginning that if you know a Jacobstahl number with the index of _n_, you can always calculate the next one with the formula J<sub>n + 1</sub>  =  2<sup>n + 1</sup>  -  J<sub>n</sub>. You can reorganize this to J<sub>n</sub> + J<sub>n + 1</sub> =  2<sup>n + 1</sup>, which means, as you go from left to right, any 2 neighbors of the sequence will always give you the next power of 2. If you look at the first few Jacobstahl numbers (**1, 3, 5, 11, 21, 43, 85, 171**), you can observe this pattern very clearly.
+
+This is important becase when you start insertion from any given Jacobstahl index, your search field size will be made of the current Jacobstahl number (all the As concerned until this index) and the previous one (all the Bs already inserted). For example, when I'm starting to insert from the Jacobstahl index of 5, my search field in the "bigger" container consists of 16 elements: 5 As were already there, and so far 3 Bs got inserted. This pattern will always give you the sum of two neighboring Jacobstahls, which always adds up to the next power of 2. But since at insertion your own pair never needs to be a part of your search field, you can go below this number by 1 - and like this you get your ideal search field size.
+
+So in short, **this** is why Jacobstahl is crazy optimized for binary insertion.
 
 ### But how to keep track of my pairs?
 
