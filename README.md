@@ -274,11 +274,170 @@ You can put a counter for comparisons in your code, and every time you check for
   Table of worst-case comparisons for elements up to 33
 </div>
 
-Because you are sorting random numbers, some sequences you get can be easier to sort than others (imagine a container made of 1, 1, 1, 1, 1 - at the binary insertion step, every number gets immediately inserted after at most 1 comparison). The picture only shows the worst amount of comparisons - *F(n)* - for a given number of members (*n*). This means sometimes you will get this number, sometimes you will go below this number - but given your numbers are *reasonably random* (so not like in my previous example), *you should not go significantly below the treshold*. If you generate a container of 21 numbers, and you happen to sort it with just 42 comparisons, then you are probably not counting your comparisons right.
+This is calculated up to 33, but the book provides the formula for calculating it for any (n) number of elements:
+
+<div align="center">
+   <br>
+<img src="/resources/imgs/formula.png" width="150">
+</div>
+
+<br>
+
+I have made a tiny executable that will calculate you the worst-case comparisons for most n (in the `resources` folder), but anyway I put it into a table up till the first 100, in case some of you might need it.
+
+<table>
+  <tr>
+    <th>Elements<br>n</th>
+    <td>34</td>
+    <td>35</td>
+    <td>36</td>
+    <td>37</td>
+    <td>38</td>
+    <td>39</td>
+    <td>40</td>
+    <td>41</td>
+    <td>42</td>
+    <td>43</td>
+    <td>44</td>
+    <td>45</td>
+    <td>46</td>
+    <td>47</td>
+    <td>48</td>
+    <td>49</td>
+    <td>50</td>
+    <td>51</td>
+    <td>52</td>
+    <td>53</td>
+    <td>54</td>
+    <td>55</td>
+    <td>56</td>
+    <td>57</td>
+    <td>58</td>
+    <td>59</td>
+    <td>60</td>
+    <td>61</td>
+    <td>62</td>
+    <td>63</td>
+    <td>64</td>
+    <td>65</td>
+    <td>66</td>
+    <td>67</td>
+    <td>68</td>
+    <td>69</td>
+    <td>70</td>
+    <td>71</td>
+    <td>72</td>
+    <td>73</td>
+    <td>74</td>
+    <td>75</td>
+    <td>76</td>
+    <td>77</td>
+    <td>78</td>
+    <td>79</td>
+    <td>80</td>
+    <td>81</td>
+    <td>82</td>
+    <td>83</td>
+    <td>84</td>
+    <td>85</td>
+    <td>86</td>
+    <td>87</td>
+    <td>88</td>
+    <td>89</td>
+    <td>90</td>
+    <td>91</td>
+    <td>92</td>
+    <td>93</td>
+    <td>94</td>
+    <td>95</td>
+    <td>96</td>
+    <td>97</td>
+    <td>98</td>
+    <td>99</td>
+    <td>100</td>
+  </tr>
+  <tr>
+    <th>Comparisons<br>F(n)</th>
+    <td>131</td>
+    <td>136</td>
+    <td>141</td>
+    <td>146</td>
+    <td>151</td>
+    <td>156</td>
+    <td>161</td>
+    <td>166</td>
+    <td>171</td>
+    <td>177</td>
+    <td>183</td>
+    <td>189</td>
+    <td>195</td>
+    <td>201</td>
+    <td>207</td>
+    <td>213</td>
+    <td>219</td>
+    <td>225</td>
+    <td>231</td>
+    <td>237</td>
+    <td>243</td>
+    <td>249</td>
+    <td>255</td>
+    <td>261</td>
+    <td>267</td>
+    <td>273</td>
+    <td>279</td>
+    <td>285</td>
+    <td>291</td>
+    <td>297</td>
+    <td>303</td>
+    <td>309</td>
+    <td>315</td>
+    <td>321</td>
+    <td>327</td>
+    <td>333</td>
+    <td>339</td>
+    <td>345</td>
+    <td>351</td>
+    <td>357</td>
+    <td>363</td>
+    <td>369</td>
+    <td>375</td>
+    <td>381</td>
+    <td>387</td>
+    <td>393</td>
+    <td>399</td>
+    <td>405</td>
+    <td>411</td>
+    <td>417</td>
+    <td>423</td>
+    <td>429</td>
+    <td>436</td>
+    <td>443</td>
+    <td>450</td>
+    <td>457</td>
+    <td>464</td>
+    <td>471</td>
+    <td>478</td>
+    <td>485</td>
+    <td>492</td>
+    <td>499</td>
+    <td>506</td>
+    <td>513</td>
+    <td>520</td>
+    <td>527</td>
+    <td>534</td>
+    
+  </tr>
+</table>
+
+<br>
+
+Because you are sorting random numbers, some sequences you get can be easier to sort than others (imagine a container made of 1, 1, 1, 1, 1 - at the binary insertion step, every number gets immediately inserted after at most 1 comparison). The tables only show the worst amount of comparisons - *F(n)* - for a given number of members (*n*). This means sometimes you will get this number, sometimes you will go below this number - but given your numbers are *reasonably random* (so not like in my previous example), *you should not go significantly below the treshold*. If you generate a container of 21 numbers, and you happen to sort it with just 42 comparisons, then instead of having greatly optimized merge insertion, you are probably not counting your comparisons right.
 
 Another thing that should also never happen is exceeding the treshold - even in very rare cases, even if just by 1. This *always* means something is not correct in your code. 
 
-You can, for example, take this script from the subject: `` ./PmergeMe `shuf -i 1-100000 -n 21 | tr "\n" " "` ``. This will shuffle all numbers between 1 and 100000 and cut it short after the first 21 (so will give you a list of 21 random elements between 1 and 100k, no duplicates in this case). You need to be able to spam this command, sort correctly *and* never exceed the worst-case comparisons (66 in this case), no matter how many times you do it. If you notice any anomaly, you need to stop there and address that, because it always signals a bug and will help you make your code better. What I always did in this case is getting that exact sequence that caused the issue (only the *order* of elements in the input matters, so you can use the indexes instead of the random numbers themselves), make my program print what it does at each step, then manually do the sorting with the cards and compare the two for any differences. The whole debugging phase was really just an endless loop of doing this until everything finally checked out.
+You can, for example, take this script from the subject: `` ./PmergeMe `shuf -i 1-100000 -n 21` ``. This will shuffle all numbers between 1 and 100000 and cut it short after the first 21 (so will give you a list of 21 random elements between 1 and 100k, no duplicates in this case). Here is a stupid but simple modification if you want some reasonable amount of random duplicates: `` ./PmergeMe `shuf -i 1-21 -n 11; shuf -i 1-21 -n 10` ``.
+
+You need to be able to spam this command, sort correctly *and* never exceed the worst-case comparisons (66 in this case), no matter how many times you do it. Also with different amount of elements, big and small alike. If you notice any anomaly, you need to stop there and address that, because it always signals a bug and will help you make your code better. What I always did in this case is getting that exact sequence that caused the issue (only the *order* of elements in the input matters, so you can use the indexes instead of the random numbers themselves), make my program print what it does at each step, then manually do the sorting with the cards and compare the two for any differences. The whole debugging phase was really just an endless loop of doing this until everything finally checked out.
 
 In case you want to show the comparison numbers during evaluation, I recommend using conditional compilation to not have to change your code, since the subject is very strict about the looks of the expected output. If you don't know how this works, check how you modified `BUFFER_SIZE` at compilation in `get_next_line` - you have to do the exact same thing for a macro of your choice, which then you can check before printing.
 
