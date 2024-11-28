@@ -71,7 +71,7 @@ Let's grab only the big numbers and go back to **step 1**. Make pairs. Separate.
 
 When will the recursion stop? When you only have 1 pair left (in the above example this will be **(11, 99)** ), you separate that and you end up with only 1 element in your "bigger" container. That 1 element is inherently sorted. Since the "larger numbers", at least for this depth of the recursion, are sorted, you can now proceed to **step 3**.
 
-_NOTE: the recursion here is not so complex for it not to be possible to be transformed iterative. This was always on my mind while writing my own solution, which is, to be fully honest, while technically recursive, very close to iterative in spirit. This means recursivity is not a strict requirement for an algorithm to work, but I do feel like a recursive implementation is closer to the spirit of the original._
+_NOTE: the recursion here is not so complex for it not to be possible to be transformed iterative. This was always on my mind while writing my own solution, which is, to be fully honest, while technically recursive, very close to iterative in spirit. This means recursivity is not a strict requirement for an algorithm to work, but I do feel like a recursive implementation is closer to the spirit of the original description._
 
 When you arrive at **step 3** (on any applicable depth of the recursion), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted. You have to, then, insert the latter into the former, with *binary insertion*. Look at the last line on the picture, and check the indexes of the elements to insert (labeled `b`).<br> 
 You can see a pattern like *3->2->5->4->11->10->(9->8->7->6->21->20...)*
