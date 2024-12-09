@@ -47,7 +47,7 @@ echo -e "(number of elements should match 'total_input_sizes')"
 echo
 
 # Loop through each input size (in this case from 1 to 33 numbers)
-for ((current_input_size=2; current_input_size<=total_input_sizes; current_input_size++)); do
+for ((current_input_size=1; current_input_size<=total_input_sizes; current_input_size++)); do
 	echo -ne "${BLUE}Testing $((current_input_size)) numbers with $combinations_per_input different combinations:	${RESET}" # Print a message indicating which test is being run, with the current input size and number of combinations
 	max_allowed_comparisons=${comparison_limits[current_input_size-1]} # Set the maximum allowed number of comparisons for the current input size
 	is_test_successful=true # Reset the success flag for this test input size
