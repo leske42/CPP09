@@ -60,6 +60,7 @@ void MyList<Container>::init_list_head(int argc, char **argv)
     if (argc == 2)
     {
         std::cout << argv[1] << std::endl;
+		std::cout << std::endl << "Number of comparisons: 0" << std::endl;
         throw OperationInterrupt(UNPRIMED);
     }
 }
