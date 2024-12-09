@@ -26,7 +26,7 @@
 #endif
 
 #ifndef COUNT
-# define COUNT 0
+# define COUNT 1
 #endif
 
 #define MIL 1000000
