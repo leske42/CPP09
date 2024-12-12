@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:29:06 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:48:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/12/12 22:53:32 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     try
     {
         // PmergeMe hehe(argc, argv);
-        PmergeMe< std::deque<long int> > hehe(argc, argv);
+        PmergeMe< std::deque<long int> > hehe(argc, argv, true);
     }
     catch (OperationInterrupt& e)
     {
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     gettimeofday(&ts1, NULL);
     try
     {
-        PmergeMe< std::vector<long int> > hehe(argc, argv);
+        PmergeMe< std::vector<long int> > hehe(argc, argv, false);
         // PmergeVect hihi(argc, argv);
     }
     catch (OperationInterrupt& e)
