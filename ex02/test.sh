@@ -61,7 +61,20 @@ for ((current_input_size=1; current_input_size<=total_input_sizes; current_input
 			echo -e "${RED}Error: './$executable_name $random_input_list' failed! Exiting...${RESET}"
 			exit 1
 		fi
-		comparison_count=$(echo "$program_output" | grep "$comparison_keyword" | head -n 1 | awk '{print $NF}') # Extract the number of comparisons from the program's output
+		#Check if the sorting worked correctly
+		before=$(echo "$program_output" | grep -oP '(?<=Before:).*' | xargs) # Extract the "before" and "after" lines
+		after=$(echo "$program_output" | grep -oP '(?<=After:).*' | xargs)
+		sorted_before=$(echo "$before" | tr ' ' '\n' | sort -n | tr '\n' ' ' | xargs) # Sort the "before" sequence
+		if [[ "$sorted_before" != "$after" ]]; then # Compare "after" with the sorted "before"
+			if $is_test_successful; then
+				echo -e "${RED}KO${RESET}"
+				is_all_tests_successful=false # Set the overall test success flag to false
+			fi
+			is_test_successful=false # Set the overall test success flag to false
+			echo -e "${RED}Error: output '${YELLOW}$after${RED}' for sequence '${YELLOW}$before${RED}' is not sorted!${RESET}"
+		fi
+		# Extract the number of comparisons from the program's output
+		comparison_count=$(echo "$program_output" | grep "$comparison_keyword" | head -n 1 | awk '{print $NF}')
 		# Check if the extracted value is a valid integer
 		if ! [[ "$comparison_count" =~ ^-?[0-9]+$ ]]; then
 			echo -e "\n${RED}Error: '$comparison_keyword' not found in output or '$comparison_count' is not a valid integer!. Exiting...${RESET}"
@@ -74,7 +87,7 @@ for ((current_input_size=1; current_input_size<=total_input_sizes; current_input
 				echo -e "${RED}KO${RESET}"
 				is_all_tests_successful=false # Set the overall test success flag to false
 			fi
-			echo -e "${RED}Failed input: ${YELLOW}$random_input_list${RESET}	| ($comparison_count > $max_allowed_comparisons)${RESET}" # Print the failed input and the reason for failure (number of comparisons exceeded)
+			echo -e "${RED}Exceeded comparisons: ${YELLOW}$random_input_list${RESET} => ($comparison_count > $max_allowed_comparisons)${RESET}" # Print the failed input and the reason for failure (number of comparisons exceeded)
 			is_test_successful=false # Set the test success flag to false for this input size
 		fi
 	done
