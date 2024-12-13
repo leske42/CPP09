@@ -17,13 +17,14 @@ echo -e "${MAGENTA}*                                                            
 echo -e "${MAGENTA}**********************************************************************************${RESET}"
 echo
 
-make re > /dev/null 2>&1 # Run 'make re' to rebuild the project and suppress its output
-
+# Enable this part if you want the tester to make (if you print the numbers with conditional compilation, you have to put the right command)
+# For my project this would be 'make count'
+#make re > /dev/null 2>&1 # Run 'make re' to rebuild the project and suppress its output
 # Check if the 'make re' command was successful
-if [ $? -ne 0 ]; then
-	echo -e "${RED}Error: 'make re' failed! Exiting...${RESET}"
-	exit 1
-fi
+#if [ $? -ne 0 ]; then
+#	echo -e "${RED}Error: 'make re' failed! Exiting...${RESET}"
+#	exit 1
+#fi
 
 executable_name="PmergeMe" # Set the name of the executable to test (in this case "PmergeMe")
 comparison_limits=(0 1 3 5 7 10 13 16 19 22 26 30 34 38 42 46 50 54 58 62 66 71 76 81 86 91 96 101 106 111 116 121 126) # Define an array of maximum allowed comparisons for different input sizes
