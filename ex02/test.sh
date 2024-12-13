@@ -54,7 +54,8 @@ for ((current_input_size=1; current_input_size<=total_input_sizes; current_input
 	is_test_successful=true # Reset the success flag for this test input size
 	# Run the test for the specified number of combinations
 	for ((combination_index=1; combination_index<=combinations_per_input; combination_index++)); do
-		random_input_list=$(shuf -i ${min_random_value}-${max_random_value} -n $((current_input_size)) | tr '\n' ' ') # Generate a random input list of 'current_input_size' numbers between min_random_value and max_random_value
+		half_input=$((current_input_size / 2))
+		random_input_list=$(shuf -i ${min_random_value}-${max_random_value} -n $((current_input_size - $half_input)) |  tr "\n" " " ; shuf -i ${min_random_value}-${max_random_value} -n $(($half_input)) |  tr "\n" " ") # Generate a random input list of 'current_input_size' numbers between min_random_value and max_random_value
 		program_output=$(./$executable_name $random_input_list) # Run the program with the generated input and capture the output
 		# Check if the program execution was successful
 		if [ $? -ne 0 ]; then
@@ -71,7 +72,7 @@ for ((current_input_size=1; current_input_size<=total_input_sizes; current_input
 				is_all_tests_successful=false # Set the overall test success flag to false
 			fi
 			is_test_successful=false # Set the overall test success flag to false
-			echo -e "${RED}Error: output '${YELLOW}$after${RED}' for sequence '${YELLOW}$before${RED}' is not sorted!${RESET}"
+			echo -e "${RED}Error: output for sequence ${YELLOW}$random_input_list${RED} is not sorted!${RESET}"
 		fi
 		# Extract the number of comparisons from the program's output
 		comparison_count=$(echo "$program_output" | grep "$comparison_keyword" | head -n 1 | awk '{print $NF}')
