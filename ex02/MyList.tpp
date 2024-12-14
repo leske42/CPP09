@@ -6,9 +6,13 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:38:26 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/09/21 18:00:53 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/12/12 23:04:07 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef COUNT
+# define COUNT 0
+#endif
 
 template <class Container>
 MyList<Container>::MyList()
@@ -42,7 +46,7 @@ MyList<Container>::MyList(int argc, char **argv)
 }
 
 template <class Container>
-void MyList<Container>::init_list_head(int argc, char **argv)
+void MyList<Container>::init_list_head(int argc, char **argv, bool print)
 {
     internal_list_head = NULL;
     internal_list_head = new Node<Container>;
@@ -59,7 +63,10 @@ void MyList<Container>::init_list_head(int argc, char **argv)
     internal_list_size = 1;
     if (argc == 2)
     {
-        std::cout << argv[1] << std::endl;
+        if (print)
+            std::cout << "After:  " << argv[1] << std::endl;
+        if (COUNT && print)
+		    std::cout << std::endl << "Number of comparisons: 0" << std::endl;
         throw OperationInterrupt(UNPRIMED);
     }
 }

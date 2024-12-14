@@ -6,22 +6,24 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:52:31 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:48:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/12/12 23:03:29 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 template <class Container>
-PmergeMe<Container>::PmergeMe(int argc, char **argv)
+PmergeMe<Container>::PmergeMe(int argc, char **argv, bool print)
 {
     sequence.resize(argc);
     
-    do_sort(argc, argv);
+    do_sort(argc, argv, print);
 
-    std::cout << "After:   ";
-    cont_chain.print_content(0);
-    
-    if (COUNT)
-        std::cout << std::endl << "Number of comparisons: " << comp << std::endl;
+    if (print)
+    {
+        std::cout << "After:  ";
+        cont_chain.print_content(0);
+        if (COUNT)
+            std::cout << std::endl << "Number of comparisons: " << comp << std::endl;
+    }
 }
 
 template <class Container>
@@ -31,10 +33,10 @@ PmergeMe<Container>::~PmergeMe(void)
 }
 
 template <class Container>
-void PmergeMe<Container>::do_sort(int argc, char **argv)
+void PmergeMe<Container>::do_sort(int argc, char **argv, bool print)
 {
     calculate_depth(argc);
-    cont_chain.init_list_head(argc, argv);
+    cont_chain.init_list_head(argc, argv, print);
     bottom = (recursion_levels * 2 * (-1));
     breakpoint = recursion_levels * (-1);
     // std::cout << "Before:  ";

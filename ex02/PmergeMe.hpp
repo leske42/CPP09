@@ -6,7 +6,7 @@
 /*   By: mhuszar <mhuszar@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 20:54:50 by mhuszar           #+#    #+#             */
-/*   Updated: 2024/11/25 20:48:25 by mhuszar          ###   ########.fr       */
+/*   Updated: 2024/12/12 23:03:38 by mhuszar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #endif
 
 #ifndef COUNT
-# define COUNT 0
+# define COUNT 1
 #endif
 
 #define MIL 1000000
@@ -37,7 +37,7 @@ class PmergeMe
 
     public:
 
-        PmergeMe(int argc, char **argv);
+        PmergeMe(int argc, char **argv, bool print);
         ~PmergeMe(void);
 
     private:
@@ -48,7 +48,7 @@ class PmergeMe
 
     protected:
 
-        virtual void    do_sort(int argc, char **argv);
+        virtual void    do_sort(int argc, char **argv, bool print);
 
         void            take_apart();
         void            assemble();
