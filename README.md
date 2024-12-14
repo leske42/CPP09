@@ -8,6 +8,8 @@ I have suffered a lot with this project, but I like to think my understanding be
 
 I recommend this tutorial also to students who are already done with the project, but either feel like they have not done the correct implementation and are not sure where it went wrong, or have done it correctly but there were some parts of the process they did not find very clear (for example, the purpose of the Jacobstahl sequence is not explained well in most resources, but it is very important for the sorting to work well, and is also super interesting). If you belong to this group, you can use my table of contents to choose the parts you are interested in.
 
+[UPDATE] (14.12.2024) Ismayil has contributed a really cool tester, which you can find now in the `resources` folder. I have put the instructions for use under [a new section](#tester) in this document.
+
 ### Small table of contents
 
 - [1. What you will need](#what-you-will-need)
@@ -19,6 +21,7 @@ I recommend this tutorial also to students who are already done with the project
 - [7. Pictures](#pictures)
    - [7.1. Mirroring](#mirroring-approach)
    - [7.2. Insertion methods](#insertion-methods)
+- [8. Tester](#tester)
 
 ### What you will need
 
@@ -76,7 +79,7 @@ _NOTE: the recursion here is not so complex for it not to be possible to be tran
 When you arrive at **step 3** (on any applicable depth of the recursion), you have 2 containers: one contains the bigger members of the pairs, and is sorted, the other contains the smaller members of the pairs, and is unsorted. You have to, then, insert the latter into the former, with *binary insertion*. Look at the last line on the picture, and check the indexes of the elements to insert (labeled `b`).<br> 
 You can see a pattern like *3->2->5->4->11->10->(9->8->7->6->21->20...)*
 
-This means: you choose the element with the 3rd index from the sorted container, *select its pair* from the unsorted one, and insert it into the former. Then do this with the element with the 2nd index, the 5th, and so on. (The first - in code 0th - index is not listed here because, as you will see later, its pair can be inserted with 0 comparisons, so can technically be counted as an element of the sorted container). You can see that you always jump up to a "boundary" number (5, 11, 21, etc), then count backwards until you reach and index you have already covered.
+This means: you choose the element with the 3rd index from the sorted container, *select its pair* from the unsorted one, and insert it into the former. Then do this with the element with the 2nd index, the 5th, and so on. (The first - in code 0th - index is not listed here because, as you will see later, its pair can be inserted with 0 comparisons, so can technically be counted as an element of the sorted container). You can see that you always jump up to a "boundary" number (5, 11, 21, etc), then count backwards until you reach an index you have already covered.
 
 These "boundary" numbers follow a pattern, which is called **Jacobstahl sequence**.  Looking at fig. 13 in the book, you can see that any element of this sequence can be calculated with the formula 
 
@@ -151,7 +154,7 @@ To use this expression in practice, for example, if you have a container of 12 e
 
 <br>
 
-You can see that the comparisons always grow upon reaching the next power of 2 (2, 4, 16, etc).
+You can see that the comparisons always grow upon reaching the next power of 2 (2, 4, 8, 16, etc).
 
 Now imagine then that you need to insert a container of 11 (unsorted) elements into another container of 11 (sorted). We will examine three appraches for insertion: inserting left to right, inserting right to left, and then inserting following the Jacobstahl sequence.
 
@@ -467,6 +470,8 @@ You can, for example, take this script from the subject: `` ./PmergeMe `shuf -i 
 
 You need to be able to spam this command, sort correctly *and* never exceed the worst-case comparisons (66 in this case), no matter how many times you do it. Also with different amount of elements, big and small alike. If you notice any anomaly, you need to stop there and address that, because it always signals a bug and will help you make your code better. What I always did in this case is getting that exact sequence that caused the issue (only the *order* of elements in the input matters, so you can use the indexes instead of the random numbers themselves), make my program print what it does at each step, then manually do the sorting with the cards and compare the two for any differences. The whole debugging phase was really just an endless loop of doing this until everything finally checked out.
 
+[UPDATE] Now you can also find a tiny automated [tester](#tester) in this repo for testing various input.
+
 In case you want to show the comparison numbers during evaluation, I recommend using conditional compilation to not have to change your code, since the subject is very strict about the looks of the expected output. If you don't know how this works, check how you modified `BUFFER_SIZE` at compilation in `get_next_line` - you have to do the exact same thing for a macro of your choice, which then you can check before printing. While a counter can also be added manually during evaluation, proper testing requires it to be set up beforehand anyway.
 
 I have to say that I find the subject of this exercise very misleading for multiple reasons. First of all, it leaves up to your implementation if you want to accept duplicates or not, even though any approach that *has a reason* not to take them is probably faulty. Secondly, it does not require you to count the number of your comparisons, and asks you to use *timing* instead, as if entirely missing the point of the algorithm. One can still argue that timing can show the difference between how different containers operate - this could be a valid point, *if the subject would not encourage you to write differently optimized code for different containers*. If my code for sorting is different for container of type A and container of type B, then it makes no sense to attribute the time difference between the two sorts to differences in how the containers operate internally. (For this reason, I decided to use templates despite of subject recommendation).
@@ -555,3 +560,11 @@ My opinion on the topic is that even though the subject does not ask for it, if 
 
   <b>Inserting according to Jacobstahl sequence (approach 3)</b>.<br> Third element to insert has a search field of 3 (2 comparisons).
 </div>
+
+# Tester
+
+We now have a tester for automated testing, which was contributed by Ismayil. It's a shell script which you can find in the `resources` folder. In order to use it, you need to compile your executable, and move it in the same folder where you have the tester. Then launch the tester with `./test.sh` and it will prompt you for configuration.
+
+The tester tests for two things: if your executable sorts correctly (according to your output), and if your number of comparisons are below the required limit (for an input size up to 250). In order for it to work, you need to make sure that you print your number of comparisons in your output (for example, I need to `make count` for that). We have decided to make it put occasional duplicates in the input, therefore if your executable does not support that, it will not work correctly for you (but please check my reasoning above why I disagree with this approach).
+
+It's a very impressive tester and it can be a lot of help, but I would still recommend you to do your manual tests in addition to it. Relying on a tester can sometimes make one *too* comfortable. For instance, this tester tests if you output the right amount of comparisons, but does not test if you have counted those comparisons right (and will not cry for a suspiciously low amount either). Therefore I recommend against using it during evaluations. Checking the code itself and discussing the implementation should be the most important part anyway. But it can be a very useful tool for regression tests (checking if fixing the sort for a certain input or refactoring some part of the code might have ruined the functionality for others).
