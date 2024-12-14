@@ -48,14 +48,18 @@ limits() {
 }
 
 total_input_sizes=33 # Total number of input sizes to test (in this case from 1 to 33)
-echo -ne "${BLUE}Enter number of input sizes (default 33 if you press enter): ${RESET}"
+echo -ne "${BLUE}Enter maximum input size (default 33 if you press enter): ${RESET}"
 while true; do
 	read user_input
 	if [[ -z "$user_input" ]]; then
 		break
 	elif [[ $user_input =~ ^[0-9]+$ ]]; then
-		total_input_sizes=$user_input
-		break
+		if [[ $user_input -gt 250 ]]; then
+			echo -ne "${YELLOW}Please enter an integer up to 250: ${RESET}"
+		else
+			total_input_sizes=$user_input
+			break
+		fi
 	else
 		echo -ne "${YELLOW}Invalid input. Please enter a valid integer: ${RESET}"
 	fi
@@ -66,14 +70,23 @@ read user_input # Keyword to search for in the program's output to find the numb
 if [[ -n "$user_input" ]]; then
     comparison_keyword=$user_input
 fi
-comparison_limits=($(limits $total_input_sizes)) # Define an array of maximum allowed comparisons for different input sizes
-executable_name="PmergeMe" # Set the name of the executable to test (in this case "PmergeMe")
-combinations_per_input=100 # Number of combinations to test for each input size (in this case 100 combinations)
-# Set the range of numbers for generating random inputs
-min_random_value=1
-max_random_value=$total_input_sizes;
-is_test_successful=true # Flag to track the success or failure of the current test
-is_all_tests_successful=true # Flag to track the overall success or failure of all tests
+combinations_per_input=10 # Number of combinations to test for each input size (in this case 100 combinations)
+echo -ne "${BLUE}Enter number of combinations to test per input size (default 10 if you press enter): ${RESET}"
+while true; do
+	read user_input
+	if [[ -z "$user_input" ]]; then
+		break
+	elif [[ $user_input =~ ^[0-9]+$ ]]; then
+		if [[ $user_input -gt 100 ]]; then
+			echo -ne "${YELLOW}Please enter an integer up to 100: ${RESET}"
+		else
+			combinations_per_input=$user_input
+			break
+		fi
+	else
+		echo -ne "${YELLOW}Invalid input. Please enter a valid integer: ${RESET}"
+	fi
+done
 
 echo
 echo -e "${YELLOW}Note:${RESET} Please ensure that the 'comparison_keyword' is present in the output"
@@ -81,10 +94,13 @@ echo -e "(in this case, '$comparison_keyword'), followed by the number on the sa
 echo -e "and the number is the last word in that line"
 echo
 
-echo -e "${YELLOW}Note:${RESET} When you change the 'total_input_sizes' variable, please ensure that"
-echo -e "you aslo change the 'comparison_limits' array accordingly"
-echo -e "(number of elements should match 'total_input_sizes')"
-echo
+comparison_limits=($(limits $total_input_sizes)) # Define an array of maximum allowed comparisons for different input sizes
+executable_name="PmergeMe" # Set the name of the executable to test (in this case "PmergeMe")
+# Set the range of numbers for generating random inputs
+min_random_value=1
+max_random_value=$total_input_sizes;
+is_test_successful=true # Flag to track the success or failure of the current test
+is_all_tests_successful=true # Flag to track the overall success or failure of all tests
 
 # Loop through each input size (in this case from 1 to 33 numbers)
 for ((current_input_size=1; current_input_size<=total_input_sizes; current_input_size++)); do
