@@ -13,7 +13,7 @@ I recommend this tutorial also to students who are already done with the project
 ### Small table of contents
 
 - [1. What you will need](#what-you-will-need)
-- [2. Why do the number of comparisons matter?](#why-do-the-number-of-comparisons-matter)
+- [2. Why does the number of comparisons matter?](#why-do-the-number-of-comparisons-matter)
 - [3. The main idea: merge insertion in 3 steps](#the-main-idea-merge-insertion-in-3-steps)
 - [4. What is the purpose of the Jacobstahl sequence?](#what-is-the-purpose-of-the-jacobstahl-sequence)
 - [5. But how to keep track of my pairs?](#but-how-to-keep-track-of-my-pairs)
@@ -31,11 +31,11 @@ You will definitely need _the book_ - by now you should be able to find the link
 
 It is very important to use this book to understand the logic of the sort and not other sources or articles from the internet. They might seem similar, but they are not *exactly right* and this can (usually will) result in your algorithm doing much more comparisons than necessary in the end.
 
-### Why do the number of comparisons matter?
+### Why does the number of comparisons matter?
 
 This is one question that gets asked very frequently during evaluations. When sorting a container of int, merge insertion might not be the fastest way to do it. This method is optimized to sort with the least amount of comparisons, and you will see that this oftentimes results in a lot of calculations to avoid even a single extra comparison between two ints - which can slow things down considerably. So why would any sort be optimized this way?
 
-The point of optimization is always to save resources. Let's say we are not sorting a container of int, but some arbitrary data type `T`, from which any two elements are very expensive to compare. For example, such `T` can be a one-gigabyte string (`strcmp` iterating through 1,073,741,824 characters, anyone?), or a huge object/struct loaded with all kinds of data. If comparisons are expensive and eating up resources (like time), you want to make as few of them as possible. It is indeed does not make much sense to choose merge insertion sort when `T` is a simple int, but the point of the exercise is not creating a practical use case, but understanding the algorithm.
+The point of optimization is always to save resources. Let's say we are not sorting a container of int, but some arbitrary data type `T`, from which any two elements are very expensive to compare. For example, such `T` can be a one-gigabyte string (`strcmp` iterating through 1,073,741,824 characters, anyone?), or a huge object/struct loaded with all kinds of data. If comparisons are expensive and eating up resources (like time), you want to make as few of them as possible. It indeed does not make much sense to choose merge insertion sort when `T` is a simple int, but the point of the exercise is not creating a practical use case, but understanding the algorithm.
 
 Another thing that follows from this is that when we say we try to reduce the amount of comparisons in our code, this only means comparisons between any two `T`. Comparing the indexes of two elements is fine. Comparing the position of two iterators is fine. Comparing anything but `T` is fine, but we want to resort to comparing as few `T` with each other as possible.
 
@@ -45,7 +45,7 @@ Take the book and search for "merge insertion" (you will find the one you need o
 
 <br>
 <div align="center">
-<img src="/resources/imgs/steps.png" width="600">
+<img src="/docs/imgs/steps.png" width="600">
 
   Merge insertion in 3 steps
 </div>
@@ -95,9 +95,9 @@ If you already know a Jacobstahl number *J* with the index of *k* (for example, 
 
 <div align="center">
 <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="/resources/imgs/next_jacob.png" width="175">
-   <source media="(prefers-color-scheme: light)" srcset="/resources/imgs/next_jacob_white.png" width="175">
-   <img alt="Fallback image" src="/resources/imgs/next_jacob_white.png">
+   <source media="(prefers-color-scheme: dark)" srcset="/docs/imgs/next_jacob.png" width="175">
+   <source media="(prefers-color-scheme: light)" srcset="/docs/imgs/next_jacob_white.png" width="175">
+   <img alt="Fallback image" src="/docs/imgs/next_jacob_white.png">
 </picture>
 </div>
 
@@ -119,11 +119,11 @@ Binary insertion, on the worse case scenario, takes
 
 <div align="center">
 <picture>
-   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="/resources/imgs/insertion_num.png" width="125">
-   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="/resources/imgs/tiny.jpg">
-   <source media="(min-width: 769px) and (prefers-color-scheme: light)" srcset="/resources/imgs/insertion_num_white.png" width="125">
-   <source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="/resources/imgs/tiny.jpg">
-   <img alt="Fallback image" src="/resources/imgs/insertion_num.png">
+   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="/docs/imgs/insertion_num.png" width="125">
+   <source media="(max-width: 768px) and (prefers-color-scheme: dark)" srcset="/docs/imgs/tiny.jpg">
+   <source media="(min-width: 769px) and (prefers-color-scheme: light)" srcset="/docs/imgs/insertion_num_white.png" width="125">
+   <source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="/docs/imgs/tiny.jpg">
+   <img alt="Fallback image" src="/docs/imgs/insertion_num.png">
 </picture>
 </div>
 
@@ -266,7 +266,7 @@ In my above examples, you could see perhaps the biggest challenge one can face w
 
 But there are multiple levels of recursion between most step 1s and corresponding step 3s. Let's say you have a container of 22 elements, separating it into 11 As and 11 Bs is the very first step in your algorithm. Merging the 11 Bs into the now-sorted As should be the very last. It's easy to say "pick an A and find its pair" - but how to know which B used to belong to it?
 
-The first and most important thing I want to say about this: **DO NOT use std::find for this purpose!**
+The first and most important thing I want to say about this: **DO NOT use `std::find` for this purpose!**
 
 This approach includes not taking duplicates, then for every A, saving what your original B was at **step 1**, and using `std::find` to find it in the unsorted container when you arrive at **step 3** (this could return in a false positive if you take duplicates, hence the exclusion). A lot of people do this, but it's wrong, and is completely against the purpose of the algorithm.
 
@@ -281,7 +281,7 @@ But it's very important to clarify that using `std::find` either for insertion o
 There are many other ways to tackle the latter, although this is arguably the hardest part of any implementation. [Xaver](https://github.com/rwxg) had a solution using `std::pair`s and "ancestor pointers" pointing at the pairs they were derived from. [Ismayil](https://github.com/ismayilguliyev28) stored each `T` together with their index in the original container, then used this information to look up the ancestor pairs of each element at every step 3 (since index is not of type `T`, going through a container to look for a specific index is fine). I also know [Michi](https://github.com/HeiMichael) treats groups of `T` that have ever been compared as one unit that moves together, and then always compares the "top" element of two units with each other (see picture).
 
 <div align="center">
-<img src="/resources/imgs/groups.jpg" width="600">
+<img src="/docs/imgs/groups.jpg" width="600">
 
   Grouping approach. After 3rd comparison we have arrived at **step 3** for the first time.
 </div>
@@ -300,7 +300,7 @@ You can put a counter for comparisons in your code, and every time you check for
 
 <div align="center">
    <br>
-<img src="/resources/imgs/table.png" width="600">
+<img src="/docs/imgs/table.png" width="600">
 
   Table of worst-case comparisons for elements up to 33
 </div>
@@ -309,7 +309,7 @@ This is calculated up to 33, but the book provides the formula for calculating i
 
 <div align="center">
    <br>
-<img src="/resources/imgs/formula.png" width="150">
+<img src="/docs/imgs/formula.png" width="150">
 </div>
 
 <br>
@@ -489,37 +489,37 @@ My opinion on the topic is that even though the subject does not ask for it, if 
 </div>
 
 <div align="center">
-<img src="/resources/imgs/mirroring/1.jpg" width="600">
+<img src="/docs/imgs/mirroring/1.jpg" width="600">
 
   Full container of 9 unsorted elements. Pairs marked with matching colors.
 </div>
 
 <div align="center">
-<img src="/resources/imgs/mirroring/2.jpg" width="600">
+<img src="/docs/imgs/mirroring/2.jpg" width="600">
 
   Smaller elements separated into container 2. Pairs still marked with matching colors. <br>Container 1 is now canonical and container 2 will mirror container 1 at the next step of separation.<br>Elements without pairs always move to the bottom.
 </div>
 
 <div align="center">
-<img src="/resources/imgs/mirroring/3.jpg" width="600">
+<img src="/docs/imgs/mirroring/3.jpg" width="600">
 
   Smaller elements of container 1 separated into container 3.<br> Container 2 mirrors container 1 (thus creating container 4).<br> No actual comparison happens there (you can see that container 4 <br>does not necessarily contain the smaller elements). <br>Elements without pairs always move to the bottom.
 </div>
 
 <div align="center">
-<img src="/resources/imgs/mirroring/4.jpg" width="600">
+<img src="/docs/imgs/mirroring/4.jpg" width="600">
 
   Container 1 still canonical. Containers 2, 3 and 4 follow the separation pattern<br> (index 0 goes down). Elements without pairs always move to the bottom.
 </div>
 
 <div align="center">
-<img src="/resources/imgs/mirroring/5.jpg" width="600">
+<img src="/docs/imgs/mirroring/5.jpg" width="600">
 
   Step 3 for the first time. Container 5 got merged into 1. Only this merge is canonical. <br>6, 7 and 8 got merged into 3, 2 and 4 copying the canonical pattern. <br>Elements without pairs get inserted to the end.
 </div>
 
 <div align="center">
-<img src="/resources/imgs/mirroring/6.jpg" width="600">
+<img src="/docs/imgs/mirroring/6.jpg" width="600">
 
   Step 3 for the second time. Container 3 got merged into 1. Canonical merge got copied by containers 2 and 4.<br> You can now see the point of mirroring: the pairs from the original container have been retained (marked with same color).<br> Each A has the same index as its B, but container A is now sorted. We are ready for the final binary insertion.
 </div>
@@ -534,21 +534,21 @@ My opinion on the topic is that even though the subject does not ask for it, if 
 
 <div align="center">
 
-<img src="/resources/imgs/insertion/before.jpg" width="600">
+<img src="/docs/imgs/insertion/before.jpg" width="600">
 
   Two containers of 11 elements each, before insertion step.<br> Upper container sorted, lower unsorted, pairs have the same index.
 </div>
 
 <div align="center">
 
-<img src="/resources/imgs/insertion/forward.jpg" width="600">
+<img src="/docs/imgs/insertion/forward.jpg" width="600">
 
   <b>Inserting left to right (approach 1)</b>.<br> Third element to insert has a search field of 4 (3 comparisons).
 </div>
 
 <div align="center">
 
-<img src="/resources/imgs/insertion/backward.jpg" width="600">
+<img src="/docs/imgs/insertion/backward.jpg" width="600">
 
   <b>Inserting right to left (approach 2)</b>.<br> Third element to insert has a search field of 10 (4 comparisons).<br>
   White cards are used as placeholders to retain indexes of pairs.
@@ -556,7 +556,7 @@ My opinion on the topic is that even though the subject does not ask for it, if 
 
 <div align="center">
 
-<img src="/resources/imgs/insertion/jacobstahl.jpg" width="600">
+<img src="/docs/imgs/insertion/jacobstahl.jpg" width="600">
 
   <b>Inserting according to Jacobstahl sequence (approach 3)</b>.<br> Third element to insert has a search field of 3 (2 comparisons).
 </div>

@@ -1,0 +1,6 @@
+theme: jekyll-theme-cayman
+plugins:
+  - jekyll-sitemap
+markdown: GFM
+include:
+  - style.css

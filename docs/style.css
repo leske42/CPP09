@@ -1,0 +1,22 @@
+body {
+  background-color: #111b1f;
+  color: #ddd;
+}
+table {
+  border-collapse: collapse;
+  width: auto;
+}
+th, td {
+  border: 1px solid #444;
+  padding: 6px;
+}
+h1 {
+  color: #3cb371;
+}
+a {
+  color: #159957;
+}
+code {
+    background-color: #6c9b81d1 !important;
+    color: #000000 !important;
+}
